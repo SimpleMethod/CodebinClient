@@ -25,11 +25,20 @@ public class srvRestController {
      * @param name         Name of container
      * @return Json object with status
      */
-    @GetMapping("/srv/create")
+    @GetMapping("/srv/container/create")
     public @ResponseBody
-    ResponseEntity getReposCloneWithMinimalInfo(@RequestParam("dockerimage") String dockerImage, @RequestParam("exposedports") Integer exposedPorts, @RequestParam("hostport") Integer hostPort, @RequestParam("name") String name) {
+    ResponseEntity createContainer(@RequestParam("dockerimage") String dockerImage, @RequestParam("exposedports") Integer exposedPorts, @RequestParam("hostport") Integer hostPort, @RequestParam("name") String name) {
         HttpHeaders headers = new HttpHeaders();
-        org.json.JSONObject response = srvClient.createAndRunContainer(srvClient.generateCreateConfig(dockerImage, exposedPorts, hostPort), name);
+       org.json.JSONObject response = srvClient.createAndRunContainer(srvClient.generateCreateConfig(dockerImage, exposedPorts, hostPort), name);
+        return new ResponseEntity<>(response.toString(), headers, HttpStatus.valueOf(200));
+    }
+
+    @GetMapping("/srv/container/stop")
+    public @ResponseBody
+
+    ResponseEntity stopContainer(@RequestParam("id") String containerId) {
+        HttpHeaders headers = new HttpHeaders();
+        org.json.JSONObject response = srvClient.stopContainer(containerId);
         return new ResponseEntity<>(response.toString(), headers, HttpStatus.valueOf(response.getInt("status")));
     }
 }

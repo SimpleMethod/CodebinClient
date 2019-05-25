@@ -70,6 +70,5 @@ public class githubRestController {
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<>(githubClient.getUserInfo(token), headers, HttpStatus.valueOf(200));
     }
-
-
+    
 }

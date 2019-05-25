@@ -62,7 +62,6 @@ public class githubClient {
         return body;
     }
 
-
     /**
      * The method is used to retrieve all information about the repository.
      *

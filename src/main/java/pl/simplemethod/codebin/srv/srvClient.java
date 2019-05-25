@@ -27,8 +27,9 @@ public class srvClient {
         org.json.JSONObject body = new org.json.JSONObject();
         body.put("Image", dockerImage);
         body.put("ExposedPorts", new org.json.JSONObject().put(exposedPorts + "/tcp", new org.json.JSONObject()));
-        body.put("HostConfig", new org.json.JSONObject().put(exposedPorts + "/tcp", new org.json.JSONObject().put("HostPort", hostPort)));
+        body.put("HostConfig", new org.json.JSONObject().put("PortBindings", new org.json.JSONObject().put(exposedPorts + "/tcp", new org.json.JSONArray().put(0, new org.json.JSONObject().put("HostPort", hostPort.toString())))));
         body.put("RestartPolicy", new org.json.JSONObject().put("Name", "always"));
+        System.out.println(body.toString());
         return body;
     }
 
@@ -44,7 +45,6 @@ public class srvClient {
         org.json.JSONObject body = new org.json.JSONObject();
         Object obj = null;
         try {
-
             HttpResponse<JsonNode> createContainer = Unirest.post(SERVER_URL + "/v1.0/containers/create")
                     .header("accept", "application/json").queryString("name", name).header("Content-Type", "application/json").body(dockerConfig).asJson();
             obj = parser.parse(createContainer.getBody().toString());
@@ -69,7 +69,6 @@ public class srvClient {
                         String error = (String) jsonObject.get("error");
                         body.put("message", error);
                         body.put("status", 510);
-
                     }
                 } catch (NullPointerException e) {
                     body.put("message", e);
@@ -89,10 +88,11 @@ public class srvClient {
     public org.json.JSONObject startContainer(String id) {
         org.json.JSONObject body = new org.json.JSONObject();
         try {
-            HttpResponse<JsonNode> containersResponse = Unirest.post(SERVER_URL + "/v1.0/containers/" + id + "/start")
+            HttpResponse<JsonNode> startContainer = Unirest.post(SERVER_URL + "/v1.0/containers/" + id + "/start")
                     .header("accept", "application/json").header("Content-Type", "application/json").asJson();
-            body.put("status", String.valueOf(containersResponse.getStatus()));
-            if (containersResponse.getBody() != null) {
+            body.put("id", id);
+            body.put("status", String.valueOf(startContainer.getStatus()));
+            if (startContainer.getBody() != null) {
                 body.put("message", "Something went wrong");
                 body.put("status", 510);
             } else {
@@ -106,4 +106,53 @@ public class srvClient {
         }
     }
 
+    /**
+     * Method stops the container
+     *
+     * @param id Container ID
+     * @return Json object with status
+     */
+    public org.json.JSONObject stopContainer(String id) {
+        JSONParser parser = new JSONParser();
+        org.json.JSONObject body = new org.json.JSONObject();
+        Object obj = null;
+        try {
+            HttpResponse<JsonNode> stopContainer = Unirest.post(SERVER_URL + "/v1.0/containers/" + id + "/stop")
+                    .header("accept", "application/json").header("Content-Type", "application/json").asJson();
+            obj = parser.parse(stopContainer.getBody().toString());
+            org.json.simple.JSONObject jsonObject = (org.json.simple.JSONObject) obj;
+            body.put("message", jsonObject.get("message"));
+            body.put("status", String.valueOf(stopContainer.getStatus()));
+            return body;
+        } catch (NullPointerException | ParseException | org.json.JSONException | UnirestException e) {
+            body.put("message", "Something went wrong");
+            body.put("status", 510);
+            return body;
+        }
+    }
+
+    /**
+     * The method restarts the container
+     *
+     * @param id Container ID
+     * @return Json object with status
+     */
+    public org.json.JSONObject restartContainer(String id) {
+        JSONParser parser = new JSONParser();
+        org.json.JSONObject body = new org.json.JSONObject();
+        Object obj = null;
+        try {
+            HttpResponse<JsonNode> stopContainer = Unirest.post(SERVER_URL + "/v1.0/containers/" + id + "/restart")
+                    .header("accept", "application/json").header("Content-Type", "application/json").asJson();
+            obj = parser.parse(stopContainer.getBody().toString());
+            org.json.simple.JSONObject jsonObject = (org.json.simple.JSONObject) obj;
+            body.put("message", jsonObject.get("message"));
+            body.put("status", String.valueOf(stopContainer.getStatus()));
+            return body;
+        } catch (NullPointerException | ParseException | org.json.JSONException | UnirestException e) {
+            body.put("message", "Something went wrong");
+            body.put("status", 510);
+            return body;
+        }
+    }
 }

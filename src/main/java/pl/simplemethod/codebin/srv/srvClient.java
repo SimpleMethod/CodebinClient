@@ -67,7 +67,8 @@ public class srvClient {
             HttpResponse<JsonNode> createContainer = Unirest.post(SERVER_URL + "/v1.0/containers/create")
                     .header("accept", "application/json").queryString("name", name).header("Content-Type", "application/json").body(dockerConfig).asJson();
             obj = parser.parse(createContainer.getBody().toString());
-            body.put("messageBuilder", createContainer.getBody().toString());
+            org.json.simple.JSONObject jsonObject = (org.json.simple.JSONObject) obj;
+            body.put("messageBuilder",jsonObject.get("message") );
             //body.put("status",String.valueOf(createContainer.getStatus()));
             //System.out.println(body.toString());
             if (obj == null) {
@@ -83,7 +84,8 @@ public class srvClient {
                     String id = (String) jsonObject.get("Id");
                     body.put("Id", id);
                     if (!id.isEmpty()) {
-                        return startContainer(id);
+                        org.json.JSONObject start  = startContainer(id);
+                        body.put("status",start.get("status"));
                     } else {
                         String error = (String) jsonObject.get("error");
                         body.put("message", error);
@@ -95,6 +97,7 @@ public class srvClient {
                 }
             }
         }
+        System.out.println("Dane: "+ body.toString());
         return body;
     }
 
@@ -109,14 +112,16 @@ public class srvClient {
         try {
             HttpResponse<JsonNode> startContainer = Unirest.post(SERVER_URL + "/v1.0/containers/" + id + "/start")
                     .header("accept", "application/json").header("Content-Type", "application/json").asJson();
-            body.put("id", id);
+            //body.put("id", id);
             body.put("status", String.valueOf(startContainer.getStatus()));
             if (startContainer.getBody() != null) {
                 body.put("message", "Something went wrong");
                 body.put("status", 510);
             } else {
+                System.out.println("Start to się wykonuje? w else"+body.toString());
                 return body;
             }
+            System.out.println("Start to się wykonuje? w else poza if"+body.toString());
             return body;
         } catch (UnirestException e) {
             body.put("message", "Something went wrong");

@@ -66,9 +66,21 @@ public class githubRestController {
      */
     @GetMapping(value = "/user")
     public @ResponseBody
-    ResponseEntity user(@CookieValue("token") String token) {
+    ResponseEntity getInfoAboutOwner(@CookieValue("token") String token) {
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<>(githubClient.getUserInfo(token), headers, HttpStatus.valueOf(200));
     }
-    
+    /**
+     * Returns JSON with user information
+     *
+     * @param token Token for authorization
+     *  @param username Username
+     * @return Json with data
+     */
+    @GetMapping(value = "/users")
+    public @ResponseBody
+    ResponseEntity getInfoAboutUser(@CookieValue("token") String token, @RequestParam("username") String username) {
+        HttpHeaders headers = new HttpHeaders();
+        return new ResponseEntity<>(githubClient.getUserInfo(token,username), headers, HttpStatus.valueOf(200));
+    }
 }

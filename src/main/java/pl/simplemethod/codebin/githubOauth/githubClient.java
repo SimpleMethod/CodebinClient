@@ -4,6 +4,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class githubClient {
         org.json.JSONObject body = new org.json.JSONObject();
         Object obj = null;
         try {
-            HttpResponse<String> reposInfo = Unirest.get("https://api.github.com/repos/" + username + "/" + reposName).header("Authorization", "Bearer " + token).header("Content-Type", "application/json").asString();
+            HttpResponse<String> reposInfo = Unirest.get("https://api.github.com/repos/" + username + "/" + reposName).header("accept", "application/json").header("Authorization", "Bearer " + token).header("Content-Type", "application/json").asString();
             obj = parser.parse(reposInfo.getBody().toString());
             if (obj == null) {
                 throw new NullPointerException();
@@ -72,7 +73,7 @@ public class githubClient {
      */
     public String getReposInfo(String token, String username, String reposName) {
         try {
-            HttpResponse<String> userInfo = Unirest.get("https://api.github.com/repos/" + username + "/" + reposName).header("Authorization", "Bearer " + token).header("Content-Type", "application/json").asString();
+            HttpResponse<JsonNode> userInfo = Unirest.get("https://api.github.com/repos/" + username + "/" + reposName).header("accept", "application/json").header("Authorization", "Bearer " + token).header("Content-Type", "application/json").asJson();
             return userInfo.getBody().toString();
         } catch (UnirestException e) {
             return "error " + e.toString();
@@ -87,7 +88,7 @@ public class githubClient {
      */
     public String getUserRepos(String token) {
         try {
-            HttpResponse<String> userReposInfo = Unirest.get("https://api.github.com/user/repos").header("Authorization", "Bearer " + token).header("Content-Type", "application/json").asString();
+            HttpResponse<JsonNode> userReposInfo = Unirest.get("https://api.github.com/user/repos").header("accept", "application/json").header("Authorization", "Bearer " + token).header("Content-Type", "application/json").asJson();
             return userReposInfo.getBody().toString();
         } catch (UnirestException e) {
             return "error " + e.toString();
@@ -97,12 +98,29 @@ public class githubClient {
     /**
      * Returns information about the user
      *
+     * @param token    Token for authorization
+     * @param username Username
+     * @return Json object with data
+     */
+    public String getUserInfo(String token, String username) {
+        try {
+            HttpResponse<JsonNode> userInfo = Unirest.get("https://api.github.com/users/" + username).header("accept", "application/json").header("Authorization", "Bearer " + token).header("Content-Type", "application/json").asJson();
+            return userInfo.getBody().toString();
+        } catch (UnirestException e) {
+            return "error " + e.toString();
+        }
+    }
+
+
+    /**
+     * Returns information about the user
+     *
      * @param token Token for authorization
      * @return Json object with data
      */
     public String getUserInfo(String token) {
         try {
-            HttpResponse<String> userInfo = Unirest.get("https://api.github.com/user").header("Authorization", "Bearer " + token).header("Content-Type", "application/json").asString();
+            HttpResponse<JsonNode> userInfo = Unirest.get("https://api.github.com/user").header("accept", "application/json").header("Authorization", "Bearer " + token).header("Content-Type", "application/json").asJson();
             return userInfo.getBody().toString();
         } catch (UnirestException e) {
             return "error " + e.toString();

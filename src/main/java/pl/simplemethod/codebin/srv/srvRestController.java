@@ -30,7 +30,16 @@ public class srvRestController {
     ResponseEntity createContainer(@RequestParam("dockerimage") String dockerImage, @RequestParam("exposedports") Integer exposedPorts, @RequestParam("hostport") Integer hostPort, @RequestParam("name") String name) {
         HttpHeaders headers = new HttpHeaders();
         org.json.JSONObject response = srvClient.createAndRunContainer(srvClient.generateCreateConfig(dockerImage, exposedPorts, hostPort), name);
-        return new ResponseEntity<>(response.toString(), headers, HttpStatus.valueOf(response.getInt("status")));
+        int status=200;
+        if(response.get("status").toString().equals("204"))
+        {
+            status=200;
+        }
+        else
+        {
+            status=Integer.valueOf(response.get("status").toString());
+        }
+        return new ResponseEntity<>(response.toString(), headers, HttpStatus.valueOf(status));
     }
 
     /**

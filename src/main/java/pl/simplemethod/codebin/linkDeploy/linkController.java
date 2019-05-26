@@ -11,6 +11,7 @@ public class linkController {
 @Autowired
 linkClient linkClient;
 
+
     @GetMapping("/share/{ID}")
     public String getDecryptText(@PathVariable(value="ID") String decryptText, Model model) {
         model.addAttribute("port",  "http://145.239.31.229:"+linkClient.decrypt(decryptText));

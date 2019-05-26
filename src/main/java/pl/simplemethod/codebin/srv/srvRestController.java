@@ -48,9 +48,9 @@ public class srvRestController {
      * @param containerId Container ID
      * @return Json object as response
      */
-    @GetMapping("/srv/container/restart")
+    @GetMapping("/srv/container/{ID}/restart")
     public @ResponseBody
-    ResponseEntity restartContainer(@RequestParam("id") String containerId) {
+    ResponseEntity restartContainer(@PathVariable(value="ID") String containerId) {
         HttpHeaders headers = new HttpHeaders();
         org.json.JSONObject restartContainer = srvClient.restartContainer(containerId);
         return new ResponseEntity<>(restartContainer.toString(), headers, HttpStatus.valueOf(restartContainer.getInt("status")));
@@ -60,9 +60,9 @@ public class srvRestController {
      * @param containerId Container ID
      * @return Json object as response
      */
-    @GetMapping("/srv/container/stop")
+    @GetMapping("/srv/container/{ID}/stop")
     public @ResponseBody
-    ResponseEntity stopContainer(@RequestParam("id") String containerId) {
+    ResponseEntity stopContainer(@PathVariable(value="ID") String containerId) {
         HttpHeaders headers = new HttpHeaders();
         org.json.JSONObject response = srvClient.stopContainer(containerId);
         return new ResponseEntity<>(response.toString(), headers, HttpStatus.valueOf(response.getInt("status")));
@@ -74,9 +74,9 @@ public class srvRestController {
      * @param containerId Container ID
      * @return Json object as response
      */
-    @GetMapping("/srv/container/start")
+    @RequestMapping("/srv/container/{ID}/start")
     public @ResponseBody
-    ResponseEntity startContainer(@RequestParam("id") String containerId) {
+    ResponseEntity startContainer(@PathVariable(value="ID") String containerId) {
         HttpHeaders headers = new HttpHeaders();
         org.json.JSONObject response = srvClient.startContainer(containerId);
         return new ResponseEntity<>(response.toString(), headers, HttpStatus.valueOf(response.getInt("status")));
@@ -88,9 +88,9 @@ public class srvRestController {
      * @param containerId Container ID
      * @return Json object as response
      */
-    @GetMapping("/srv/container/logs")
+    @GetMapping("/srv/container/{ID}/logs")
     public @ResponseBody
-    ResponseEntity logsContainer(@RequestParam("id") String containerId) {
+    ResponseEntity logsContainer(@PathVariable(value="ID") String containerId) {
         HttpHeaders headers = new HttpHeaders();
         String response = srvClient.logsContainer(containerId);
         return new ResponseEntity<>(response, headers, HttpStatus.valueOf(201));
@@ -102,9 +102,9 @@ public class srvRestController {
      * @param containerId Container ID
      * @return Json object as response
      */
-    @GetMapping("/srv/container/delete")
+    @GetMapping("/srv/container/{ID}/delete")
     public @ResponseBody
-    ResponseEntity deleteContainer(@RequestParam("id") String containerId) {
+    ResponseEntity deleteContainer(@PathVariable(value="ID") String containerId) {
         HttpHeaders headers = new HttpHeaders();
         org.json.JSONObject response = srvClient.deleteContainer(containerId);
         return new ResponseEntity<>(response.toString(), headers, HttpStatus.valueOf(response.getInt("status")));
@@ -118,9 +118,9 @@ public class srvRestController {
      * @param arguments   Argument to execute
      * @return Json object as response
      */
-    @GetMapping("/srv/container/exec")
+    @GetMapping("/srv/container/{ID}/exec")
     public @ResponseBody
-    ResponseEntity execContainer(@RequestParam("id") String containerId, @RequestParam("path") String path, @RequestParam("argument") String arguments) {
+    ResponseEntity execContainer(@PathVariable(value="ID") String containerId, @RequestParam("path") String path, @RequestParam("argument") String arguments) {
         HttpHeaders headers = new HttpHeaders();
         org.json.JSONObject response = srvClient.execContainer(containerId, path, arguments);
         return new ResponseEntity<>(response.toString(), headers, HttpStatus.valueOf(response.getInt("status")));

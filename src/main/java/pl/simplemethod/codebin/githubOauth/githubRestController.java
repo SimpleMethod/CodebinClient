@@ -38,9 +38,9 @@ public class githubRestController {
      * @param repos    Name of the repository
      * @return Json with data
      */
-    @GetMapping("/repos")
+    @GetMapping("/repos/{userName}/{repoName}")
     public @ResponseBody
-    ResponseEntity getReposInfo(@CookieValue("token") String token, @RequestParam("username") String username, @RequestParam("repos") String repos) {
+    ResponseEntity getReposInfo(@CookieValue("token") String token, @PathVariable(value="userName") String username, @PathVariable(value="repoName") String repos) {
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<>(githubClient.getReposInfo(token, username, repos), headers, HttpStatus.valueOf(200));
     }
@@ -77,9 +77,9 @@ public class githubRestController {
      *  @param username Username
      * @return Json with data
      */
-    @GetMapping(value = "/users")
+    @GetMapping(value = "/users/{userName}")
     public @ResponseBody
-    ResponseEntity getInfoAboutUser(@CookieValue("token") String token, @RequestParam("username") String username) {
+    ResponseEntity getInfoAboutUser(@CookieValue("token") String token, @PathVariable(value="userName") String username) {
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<>(githubClient.getUserInfo(token,username), headers, HttpStatus.valueOf(200));
     }

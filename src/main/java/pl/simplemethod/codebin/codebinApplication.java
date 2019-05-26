@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import pl.simplemethod.codebin.githubOauth.githubClient;
 import pl.simplemethod.codebin.srv.srvClient;
+import pl.simplemethod.codebin.linkDeploy.linkClient;
 
 @SpringBootApplication
 @EntityScan("pl.simplemethod.codebin")
@@ -15,6 +16,12 @@ public class codebinApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(codebinApplication.class, args);
+    }
+
+    @Bean
+    public linkClient linkClient()
+    {
+        return new linkClient("bqW5jpxlQQ243212");
     }
 
     @Bean

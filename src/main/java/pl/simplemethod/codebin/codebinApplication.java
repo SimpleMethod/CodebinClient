@@ -21,7 +21,7 @@ public class codebinApplication {
     @Bean
     public linkClient linkClient()
     {
-        return new linkClient("bqW5jpxlQQ243212");
+        return new linkClient("qYR+CHfZmuEc3aHFX&ACAtudr3xUFX!k");
     }
 
     @Bean

@@ -28,7 +28,6 @@ public class linkClient implements linkClientInterface{
      */
     public String encrypt(String encryptText)
     {
-        //System.out.println("Tekst przed szyfrowaniem: "+text);
         byte[] encrypted;
         String encodedString=null;
         try
@@ -37,9 +36,7 @@ public class linkClient implements linkClientInterface{
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.ENCRYPT_MODE, key);
             encrypted = cipher.doFinal(encryptText.getBytes());
-            //System.out.println("Test po wstępnym szyfrowaniu: "+ new String(encrypted));
             encodedString = Base64.getEncoder().encodeToString(encrypted);
-            //System.err.println("Tekst po szyfrowaniu: " + encodedString);
         }
         catch(Exception e)
         {
@@ -62,7 +59,6 @@ public class linkClient implements linkClientInterface{
             cipher.init(Cipher.DECRYPT_MODE, key);
             byte[] decoded = Base64.getDecoder().decode(decryptText);
             decrypted = new String(cipher.doFinal(decoded));
-            //System.out.println("Tekst po deszyfracji: "+ decrypted);
             return decrypted;
         }
         catch(IllegalArgumentException | IllegalBlockSizeException | BadPaddingException | NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException e)

@@ -22,9 +22,9 @@ public class linkClient implements linkClientInterface{
     }
 
     /**
-     *
-     * @param encryptText
-     * @return
+     * Encrypt text
+     * @param encryptText  Text for encrypt
+     * @return Returns encrypted text
      */
     public String encrypt(String encryptText)
     {

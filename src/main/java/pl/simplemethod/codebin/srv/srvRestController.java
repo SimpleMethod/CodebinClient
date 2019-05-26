@@ -25,7 +25,7 @@ public class srvRestController {
      * @param name         Name of container
      * @return Json object with status
      */
-    @GetMapping("/srv/container/create")
+    @PostMapping("/srv/container/create")
     public @ResponseBody
     ResponseEntity createContainer(@RequestParam("dockerimage") String dockerImage, @RequestParam("exposedports") Integer exposedPorts, @RequestParam("hostport") Integer hostPort, @RequestParam("name") String name) {
         HttpHeaders headers = new HttpHeaders();
@@ -48,7 +48,7 @@ public class srvRestController {
      * @param containerId Container ID
      * @return Json object as response
      */
-    @GetMapping("/srv/container/{ID}/restart")
+    @PostMapping("/srv/container/{ID}/restart")
     public @ResponseBody
     ResponseEntity restartContainer(@PathVariable(value="ID") String containerId) {
         HttpHeaders headers = new HttpHeaders();
@@ -60,7 +60,7 @@ public class srvRestController {
      * @param containerId Container ID
      * @return Json object as response
      */
-    @GetMapping("/srv/container/{ID}/stop")
+    @PostMapping("/srv/container/{ID}/stop")
     public @ResponseBody
     ResponseEntity stopContainer(@PathVariable(value="ID") String containerId) {
         HttpHeaders headers = new HttpHeaders();
@@ -74,7 +74,7 @@ public class srvRestController {
      * @param containerId Container ID
      * @return Json object as response
      */
-    @RequestMapping("/srv/container/{ID}/start")
+    @PostMapping("/srv/container/{ID}/start")
     public @ResponseBody
     ResponseEntity startContainer(@PathVariable(value="ID") String containerId) {
         HttpHeaders headers = new HttpHeaders();
@@ -95,7 +95,7 @@ public class srvRestController {
         String response = srvClient.logsContainer(containerId);
         String replaceString=response.replace('\u0001','\n');
         replaceString=replaceString.replace('�',' ');
-        
+
         return new ResponseEntity<>(replaceString, headers, HttpStatus.valueOf(201));
     }
 
@@ -105,7 +105,7 @@ public class srvRestController {
      * @param containerId Container ID
      * @return Json object as response
      */
-    @GetMapping("/srv/container/{ID}/delete")
+    @DeleteMapping("/srv/container/{ID}/delete")
     public @ResponseBody
     ResponseEntity deleteContainer(@PathVariable(value="ID") String containerId) {
         HttpHeaders headers = new HttpHeaders();
@@ -121,7 +121,7 @@ public class srvRestController {
      * @param arguments   Argument to execute
      * @return Json object as response
      */
-    @GetMapping("/srv/container/{ID}/exec")
+    @PostMapping("/srv/container/{ID}/exec")
     public @ResponseBody
     ResponseEntity execContainer(@PathVariable(value="ID") String containerId, @RequestParam("path") String path, @RequestParam("argument") String arguments) {
         HttpHeaders headers = new HttpHeaders();

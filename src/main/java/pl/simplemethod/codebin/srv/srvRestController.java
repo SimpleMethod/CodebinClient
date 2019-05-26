@@ -93,7 +93,10 @@ public class srvRestController {
     ResponseEntity logsContainer(@PathVariable(value="ID") String containerId) {
         HttpHeaders headers = new HttpHeaders();
         String response = srvClient.logsContainer(containerId);
-        return new ResponseEntity<>(response, headers, HttpStatus.valueOf(201));
+        String replaceString=response.replace('\u0001','\n');
+        replaceString=replaceString.replace('�',' ');
+        
+        return new ResponseEntity<>(replaceString, headers, HttpStatus.valueOf(201));
     }
 
     /**

@@ -15,10 +15,10 @@ import java.util.Base64;
 @Component
 public class linkClient implements linkClientInterface{
    private String SALT;
-   private Key key;
+   private Key KEY;
     public linkClient(String SALT) {
         this.SALT = SALT;
-        System.err.println(encrypt("8082"));
+        System.err.println(encrypt("8083"));
     }
 
     /**
@@ -32,9 +32,9 @@ public class linkClient implements linkClientInterface{
         String encodedString=null;
         try
         {
-            key= new SecretKeySpec(SALT.getBytes(),"AES");
+            KEY= new SecretKeySpec(SALT.getBytes(),"AES");
             Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.ENCRYPT_MODE, key);
+            cipher.init(Cipher.ENCRYPT_MODE, KEY);
             encrypted = cipher.doFinal(encryptText.getBytes());
             encodedString = Base64.getEncoder().encodeToString(encrypted);
         }
@@ -55,8 +55,8 @@ public class linkClient implements linkClientInterface{
         String decrypted=null;
         try {
             Cipher cipher = Cipher.getInstance("AES");
-            key= new SecretKeySpec(SALT.getBytes(),"AES");
-            cipher.init(Cipher.DECRYPT_MODE, key);
+            KEY= new SecretKeySpec(SALT.getBytes(),"AES");
+            cipher.init(Cipher.DECRYPT_MODE, KEY);
             byte[] decoded = Base64.getDecoder().decode(decryptText);
             decrypted = new String(cipher.doFinal(decoded));
             return decrypted;

@@ -41,6 +41,10 @@
   margin: 0;
   padding: 0; }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -50,7 +54,9 @@ body {
   font-weight: 400;
   font-size: 16px;
   position: relative;
-  z-index: auto; }
+  z-index: auto;
+  overflow:hidden;
+}
 
 h1,
 h2,

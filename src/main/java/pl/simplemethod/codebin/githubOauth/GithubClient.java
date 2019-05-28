@@ -32,9 +32,9 @@ public class GithubClient {
         org.json.JSONObject body = new org.json.JSONObject();
         Object obj = null;
         try {
-            HttpResponse<String> reposInfo = Unirest.get("https://api.github.com/repos/" + username + "/" + reposName).header("accept", "application/json").header("Authorization", "Bearer " + token).header("Content-Type", "application/json").asString();
+            HttpResponse<JsonNode> reposInfo = Unirest.get("https://api.github.com/repos/" + username + "/" + reposName).header("accept", "application/json").header("Authorization", "Bearer " + token).header("Content-Type", "application/json").asJson();
             obj = parser.parse(reposInfo.getBody().toString());
-            if (obj == null) {
+            if (obj == null || reposInfo.getStatus()==404) {
                 throw new NullPointerException();
             }
         } catch (NullPointerException | ParseException | UnirestException e) {
@@ -61,6 +61,22 @@ public class GithubClient {
             }
         }
         return body;
+    }
+
+    /**
+     * Statistics contributors in a repository. Does not work for private repositories and requires a double request for working
+     * @param token     Token for authorization
+     * @param username  User name
+     * @param reposName Name of the repository
+     * @return Json object with data
+     */
+    protected String getReposContributorsStatistics(String token, String username, String reposName) {
+        try {
+            HttpResponse<JsonNode> reposInfo = Unirest.get("https://api.github.com/repos/" + username + "/" + reposName +"/stats/contributors").header("accept", "application/json").header("Authorization", "Bearer " + token).header("Content-Type", "application/json").asJson();
+            return reposInfo.getBody().toString();
+        } catch (UnirestException e) {
+            return "error " + e.toString();
+        }
     }
 
     /**

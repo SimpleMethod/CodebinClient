@@ -24,9 +24,9 @@ public class GithubRestController {
      * @param repos    Name of the repository
      * @return Json with data
      */
-    @GetMapping("/repos/minimal")
+    @GetMapping("/repos/{userName}/{repoName}/minimal")
     public @ResponseBody
-    ResponseEntity getReposCloneWithMinimalInfo(@CookieValue("token") String token, @RequestParam("username") String username, @RequestParam("repos") String repos) {
+    ResponseEntity getReposCloneWithMinimalInfo(@CookieValue("token") String token,@PathVariable(value="userName") String username, @PathVariable(value="repoName") String repos) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<>(githubClient.getCloneReposMinimalInfo(token, username, repos).toString(), headers, HttpStatus.valueOf(200));
@@ -46,6 +46,21 @@ public class GithubRestController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<>(githubClient.getReposInfo(token, username, repos), headers, HttpStatus.valueOf(200));
+    }
+
+    /**
+     * Statistics contributors in a repository. Does not work for private repositories and requires a double request for working
+     * @param token     Token for authorization
+     * @param username  User name
+     * @param repos Name of the repository
+     * @return Json object with data
+     */
+    @GetMapping("/repos/{userName}/{repoName}/contributors")
+    public @ResponseBody
+    ResponseEntity getReposContributorsStatistics(@CookieValue("token") String token, @PathVariable(value="userName") String username, @PathVariable(value="repoName") String repos) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return new ResponseEntity<>(githubClient.getReposContributorsStatistics(token, username, repos), headers, HttpStatus.valueOf(200));
     }
 
     /**

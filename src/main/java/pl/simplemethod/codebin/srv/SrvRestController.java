@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("v1.0")
+@RequestMapping("srv")
 public class SrvRestController {
 
     @Autowired
@@ -26,7 +26,7 @@ public class SrvRestController {
      * @param diskQuota    Maximum amount of allocated memory on the disk
      * @return Json object with data
      */
-    @PostMapping("/srv/container/create")
+    @PostMapping("container/create")
     public @ResponseBody
     ResponseEntity createContainer(@RequestParam("dockerimage") String dockerImage, @RequestParam("exposedports") Integer exposedPorts, @RequestParam("hostport") Integer hostPort, @RequestParam("name") String name, @RequestParam("rammemory") Long ramMemory, @RequestParam("diskquota") Long diskQuota) {
         HttpHeaders headers = new HttpHeaders();
@@ -47,7 +47,7 @@ public class SrvRestController {
      * @param containerId Container ID
      * @return Json object as response
      */
-    @PostMapping("/srv/container/{ID}/restart")
+    @PostMapping("container/{ID}/restart")
     public @ResponseBody
     ResponseEntity restartContainer(@PathVariable(value = "ID") String containerId) {
         HttpHeaders headers = new HttpHeaders();
@@ -57,10 +57,12 @@ public class SrvRestController {
     }
 
     /**
+     * Stop the container with the specified ID
+     *
      * @param containerId Container ID
      * @return Json object as response
      */
-    @PostMapping("/srv/container/{ID}/stop")
+    @PostMapping("container/{ID}/stop")
     public @ResponseBody
     ResponseEntity stopContainer(@PathVariable(value = "ID") String containerId) {
         HttpHeaders headers = new HttpHeaders();
@@ -75,7 +77,7 @@ public class SrvRestController {
      * @param containerId Container ID
      * @return Json object as response
      */
-    @PostMapping("/srv/container/{ID}/start")
+    @PostMapping("container/{ID}/start")
     public @ResponseBody
     ResponseEntity startContainer(@PathVariable(value = "ID") String containerId) {
         HttpHeaders headers = new HttpHeaders();
@@ -90,7 +92,7 @@ public class SrvRestController {
      * @param containerId Container ID
      * @return Json object as response
      */
-    @GetMapping("/srv/container/{ID}/logs")
+    @GetMapping("container/{ID}/logs")
     public @ResponseBody
     ResponseEntity logsContainer(@PathVariable(value = "ID") String containerId) {
         HttpHeaders headers = new HttpHeaders();
@@ -102,11 +104,25 @@ public class SrvRestController {
     }
 
     /**
+     * The method returns information about the container
+     * @param containerId Container ID
+     * @return Json object as response
+     */
+    @GetMapping("container/{ID}/info")
+    public @ResponseBody
+    ResponseEntity infoContainer(@PathVariable(value = "ID") String containerId) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        String response = srvClient.infoContainer(containerId);
+        return new ResponseEntity<>(response, headers, HttpStatus.valueOf(200));
+    }
+
+    /**
      * The method returns information about the docker server
      *
      * @return Json object as response
      */
-    @GetMapping("/srv/info")
+    @GetMapping("info")
     public @ResponseBody
     ResponseEntity infoDocker() {
         HttpHeaders headers = new HttpHeaders();
@@ -121,7 +137,7 @@ public class SrvRestController {
      * @param containerId Container ID
      * @return Json object as response
      */
-    @DeleteMapping("/srv/container/{ID}/delete")
+    @DeleteMapping("container/{ID}/delete")
     public @ResponseBody
     ResponseEntity deleteContainer(@PathVariable(value = "ID") String containerId) {
         HttpHeaders headers = new HttpHeaders();
@@ -138,7 +154,7 @@ public class SrvRestController {
      * @param arguments   Argument to execute
      * @return Json object as response
      */
-    @PostMapping("/srv/container/{ID}/exec")
+    @PostMapping("container/{ID}/exec")
     public @ResponseBody
     ResponseEntity execContainer(@PathVariable(value = "ID") String containerId, @RequestParam("path") String path, @RequestParam("argument") String arguments) {
         HttpHeaders headers = new HttpHeaders();

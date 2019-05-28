@@ -246,6 +246,32 @@ public class SrvClient {
             return body;
         }
     }
+    /**
+     * The method returns container data
+     *
+     * @param id Container ID
+     * @return Json object with status
+     */
+    protected String infoContainer(String id) {
+        org.json.JSONObject body = new org.json.JSONObject();
+        try {
+            HttpResponse<String> logsContainer = Unirest.get(SERVER_URL + "/v1.0/containers/" + id + "/json")
+                    .header("accept", "application/json").header("Content-Type", "application/json").asString();
+            if (logsContainer.getStatus() != 200) {
+                body.put("message", "Something went wrong ");
+                body.put("status", logsContainer.getStatus());
+                return body.toString();
+            } else {
+                return logsContainer.getBody();
+            }
+
+        } catch (NullPointerException | org.json.JSONException | UnirestException e) {
+            body.put("message", "Something went wrong " + e);
+            body.put("status", 510);
+            return body.toString();
+        }
+    }
+
 
     /**
      * The method returns container logs

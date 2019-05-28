@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Run your code online">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Title -->
+    <title>Codebin | Logs</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="../static/img/core-img/favicon.png">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/shards-dashboards.1.1.0.css">
+    <link rel="stylesheet" href="../static/css/extras.1.1.0.min.css">
+    <link rel="stylesheet" href="../static/css/icon-style.css">
+    <link rel="stylesheet" href="../static/css/custom.css">
+    <link rel="stylesheet" href="../static/css/animate.css">
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body class="h-100">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Main Sidebar -->
+            <aside class="main-sidebar col-12 col-md-3 col-lg-2 px-0">
+                <div class="main-navbar">
+                    <nav class="navbar align-items-stretch navbar-light bg-white flex-md-nowrap border-bottom p-0">
+                        <a class="navbar-brand w-100 mr-0" href="dashboard.html" style="line-height: 25px;">
+                            <div class="d-table m-auto">
+                                <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" src="../static/img/core-img/icon_small.png" alt="C">
+                                <span class="d-none d-md-inline ml-1">Codebin Dashboard</span>
+                            </div>
+                        </a>
+                        <a class="toggle-sidebar d-sm-inline d-md-none d-lg-none">
+                            <i class="material-icons">&#xE5C4;</i>
+                        </a>
+                    </nav>
+                </div>
+
+                <div class="nav-wrapper">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link " href="dashboard.html">
+                                <i class="material-icons">equalizer</i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="dashboard-projects.html">
+                                <i class="material-icons">view_list</i>
+                                <span>Projects</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="dashboard-containers.html">
+                                <i class="material-icons">all_inbox</i>
+                                <span>Containers</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="dashboard-logs.html">
+                                <i class="material-icons">notes</i>
+                                <span>Logs</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+            <!-- End Main Sidebar -->
+            <main class="main-content col-lg-10 col-md-9 col-sm-12 p-0 offset-lg-2 offset-md-3">
+                <div class="main-navbar sticky-top bg-white">
+                    <!-- Main Navbar -->
+                    <nav class="navbar align-items-stretch navbar-light flex-md-nowrap p-0">
+                        <div class="main-navbar__search w-100 d-none d-md-flex d-lg-flex border-bottom"></div>
+                        <ul class="navbar-nav flex-row">
+                            <li class="nav-item dropdown border-bottom">
+                                <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <img class="user-avatar rounded-circle mr-2" src="../static/img/mock-img/avatar.png" alt="User Avatar">
+                                    <span class="d-none d-md-inline-block">Tobiasz Nartowski</span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-small">
+                                    <a class="dropdown-item" href="dashboard-profile.html">
+                                        <i class="material-icons">&#xE7FD;</i> Profile</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item text-danger" href="index.html">
+                                            <i class="material-icons text-danger">&#xE879;</i> Logout</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <nav class="nav">
+                                    <a href="#" class="nav-link nav-link-icon toggle-sidebar d-md-inline d-lg-none text-center border-left" data-toggle="collapse" data-target=".header-navbar" aria-expanded="false" aria-controls="header-navbar">
+                                        <i class="material-icons">&#xE5D2;</i>
+                                    </a>
+                                </nav>
+                            </nav>
+                        </div>
+                        <!-- / .main-navbar -->
+                        <div class="main-content-container container-fluid px-4">
+                            <!-- Page Header -->
+                            <div class="page-header row no-gutters py-4">
+                                <div class="col-12 col-sm-8 text-center text-sm-left mb-4">
+                                    <span class="text-uppercase page-subtitle">Logs</span>
+                                    <h3 class="page-title">Latest containers logs</h3>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <pre>
+                                        <code>
+    [    0.000000] Initializing cgroup subsys cpuset
+    [    0.000000] Initializing cgroup subsys cpu
+    [    0.000000] Linux version 3.2.0-35-virtual (buildd@allspice) (gcc version 4.6.3 (Ubuntu/Linaro 4.6.3-1ubuntu5) ) #55-Ubuntu SMP Wed Dec 5 18:02:05 UTC 2012 (Ubuntu 3.2.0-35.55-virtual 3.2.34)
+    [    0.000000] Command line: ro console=hvc0 root=/dev/xvda1 rootflags=nobarrier
+    [    0.000000] KERNEL supported cpus:
+    [    0.000000]   Intel GenuineIntel
+    [    0.000000]   AMD AuthenticAMD
+    [    0.000000]   Centaur CentaurHauls
+    [    0.000000] ACPI in unprivileged domain disabled
+    [    0.000000] Released 0 pages of unused memory
+    [    0.000000] Set 0 page(s) to 1-1 mapping
+    [    0.000000] BIOS-provided physical RAM map:
+    [    0.000000]  Xen: 0000000000000000 - 00000000000a0000 (usable)
+    [    0.000000]  Xen: 00000000000a0000 - 0000000000100000 (reserved)
+    [    0.000000]  Xen: 0000000000100000 - 0000000010800000 (usable)
+    [    0.000000] NX (Execute Disable) protection: active
+    [    0.000000] DMI not present or invalid.
+    [    0.000000] e820 update range: 0000000000000000 - 0000000000010000 (usable) ==> (reserved)
+    [    0.000000] e820 remove range: 00000000000a0000 - 0000000000100000 (usable)
+    [    0.000000] No AGP bridge found
+    [    0.000000] last_pfn = 0x10800 max_arch_pfn = 0x400000000
+    [    0.000000] initial memory mapped : 0 - 02de2000
+    [    0.000000] Base memory trampoline at [ffff88000009b000] 9b000 size 20480
+    [    0.000000] init_memory_mapping: 0000000000000000-0000000010800000
+    [    0.000000]  0000000000 - 0010800000 page 4k
+    [    0.000000] kernel direct mapping tables up to 10800000 @ 1fd2000-2058000
+    [    0.000000] xen: setting RW the range 203a000 - 2058000
+    [    0.000000] RAMDISK: 02058000 - 02de2000
+    [    0.000000] NUMA turned off
+    [    0.000000] Faking a node at 0000000000000000-0000000010800000
+    [    0.000000] Initmem setup node 0 0000000000000000-0000000010800000
+    [    0.000000]   NODE_DATA [000000000fffb000 - 000000000fffffff]
+    [    0.000000] Zone PFN ranges:
+    [    0.000000]   DMA      0x00000010 -> 0x00001000
+    [    0.000000]   DMA32    0x00001000 -> 0x00100000
+    [    0.000000]   Normal   empty
+    [    0.000000] Movable zone start PFN for each node
+    [    0.000000] early_node_map[2] active PFN ranges
+    [    0.000000]     0: 0x00000010 -> 0x000000a0
+    [    0.000000]     0: 0x00000100 -> 0x00010800
+    [    0.000000] On node 0 totalpages: 67472
+    [    0.000000]   DMA zone: 64 pages used for memmap
+    [    0.000000]   DMA zone: 5 pages reserved
+    [    0.000000]   DMA zone: 3915 pages, LIFO batch:0
+    [    0.000000]   DMA32 zone: 992 pages used for memmap
+    [    0.000000]   DMA32 zone: 62496 pages, LIFO batch:15
+    [    0.000000] SFI: Simple Firmware Interface v0.81 http://simplefirmware.org
+    [    0.000000] SMP: Allowing 4 CPUs, 0 hotplug CPUs
+    [    0.000000] No local APIC present
+    [    0.000000] APIC: disable apic facility
+    [    0.000000] APIC: switched to apic NOOP
+    [    0.000000] nr_irqs_gsi: 16
+    [    0.000000] PM: Registered nosave memory: 00000000000a0000 - 0000000000100000
+    [    0.000000] Allocating PCI resources starting at 10800000 (gap: 10800000:ef800000)
+    [    0.000000] Booting paravirtualized kernel on Xen
+    [    0.000000] Xen version: 3.3.0 (preserve-AD)
+    [    0.000000] setup_percpu: NR_CPUS:64 nr_cpumask_bits:64 nr_cpu_ids:4 nr_node_ids:1
+    [    0.000000] PERCPU: Embedded 28 pages/cpu @ffff88000fc00000 s82880 r8192 d23616 u524288
+    [    0.000000] pcpu-alloc: s82880 r8192 d23616 u524288 alloc=1*2097152
+    [    0.000000] pcpu-alloc: [0] 0 1 2 3
+    [    0.000000] Built 1 zonelists in Node order, mobility grouping on.  Total pages: 66411
+    [    0.000000] Policy zone: DMA32
+    [    0.000000] Kernel command line: ro console=hvc0 root=/dev/xvda1 rootflags=nobarrier
+    [    0.000000] PID hash table entries: 2048 (order: 2, 16384 bytes)
+    [    0.000000] Checking aperture...
+    [    0.000000] No AGP bridge found
+    [    0.000000] Calgary: detecting Calgary via BIOS EBDA area
+    [    0.000000] Calgary: Unable to locate Rio Grande table in EBDA - bailing!
+    [    0.000000] Memory: 224328k/270336k available (6540k kernel code, 448k absent, 45560k reserved, 6652k data, 924k init)
+    [    0.000000] SLUB: Genslabs=15, HWalign=64, Order=0-3, MinObjects=0, CPUs=4, Nodes=1
+    [    0.000000] Hierarchical RCU implementation.
+    [    0.000000]   RCU dyntick-idle grace-period acceleration is enabled.
+    [    0.000000] NR_IRQS:4352 nr_irqs:304 16
+    [    0.000000] Console: colour dummy device 80x25
+    [    0.000000] console [tty0] enabled
+    [    0.000000] console [hvc0] enabled
+    [    0.000000] allocated 3145728 bytes of page_cgroup
+    [    0.000000] please try 'cgroup_disable=memory' option if you don't want memory cgroups
+    [    0.000000] Xen: using vcpuop timer interface
+    [    0.000000] installing Xen timer for CPU 0
+    [    0.000000] Detected 2200.090 MHz processor.
+    [    0.004000] Calibrating delay loop (skipped), value calculated using timer frequency.. 4400.18 BogoMIPS (lpj=8800360)
+    [    0.004000] pid_max: default: 32768 minimum: 301
+    [    0.004000] Security Framework initialized
+    [    0.004000] AppArmor: AppArmor initialized
+    [    0.004000] Yama: becoming mindful.
+    [    0.004000] Dentry cache hash table entries: 65536 (order: 7, 524288 bytes)
+    [    0.004000] Inode-cache hash table entries: 32768 (order: 6, 262144 bytes)
+    [    0.004000] Mount-cache hash table entries: 256
+    [    0.004000] Initializing cgroup subsys cpuacct
+    [    0.004000] Initializing cgroup subsys memory
+    [    0.004000] Initializing cgroup subsys devices
+    [    0.004000] Initializing cgroup subsys freezer
+    [    0.004000] Initializing cgroup subsys blkio
+    [    0.004000] Initializing cgroup subsys perf_event
+    [    0.004000] tseg: 0000000000
+    [    0.004000] CPU: Physical Processor ID: 1
+    [    0.004000] CPU: Processor Core ID: 2
+    [    0.004000] SMP alternatives: switching to UP code
+    [    0.041822] ftrace: allocating 27024 entries in 106 pages
+    [    0.044102] cpu 0 spinlock event irq 17
+    [    0.044158] Performance Events:
+    [    0.044163] no APIC, boot with the "lapic" boot parameter to force-enable it.
+    [    0.044170] no hardware sampling interrupt available.
+    [    0.044188] Broken PMU hardware detected, using software events only.
+    [    0.044354] NMI watchdog disabled (cpu0): hardware events not enabled
+    [    0.044460] installing Xen timer for CPU 1
+    [    0.044477] cpu 1 spinlock event irq 23
+    [    0.044513] SMP alternatives: switching to SMP code
+    [    0.081783] NMI watchdog disabled (cpu1): hardware events not enabled
+    [    0.081946] installing Xen timer for CPU 2
+    [    0.081975] cpu 2 spinlock event irq 29
+    [    0.082309] NMI watchdog disabled (cpu2): hardware events not enabled
+    [    0.082457] installing Xen timer for CPU 3
+    [    0.082475] cpu 3 spinlock event irq 35
+    [    0.082770] NMI watchdog disabled (cpu3): hardware events not enabled
+    [    0.082834] Brought up 4 CPUs
+    [    0.083112] devtmpfs: initialized
+    [    0.085254] EVM: security.selinux
+    [    0.085261] EVM: security.SMACK64
+    [    0.085264] EVM: security.capability
+    [    0.086285] Grant table initialized
+    [    0.086400] print_constraints: dummy:
+    [    0.106396] RTC time: 165:165:165, date: 165/165/65
+    [    0.106504] NET: Registered protocol family 16
+    [    0.106721] Trying to unpack rootfs image as initramfs...
+    [    0.107003] Extended Config Space enabled on 0 nodes
+    [    0.107115] PCI: setting up Xen PCI frontend stub
+    [    0.107115] PCI: pci_cache_line_size set to 64 bytes
+    [    0.108943] bio: create slab <bio-0> at 0
+    [    0.108943] ACPI: Interpreter disabled.
+    [    0.108943] xen/balloon: Initialising balloon driver.
+    [    0.112326] xen-balloon: Initialising balloon driver.
+    [    0.112683] vgaarb: loaded
+    [    0.112683] i2c-core: driver [aat2870] using legacy suspend method
+    [    0.112683] i2c-core: driver [aat2870] using legacy resume method
+    [    0.112683] SCSI subsystem initialized
+    [    0.116077] libata version 3.00 loaded.
+    [    0.116167] usbcore: registered new interface driver usbfs
+    [    0.116193] usbcore: registered new interface driver hub
+    [    0.116287] usbcore: registered new device driver usb
+    [    0.116287] PCI: System does not support PCI
+    [    0.116287] PCI: System does not support PCI
+    [    0.116287] NetLabel: Initializing
+    [    0.116287] NetLabel:  domain hash size = 128
+    [    0.116287] NetLabel:  protocols = UNLABELED CIPSOv4
+    [    0.116287] NetLabel:  unlabeled traffic allowed by default
+    [    0.120160] Switching to clocksource xen
+    [    0.120334] Freeing initrd memory: 13864k freed
+    [    0.132615] AppArmor: AppArmor Filesystem Enabled
+    [    0.132725] pnp: PnP ACPI: disabled
+    [    0.134767] PCI: max bus depth: 0 pci_try_num: 1
+    [    0.134822] NET: Registered protocol family 2
+    [    0.134934] IP route cache hash table entries: 4096 (order: 3, 32768 bytes)
+    [    0.135409] TCP established hash table entries: 16384 (order: 6, 262144 bytes)
+    [    0.135572] TCP bind hash table entries: 16384 (order: 6, 262144 bytes)
+    [    0.135666] TCP: Hash tables configured (established 16384 bind 16384)
+    [    0.135674] TCP reno registered
+    [    0.135683] UDP hash table entries: 256 (order: 1, 8192 bytes)
+    [    0.135696] UDP-Lite hash table entries: 256 (order: 1, 8192 bytes)
+    [    0.135776] NET: Registered protocol family 1
+    [    0.135788] PCI: CLS 0 bytes, default 64
+    [    0.135884] platform rtc_cmos: registered platform RTC device (no PNP device found)
+    [    0.136298] audit: initializing netlink socket (disabled)
+    [    0.136314] type=2000 audit(1358457593.718:1): initialized
+    [    0.159902] HugeTLB registered 2 MB page size, pre-allocated 0 pages
+    [    0.162233] VFS: Disk quotas dquot_6.5.2
+    [    0.162324] Dquot-cache hash table entries: 512 (order 0, 4096 bytes)
+    [    0.163136] fuse init (API version 7.17)
+    [    0.163384] msgmni has been set to 465
+    [    0.164154] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 253)
+    [    0.164296] io scheduler noop registered
+    [    0.164309] io scheduler deadline registered (default)
+    [    0.164380] io scheduler cfq registered
+    [    0.164470] pci_hotplug: PCI Hot Plug PCI Core version: 0.5
+    [    0.164502] pciehp: PCI Express Hot Plug Controller Driver version: 0.4
+    [    0.165049] Serial: 8250/16550 driver, 32 ports, IRQ sharing enabled
+    [    0.228355] Linux agpgart interface v0.103
+    [    0.229793] brd: module loaded
+    [    0.230544] loop: module loaded
+    [    0.237602] blkfront device/vbd/51713 num-ring-pages 1 nr_ents 32.
+    [    0.252426] blkfront device/vbd/51714 num-ring-pages 1 nr_ents 32.
+    [    0.253128] Fixed MDIO Bus: probed
+    [    0.253154] tun: Universal TUN/TAP device driver, 1.6
+    [    0.253159] tun: (C) 1999-2004 Max Krasnyansky <maxk@qualcomm.com>
+    [    0.253252] PPP generic driver version 2.4.2
+    [    0.253299] Initialising Xen virtual ethernet driver.
+    [    0.257757] blkfront: xvda1: barrier: enabled
+    [    0.262323] Setting capacity to 19922944
+    [    0.262356] xvda1: detected capacity change from 0 to 10200547328
+    [    0.262944] ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+    [    0.262977] ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
+    [    0.262992] uhci_hcd: USB Universal Host Controller Interface driver
+    [    0.263039] usbcore: registered new interface driver libusual
+    [    0.263068] i8042: PNP: No PS/2 controller found. Probing ports directly.
+    [    0.263956] i8042: No controller found
+    [    0.264195] mousedev: PS/2 mouse device common for all mice
+    [    0.272541] blkfront: xvda2: barrier: enabled
+    [    0.276725] Setting capacity to 1048576
+    [    0.276742] xvda2: detected capacity change from 0 to 536870912
+    [    0.304467] rtc_cmos rtc_cmos: rtc core: registered rtc_cmos as rtc0
+    [    0.304556] rtc_cmos: probe of rtc_cmos failed with error -38
+    [    0.304674] device-mapper: uevent: version 1.0.3
+    [    0.304788] device-mapper: ioctl: 4.22.0-ioctl (2011-10-19) initialised: dm-devel@redhat.com
+    [    0.304801] EFI Variables Facility v0.08 2004-May-17
+    [    0.305203] TCP cubic registered
+    [    0.305427] NET: Registered protocol family 10
+    [    0.306695] NET: Registered protocol family 17
+    [    0.306727] Registering the dns_resolver key type
+    [    0.316881] PM: Hibernation image not present or could not be loaded.
+    [    0.316903] registered taskstats version 1
+    [    0.333265] XENBUS: Device with no driver: device/console/0
+    [    0.333288]   Magic number: 1:252:3141
+    [    0.333337] /build/buildd/linux-3.2.0/drivers/rtc/hctosys.c: unable to open rtc device (rtc0)
+    [    0.333547] powernow-k8: Found 1 Quad-Core AMD Opteron(tm) Processor 2374 HE (4 cpu cores) (version 2.20.00)
+    [    0.333559] BIOS EDD facility v0.16 2004-Jun-25, 0 devices found
+    [    0.333564] EDD information not available.
+    [    0.334335] Freeing unused kernel memory: 924k freed
+    [    0.334742] Write protecting the kernel read-only data: 12288k
+    [    0.341405] Freeing unused kernel memory: 1632k freed
+    [    0.342704] Freeing unused kernel memory: 1200k freed
+    [    0.402458] udevd[96]: starting version 175
+    [    2.107582] EXT3-fs (xvda1): recovery required on readonly filesystem
+    [    2.107598] EXT3-fs (xvda1): write access will be enabled during recovery
+    [    2.107756] EXT3-fs: barriers not enabled
+    [    2.130304] kjournald starting.  Commit interval 5 seconds
+    [    2.130313] EXT3-fs (xvda1): warning: ext3_clear_journal_err: Filesystem error recorded from previous mount: IO failure
+    [    2.130318] EXT3-fs (xvda1): warning: ext3_clear_journal_err: Marking fs in need of filesystem check.
+    [    2.130439] EXT3-fs (xvda1): recovery complete
+    [    2.130673] EXT3-fs (xvda1): mounted filesystem with ordered data mode
+    [    5.385610] ADDRCONF(NETDEV_UP): eth0: link is not ready
+    [    5.385620] ADDRCONF(NETDEV_UP): eth1: link is not ready
+    [    5.472639] udevd[475]: starting version 175
+    [    6.050044] init: udev-fallback-graphics main process (647) terminated with status 1
+    [   16.016055] eth0: no IPv6 routers present
+    [   39.169452] blkfront: barrier: empty write xvda1 op failed
+    [   39.169459] blkfront: xvda1: barrier or flush: disabled
+    [   39.285890] EXT3-fs (xvda1): using internal journal
+    [   39.530520] init: failsafe main process (803) killed by TERM signal
+    [ 39.596478] init: Failed to spawn vsftpd main process: unable to execute: No such file or directory
+                                        </code>
+                                    </pre>
+                                </div>
+                            </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+
+    <!-- Javascript -->
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/popper.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/default-assets/active.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sharrre/2.0.1/jquery.sharrre.min.js"></script>
+
+    <script src="../static/js/extras.1.1.0.min.js"></script>
+    <script src="../static/js/shards-dashboards.1.1.0.min.js"></script>
+    <script src="../static/js/app/app-blog-overview.1.1.0.js"></script>
+</body>
+</html>

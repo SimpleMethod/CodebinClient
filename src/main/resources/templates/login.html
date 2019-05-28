@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Run your code online">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Title -->
+    <title>Codebin | Sign in</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="../static/img/core-img/favicon.png">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/shards-dashboards.1.1.0.css">
+    <link rel="stylesheet" href="../static/css/extras.1.1.0.min.css">
+    <link rel="stylesheet" href="../static/css/icon-style.css">
+    <link rel="stylesheet" href="../static/css/custom.css">
+    <link rel="stylesheet" href="../static/css/animate.css">
+</head>
+
+<body class="login-page">
+    <section class="h-100 animated fadeIn">
+        <!-- Back -->
+        <a id="scrollBack" href="index.html" style="position: fixed; z-index: 2147483647; display: block;">
+            <i class="arrow_carrot-left"></i>
+        </a>
+
+        <!-- Container -->
+        <div class="container h-100">
+            <div class="row justify-content-center h-100">
+                <div class="card-wrapper">
+                    <div class="brand">
+                        <img src="../static/img/core-img/icon_medium.png">
+                    </div>
+                    <div class="card">
+
+                        <div class="card-body">
+                            <h4 class="card-title">
+                            <div id="msg">
+                                <h4>S</h4>
+                            </div>
+                            </h4>
+                            <form action="dashboard.html">
+                                <div class="form-group">
+                                    <label for="email">E-mail address</label>
+                                    <input id="email" type="email" class="form-control" name="email" value="" required autofocus>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input id="password" type="password" class="form-control" name="password" required data-eye>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                                          <input type="checkbox" id="customToggle2" name="customToggle2" class="custom-control-input">
+                                          <label class="custom-control-label" for="customToggle2">Remember me</label>
+                                        </div>
+                                    </label>
+                                </div>
+
+                                <div class="form-group no-margin">
+                                    <button type="submit" class="btn btn-primary btn-block">
+                                        Login
+                                    </button>
+                                </div>
+                                <div class="margin-top20 text-center">
+                                    Don't have an account? <a href="https://github.com/join">Create One</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="footer">
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Javascript -->
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/popper.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sharrre/2.0.1/jquery.sharrre.min.js"></script>
+    <script src="https://unpkg.com/typewriter-effect/dist/core.js"></script>
+
+    <script src="../static/js/extras.1.1.0.min.js"></script>
+    <script src="../static/js/shards-dashboards.1.1.0.min.js"></script>
+    <script src="../static/js/app/app-blog-overview.1.1.0.js"></script>
+
+    <script>
+        var msg = document.getElementById('msg');
+
+        var typewriter = new Typewriter(msg, {
+            loop: true,
+            delay: 80
+        });
+
+        typewriter.typeString('Sign in to Your <i class="fa fa-github" aria-hidden="true"></i>!')
+            .pauseFor(3000)
+            .deleteAll()
+            .typeString('Run your code freely!')
+            .pauseFor(1500)
+            .deleteChars(7)
+            .typeString('securely!')
+            .pauseFor(1500)
+            .deleteChars(9)
+            .typeString('world wide!')
+            .pauseFor(1500)
+            .start();
+    </script>
+</body>
+</html>

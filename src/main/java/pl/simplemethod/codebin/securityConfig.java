@@ -1,22 +1,25 @@
 package pl.simplemethod.codebin;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 
 @Configuration
+@EnableWebSecurity
 public class securityConfig extends WebSecurityConfigurerAdapter {
-    // TODO: 24.05.2019 Poprawić konfiguracje
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/css/**", "/postlogin", "/v1.0/**")
+                .antMatchers("/", "/static/**", "/postlogin", "/v1.0/**", "/404", "/logowanie/github")
                 .permitAll()
-                .antMatchers("/zaloguj")
-                .authenticated()
+                .anyRequest().fullyAuthenticated()
                 .and()
                 .oauth2Login();
         // http://localhost/logowanie/github

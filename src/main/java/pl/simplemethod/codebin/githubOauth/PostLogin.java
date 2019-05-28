@@ -18,12 +18,17 @@ public class PostLogin {
     @Autowired
     GithubClient githubClient;
 
-    // Authorization
+    /**
+     * Authorizes and saves a token in a cookie.
+     * @param response HttpServletResponse to save cookies
+     * @param code Authorization code received from Github
+     * @return Code html
+     */
     @GetMapping("/postlogin")
     public @ResponseBody
     ResponseEntity postlogin(HttpServletResponse response, @RequestParam("code") String code) {
         HttpHeaders headers = new HttpHeaders();
-        String token = null;
+        String token;
         try {
             token = (String) githubClient.getAccessToken(code).get("access_token");
         } catch (org.json.JSONException e) {

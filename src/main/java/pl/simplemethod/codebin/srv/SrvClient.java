@@ -46,7 +46,7 @@ public class SrvClient {
      * @param diskQuota    Maximum amount of allocated memory on the disk
      * @return Json object with data
      */
-    public org.json.JSONObject generateCreateConfig(String dockerImage, Integer exposedPorts, Integer hostPort, Long ramMemory, Long diskQuota) {
+    protected org.json.JSONObject generateCreateConfig(String dockerImage, Integer exposedPorts, Integer hostPort, Long ramMemory, Long diskQuota) {
         org.json.JSONObject body = new org.json.JSONObject();
         body.put("Image", dockerImage);
         body.put("ExposedPorts", new org.json.JSONObject().put(exposedPorts + "/tcp", new org.json.JSONObject()));
@@ -75,7 +75,7 @@ public class SrvClient {
      * @param name         Name of container
      * @return Json object with status
      */
-    public org.json.JSONObject createAndRunContainer(org.json.JSONObject dockerConfig, String name) {
+    protected org.json.JSONObject createAndRunContainer(org.json.JSONObject dockerConfig, String name) {
         JSONParser parser = new JSONParser();
         org.json.JSONObject body = new org.json.JSONObject();
         Object obj = null;
@@ -123,7 +123,7 @@ public class SrvClient {
      * @param id Container ID
      * @return Json object with status
      */
-    public org.json.JSONObject startContainer(String id) {
+    protected org.json.JSONObject startContainer(String id) {
         org.json.JSONObject body = new org.json.JSONObject();
         try {
             HttpResponse<JsonNode> startContainer = Unirest.post(SERVER_URL + "/v1.0/containers/" + id + "/start")
@@ -150,7 +150,7 @@ public class SrvClient {
      * @param id Container ID
      * @return Json object with status
      */
-    public org.json.JSONObject stopContainer(String id) {
+    protected org.json.JSONObject stopContainer(String id) {
         org.json.JSONObject body = new org.json.JSONObject();
         try {
             HttpResponse<JsonNode> stopContainer = Unirest.post(SERVER_URL + "/v1.0/containers/" + id + "/stop").header("accept", "application/json").header("Content-Type", "application/json").asJson();
@@ -175,7 +175,7 @@ public class SrvClient {
      * @param id Container ID
      * @return Json object with status
      */
-    public org.json.JSONObject deleteContainer(String id) {
+    protected org.json.JSONObject deleteContainer(String id) {
         org.json.JSONObject body = new org.json.JSONObject();
         try {
             HttpResponse<JsonNode> deleteContainer = Unirest.delete(SERVER_URL + "/v1.0/containers/" + id).header("accept", "application/json").header("Content-Type", "application/json").asJson();
@@ -202,7 +202,7 @@ public class SrvClient {
      * @param arguments Argument to execute
      * @return Json object with status
      */
-    public org.json.JSONObject execContainer(String id, String path, String arguments) {
+    protected org.json.JSONObject execContainer(String id, String path, String arguments) {
         org.json.JSONObject body = new org.json.JSONObject();
         try {
             HttpResponse<JsonNode> execContainer = Unirest.post(SERVER_URL + "/v1.0/containers/" + id + "/exec")
@@ -228,7 +228,7 @@ public class SrvClient {
      * @param id Container ID
      * @return Json object with status
      */
-    public org.json.JSONObject restartContainer(String id) {
+    protected org.json.JSONObject restartContainer(String id) {
         org.json.JSONObject body = new org.json.JSONObject();
         try {
             HttpResponse<JsonNode> restartContainer = Unirest.post(SERVER_URL + "/v1.0/containers/" + id + "/restart").header("accept", "application/json").header("Content-Type", "application/json").asJson();
@@ -253,7 +253,7 @@ public class SrvClient {
      * @param id Container ID
      * @return Json object with status
      */
-    public String logsContainer(String id) {
+    protected String logsContainer(String id) {
         org.json.JSONObject body = new org.json.JSONObject();
         try {
             HttpResponse<String> logsContainer = Unirest.get(SERVER_URL + "/v1.0/containers/" + id + "/logs")

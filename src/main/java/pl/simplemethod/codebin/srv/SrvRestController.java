@@ -14,9 +14,6 @@ public class SrvRestController {
     @Autowired
     SrvClient srvClient;
 
-    // TODO: 24.05.2019  zmienić na POST, delete etc.
-
-
     /**
      * REST for container creation
      *
@@ -28,7 +25,7 @@ public class SrvRestController {
      * @param diskQuota    Maximum amount of allocated memory on the disk
      * @return Json object with data
      */
-    @GetMapping("/srv/container/create")
+    @PostMapping("/srv/container/create")
     public @ResponseBody
     ResponseEntity createContainer(@RequestParam("dockerimage") String dockerImage, @RequestParam("exposedports") Integer exposedPorts, @RequestParam("hostport") Integer hostPort, @RequestParam("name") String name, @RequestParam("rammemory") Long ramMemory, @RequestParam("diskquota") Long diskQuota) {
         HttpHeaders headers = new HttpHeaders();

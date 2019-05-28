@@ -27,7 +27,7 @@ public class GithubClient {
      * @param reposName Name of the repository
      * @return Json object with data
      */
-    public org.json.JSONObject getCloneReposMinimalInfo(String token, String username, String reposName) {
+    protected org.json.JSONObject getCloneReposMinimalInfo(String token, String username, String reposName) {
         JSONParser parser = new JSONParser();
         org.json.JSONObject body = new org.json.JSONObject();
         Object obj = null;
@@ -71,7 +71,7 @@ public class GithubClient {
      * @param reposName Name of the repository
      * @return Json object with data
      */
-    public String getReposInfo(String token, String username, String reposName) {
+    protected String getReposInfo(String token, String username, String reposName) {
         try {
             HttpResponse<JsonNode> userInfo = Unirest.get("https://api.github.com/repos/" + username + "/" + reposName).header("accept", "application/json").header("Authorization", "Bearer " + token).header("Content-Type", "application/json").asJson();
             return userInfo.getBody().toString();
@@ -86,7 +86,7 @@ public class GithubClient {
      * @param token Token for authorization
      * @return Json object with data
      */
-    public String getUserRepos(String token) {
+    protected String getUserRepos(String token) {
         try {
             HttpResponse<JsonNode> userReposInfo = Unirest.get("https://api.github.com/user/repos").header("accept", "application/json").header("Authorization", "Bearer " + token).header("Content-Type", "application/json").asJson();
             return userReposInfo.getBody().toString();
@@ -102,7 +102,7 @@ public class GithubClient {
      * @param username Username
      * @return Json object with data
      */
-    public String getUserInfo(String token, String username) {
+    protected String getUserInfo(String token, String username) {
         try {
             HttpResponse<JsonNode> userInfo = Unirest.get("https://api.github.com/users/" + username).header("accept", "application/json").header("Authorization", "Bearer " + token).header("Content-Type", "application/json").asJson();
             return userInfo.getBody().toString();
@@ -118,7 +118,7 @@ public class GithubClient {
      * @param token Token for authorization
      * @return Json object with data
      */
-    public String getUserInfo(String token) {
+    protected String getUserInfo(String token) {
         try {
             HttpResponse<JsonNode> userInfo = Unirest.get("https://api.github.com/user").header("accept", "application/json").header("Authorization", "Bearer " + token).header("Content-Type", "application/json").asJson();
             return userInfo.getBody().toString();
@@ -133,7 +133,7 @@ public class GithubClient {
      * @param code The code extracted from the github api
      * @return Json object with data
      */
-    public org.json.JSONObject getAccessToken(String code) {
+    protected org.json.JSONObject getAccessToken(String code) {
         JSONParser parser = new JSONParser();
         org.json.JSONObject body = new org.json.JSONObject();
         Object obj = null;

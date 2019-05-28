@@ -52,7 +52,7 @@ public class LinkClient implements LinkClientInterface {
      */
     public String decrypt(String decryptText)
     {
-        String decrypted=null;
+        String decrypted;
         try {
             Cipher cipher = Cipher.getInstance("AES");
             KEY= new SecretKeySpec(SALT.getBytes(),"AES");
@@ -64,7 +64,7 @@ public class LinkClient implements LinkClientInterface {
         catch(IllegalArgumentException | IllegalBlockSizeException | BadPaddingException | NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException e)
         {
             e.printStackTrace();
+            return null;
         }
-        return decrypted;
     }
 }

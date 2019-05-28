@@ -13,10 +13,10 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-public class postLogin {
+public class PostLogin {
 
     @Autowired
-    githubClient githubClient;
+    GithubClient githubClient;
 
     // Authorization
     @GetMapping("/postlogin")

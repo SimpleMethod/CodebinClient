@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
-public class linkController {
+public class LinkController {
 
     @Autowired
-    linkClient linkClient;
+    LinkClient linkClient;
 
     @GetMapping("/share/{ID}")
     public String getDecryptText(@PathVariable(value = "ID") String decryptText, Model model) {

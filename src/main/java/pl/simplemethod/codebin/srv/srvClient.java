@@ -35,28 +35,32 @@ public class srvClient {
         }
     }
 
+
     /**
      * Method to generate JSON used to create docker container
      *
      * @param dockerImage  Image to be reproduced with tag, example: srv_java:1.0
      * @param exposedPorts Container's internal port (For SRV images use: 8080)
      * @param hostPort     Outside port (port to connect)
+     * @param ramMemory    Maximum amount of allocated RAM
+     * @param diskQuota    Maximum amount of allocated memory on the disk
+     * @return Json object with data
      */
     public org.json.JSONObject generateCreateConfig(String dockerImage, Integer exposedPorts, Integer hostPort, Long ramMemory, Long diskQuota) {
         org.json.JSONObject body = new org.json.JSONObject();
         body.put("Image", dockerImage);
         body.put("ExposedPorts", new org.json.JSONObject().put(exposedPorts + "/tcp", new org.json.JSONObject()));
         body.put("HostConfig", new org.json.JSONObject()
-       .put("PortBindings", new org.json.JSONObject()
-                         .put(exposedPorts + "/tcp", new org.json.JSONArray()
-                                 .put(0, new org.json.JSONObject()
-                                         .put("HostPort", hostPort.toString())))
-       )
-                .put("Memory",ramMemory)
-                .put("MemoryReservation",ramMemory)
-                .put("MemorySwappiness",60)
-                .put("KernelMemory",ramMemory)
-                .put("DiskQuota",diskQuota)
+                .put("PortBindings", new org.json.JSONObject()
+                        .put(exposedPorts + "/tcp", new org.json.JSONArray()
+                                .put(0, new org.json.JSONObject()
+                                        .put("HostPort", hostPort.toString())))
+                )
+                .put("Memory", ramMemory)
+                .put("MemoryReservation", ramMemory)
+                .put("MemorySwappiness", 60)
+                .put("KernelMemory", ramMemory)
+                .put("DiskQuota", diskQuota)
         );
 
         body.put("RestartPolicy", new org.json.JSONObject().put("Name", "always"));
@@ -80,7 +84,7 @@ public class srvClient {
                     .header("accept", "application/json").queryString("name", name).header("Content-Type", "application/json").body(dockerConfig).asJson();
             obj = parser.parse(createContainer.getBody().toString());
             org.json.simple.JSONObject jsonObject = (org.json.simple.JSONObject) obj;
-            body.put("messageBuilder",jsonObject.get("message") );
+            body.put("messageBuilder", jsonObject.get("message"));
             //body.put("status",String.valueOf(createContainer.getStatus()));
             //System.out.println(body.toString());
             if (obj == null) {
@@ -96,8 +100,8 @@ public class srvClient {
                     String id = (String) jsonObject.get("Id");
                     body.put("Id", id);
                     if (!id.isEmpty()) {
-                        org.json.JSONObject start  = startContainer(id);
-                        body.put("status",start.get("status"));
+                        org.json.JSONObject start = startContainer(id);
+                        body.put("status", start.get("status"));
                     } else {
                         String error = (String) jsonObject.get("error");
                         body.put("message", error);
@@ -109,7 +113,7 @@ public class srvClient {
                 }
             }
         }
-        System.out.println("Dane: "+ body.toString());
+        System.out.println("Dane: " + body.toString());
         return body;
     }
 

@@ -42,13 +42,25 @@ public class srvClient {
      * @param exposedPorts Container's internal port (For SRV images use: 8080)
      * @param hostPort     Outside port (port to connect)
      */
-    public org.json.JSONObject generateCreateConfig(String dockerImage, Integer exposedPorts, Integer hostPort) {
+    public org.json.JSONObject generateCreateConfig(String dockerImage, Integer exposedPorts, Integer hostPort, Long ramMemory, Long diskQuota) {
         org.json.JSONObject body = new org.json.JSONObject();
         body.put("Image", dockerImage);
         body.put("ExposedPorts", new org.json.JSONObject().put(exposedPorts + "/tcp", new org.json.JSONObject()));
-        body.put("HostConfig", new org.json.JSONObject().put("PortBindings", new org.json.JSONObject().put(exposedPorts + "/tcp", new org.json.JSONArray().put(0, new org.json.JSONObject().put("HostPort", hostPort.toString())))));
+        body.put("HostConfig", new org.json.JSONObject()
+       .put("PortBindings", new org.json.JSONObject()
+                         .put(exposedPorts + "/tcp", new org.json.JSONArray()
+                                 .put(0, new org.json.JSONObject()
+                                         .put("HostPort", hostPort.toString())))
+       )
+                .put("Memory",ramMemory)
+                .put("MemoryReservation",ramMemory)
+                .put("MemorySwappiness",60)
+                .put("KernelMemory",ramMemory)
+                .put("DiskQuota",diskQuota)
+        );
+
         body.put("RestartPolicy", new org.json.JSONObject().put("Name", "always"));
-        System.out.println(body.toString());
+        System.err.println(body.toString());
         return body;
     }
 
@@ -117,11 +129,9 @@ public class srvClient {
             if (startContainer.getBody() != null) {
                 body.put("message", "Something went wrong");
                 body.put("status", 510);
-            } else {
-                System.out.println("Start to się wykonuje? w else"+body.toString());
                 return body;
             }
-            System.out.println("Start to się wykonuje? w else poza if"+body.toString());
+            body.put("status", 204);
             return body;
         } catch (UnirestException e) {
             body.put("message", "Something went wrong");

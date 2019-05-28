@@ -25,11 +25,12 @@ public class srvRestController {
      * @param name         Name of container
      * @return Json object with status
      */
-    @PostMapping("/srv/container/create")
+    @GetMapping("/srv/container/create")
     public @ResponseBody
-    ResponseEntity createContainer(@RequestParam("dockerimage") String dockerImage, @RequestParam("exposedports") Integer exposedPorts, @RequestParam("hostport") Integer hostPort, @RequestParam("name") String name) {
+    ResponseEntity createContainer(@RequestParam("dockerimage") String dockerImage, @RequestParam("exposedports") Integer exposedPorts, @RequestParam("hostport") Integer hostPort, @RequestParam("name") String name,  @RequestParam("rammemory") Long ramMemory,  @RequestParam("diskquota") Long diskQuota)
+     {
         HttpHeaders headers = new HttpHeaders();
-        org.json.JSONObject response = srvClient.createAndRunContainer(srvClient.generateCreateConfig(dockerImage, exposedPorts, hostPort), name);
+     org.json.JSONObject response = srvClient.createAndRunContainer(srvClient.generateCreateConfig(dockerImage, exposedPorts, hostPort, ramMemory,diskQuota), name);
         int status=200;
         if(response.get("status").toString().equals("204"))
         {

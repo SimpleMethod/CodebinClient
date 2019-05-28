@@ -4,6 +4,7 @@ package pl.simplemethod.codebin.srv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,7 @@ public class SrvRestController {
     public @ResponseBody
     ResponseEntity createContainer(@RequestParam("dockerimage") String dockerImage, @RequestParam("exposedports") Integer exposedPorts, @RequestParam("hostport") Integer hostPort, @RequestParam("name") String name, @RequestParam("rammemory") Long ramMemory, @RequestParam("diskquota") Long diskQuota) {
         HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         org.json.JSONObject response = srvClient.createAndRunContainer(srvClient.generateCreateConfig(dockerImage, exposedPorts, hostPort, ramMemory, diskQuota), name);
         int status = 200;
         if (response.get("status").toString().equals("204")) {
@@ -49,6 +51,7 @@ public class SrvRestController {
     public @ResponseBody
     ResponseEntity restartContainer(@PathVariable(value = "ID") String containerId) {
         HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         org.json.JSONObject restartContainer = srvClient.restartContainer(containerId);
         return new ResponseEntity<>(restartContainer.toString(), headers, HttpStatus.valueOf(restartContainer.getInt("status")));
     }
@@ -61,6 +64,7 @@ public class SrvRestController {
     public @ResponseBody
     ResponseEntity stopContainer(@PathVariable(value = "ID") String containerId) {
         HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         org.json.JSONObject response = srvClient.stopContainer(containerId);
         return new ResponseEntity<>(response.toString(), headers, HttpStatus.valueOf(response.getInt("status")));
     }
@@ -75,6 +79,7 @@ public class SrvRestController {
     public @ResponseBody
     ResponseEntity startContainer(@PathVariable(value = "ID") String containerId) {
         HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         org.json.JSONObject response = srvClient.startContainer(containerId);
         return new ResponseEntity<>(response.toString(), headers, HttpStatus.valueOf(response.getInt("status")));
     }
@@ -97,6 +102,20 @@ public class SrvRestController {
     }
 
     /**
+     * The method returns information about the docker server
+     *
+     * @return Json object as response
+     */
+    @GetMapping("/srv/info")
+    public @ResponseBody
+    ResponseEntity infoDocker() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        String response = srvClient.infoDocker();
+        return new ResponseEntity<>(response, headers, HttpStatus.valueOf(200));
+    }
+
+    /**
      * Method delete the container
      *
      * @param containerId Container ID
@@ -106,6 +125,7 @@ public class SrvRestController {
     public @ResponseBody
     ResponseEntity deleteContainer(@PathVariable(value = "ID") String containerId) {
         HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         org.json.JSONObject response = srvClient.deleteContainer(containerId);
         return new ResponseEntity<>(response.toString(), headers, HttpStatus.valueOf(response.getInt("status")));
     }
@@ -122,6 +142,7 @@ public class SrvRestController {
     public @ResponseBody
     ResponseEntity execContainer(@PathVariable(value = "ID") String containerId, @RequestParam("path") String path, @RequestParam("argument") String arguments) {
         HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         org.json.JSONObject response = srvClient.execContainer(containerId, path, arguments);
         return new ResponseEntity<>(response.toString(), headers, HttpStatus.valueOf(response.getInt("status")));
     }

@@ -273,4 +273,28 @@ public class SrvClient {
         }
     }
 
+    /**
+     * The method returns information about the docker server
+     *
+     * @return Json object with status
+     */
+    protected String infoDocker() {
+        org.json.JSONObject body = new org.json.JSONObject();
+        try {
+            HttpResponse<String> logsContainer = Unirest.get(SERVER_URL + "/v1.0/info")
+                    .header("accept", "application/json").header("Content-Type", "application/json").asString();
+            if (logsContainer.getStatus() != 200) {
+                body.put("message", "Something went wrong ");
+                body.put("status", logsContainer.getStatus());
+                return body.toString();
+            } else {
+                return logsContainer.getBody();
+            }
+
+        } catch (NullPointerException | org.json.JSONException | UnirestException e) {
+            body.put("message", "Something went wrong " + e);
+            body.put("status", 510);
+            return body.toString();
+        }
+    }
 }

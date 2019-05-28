@@ -4,6 +4,7 @@ package pl.simplemethod.codebin.githubOauth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,7 @@ public class GithubRestController {
     public @ResponseBody
     ResponseEntity getReposCloneWithMinimalInfo(@CookieValue("token") String token, @RequestParam("username") String username, @RequestParam("repos") String repos) {
         HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<>(githubClient.getCloneReposMinimalInfo(token, username, repos).toString(), headers, HttpStatus.valueOf(200));
     }
 
@@ -42,6 +44,7 @@ public class GithubRestController {
     public @ResponseBody
     ResponseEntity getReposInfo(@CookieValue("token") String token, @PathVariable(value="userName") String username, @PathVariable(value="repoName") String repos) {
         HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<>(githubClient.getReposInfo(token, username, repos), headers, HttpStatus.valueOf(200));
     }
 
@@ -55,6 +58,7 @@ public class GithubRestController {
     public @ResponseBody
     ResponseEntity repos(@CookieValue("token") String token) {
         HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<>(githubClient.getUserRepos(token), headers, HttpStatus.valueOf(200));
     }
 
@@ -68,6 +72,7 @@ public class GithubRestController {
     public @ResponseBody
     ResponseEntity getInfoAboutOwner(@CookieValue("token") String token) {
         HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<>(githubClient.getUserInfo(token), headers, HttpStatus.valueOf(200));
     }
     /**
@@ -81,6 +86,7 @@ public class GithubRestController {
     public @ResponseBody
     ResponseEntity getInfoAboutUser(@CookieValue("token") String token, @PathVariable(value="userName") String username) {
         HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<>(githubClient.getUserInfo(token,username), headers, HttpStatus.valueOf(200));
     }
 }

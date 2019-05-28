@@ -9,10 +9,10 @@ import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class srvClient {
+public class SrvClient {
     private String SERVER_URL;
 
-    public srvClient(String serverUrl) {
+    public SrvClient(String serverUrl) {
         this.SERVER_URL = serverUrl;
     }
 

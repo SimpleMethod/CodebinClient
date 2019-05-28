@@ -10,11 +10,11 @@ import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class githubClient {
+public class GithubClient {
     private String CLIENT_ID;
     private String CLIENT_SECRET;
 
-    public githubClient(String client_id, String client_secret) {
+    public GithubClient(String client_id, String client_secret) {
         this.CLIENT_ID = client_id;
         this.CLIENT_SECRET = client_secret;
     }

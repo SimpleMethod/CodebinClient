@@ -12,16 +12,19 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequ
 
 @Configuration
 @EnableWebSecurity
-public class securityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/", "/static/**", "/postlogin", "/v1.0/**", "/404", "/logowanie/github")
+        http.authorizeRequests().antMatchers("/**").permitAll();
+     /*   http.authorizeRequests()
+                .antMatchers("/", "/**", "/postlogin", "/v1.0/**", "/404", "/logowanie/github")
                 .permitAll()
                 .anyRequest().fullyAuthenticated()
                 .and()
                 .oauth2Login();
+                /*
+      */
         // http://localhost/logowanie/github
         http.oauth2Login()
                 .authorizationEndpoint()

@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("v1.0")
-public class srvRestController {
+public class SrvRestController {
 
     @Autowired
-    srvClient srvClient;
+    SrvClient srvClient;
 
     // TODO: 24.05.2019  zmienić na POST, delete etc.
 

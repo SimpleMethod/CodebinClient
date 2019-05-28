@@ -101,7 +101,7 @@
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
                         <configuration>
-                            <mainClass>pl.simplemethod.codebin.codebinApplication</mainClass>
+                            <mainClass>pl.simplemethod.codebin.CodebinApplication</mainClass>
                         </configuration>
                     </plugin>
                 </plugins>

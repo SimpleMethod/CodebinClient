@@ -13,10 +13,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 @Component
-public class linkClient implements linkClientInterface{
+public class LinkClient implements LinkClientInterface {
    private String SALT;
    private Key KEY;
-    public linkClient(String SALT) {
+    public LinkClient(String SALT) {
         this.SALT = SALT;
         System.err.println(encrypt("8083"));
     }

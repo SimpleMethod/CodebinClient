@@ -49,7 +49,7 @@ public class GithubRestController {
     }
 
     /**
-     * Statistics contributors in a repository. Does not work for private repositories and requires a double request for working
+     * Statistics contributors in a repository. Does not work for private repositories and requires a double request for working. https://developer.github.com/v3/repos/statistics/
      * @param token     Token for authorization
      * @param username  User name
      * @param repos Name of the repository

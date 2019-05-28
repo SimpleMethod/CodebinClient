@@ -4,7 +4,6 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
@@ -64,7 +63,7 @@ public class GithubClient {
     }
 
     /**
-     * Statistics contributors in a repository. Does not work for private repositories and requires a double request for working
+     * Statistics contributors in a repository. Does not work for private repositories and requires a double request for working. https://developer.github.com/v3/repos/statistics/
      * @param token     Token for authorization
      * @param username  User name
      * @param reposName Name of the repository

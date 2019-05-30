@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.simplemethod.codebin.ContextWrapper;
+import pl.simplemethod.codebin.dao.ImagesDao;
+import pl.simplemethod.codebin.model.Images;
 
 @RestController
 @RequestMapping("srv")
@@ -15,23 +18,35 @@ public class SrvRestController {
     @Autowired
     SrvClient srvClient;
 
+    @GetMapping("/images1")
+    public @ResponseBody
+    ResponseEntity kek()
+    {
+        ImagesDao imagesDao = ContextWrapper.getContext().getBean(ImagesDao.class);
+        Images images = new Images("srv_html:1.0","java","1212",(long)11000);
+        imagesDao.save(images);
+        HttpHeaders headers = new HttpHeaders();
+        return new ResponseEntity<>("xd", headers, HttpStatus.valueOf(200));
+    }
+
+
     /**
      * REST for container creation
      *
-     * @param dockerImage  Image to be reproduced with tag, example: srv_java:1.0
+     * @param dockerImage  Images to be reproduced with tag, example: srv_java:1.0
      * @param exposedPorts Container's internal port (For SRV images use: 8080)
      * @param name
-     * @param hostPort     Outside port (port to connect)
+     * @param hostPorts     Outside port (port to connect)
      * @param ramMemory    Maximum amount of allocated RAM
      * @param diskQuota    Maximum amount of allocated memory on the disk
      * @return Json object with data
      */
     @PostMapping("container/create")
     public @ResponseBody
-    ResponseEntity createContainer(@RequestParam("dockerimage") String dockerImage, @RequestParam("exposedports") Integer exposedPorts, @RequestParam("hostport") Integer hostPort, @RequestParam("name") String name, @RequestParam("rammemory") Long ramMemory, @RequestParam("diskquota") Long diskQuota) {
+    ResponseEntity createContainer(@RequestParam("dockerimage") String dockerImage, @RequestParam("exposedports") Integer exposedPorts, @RequestParam("hostports") Integer hostPorts, @RequestParam("name") String name, @RequestParam("rammemory") Long ramMemory, @RequestParam("diskquota") Long diskQuota) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        org.json.JSONObject response = srvClient.createAndRunContainer(srvClient.generateCreateConfig(dockerImage, exposedPorts, hostPort, ramMemory, diskQuota), name);
+        org.json.JSONObject response = srvClient.createAndRunContainer(srvClient.generateCreateConfig(dockerImage, exposedPorts, hostPorts, ramMemory, diskQuota), name);
         int status = 200;
         if (response.get("status").toString().equals("204")) {
             status = 200;

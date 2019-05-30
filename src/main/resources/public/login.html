@@ -11,16 +11,17 @@
     <title>Codebin | Sign in</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="../img/core-img/favicon.png">
+    <link rel="icon" href="./img/core-img/favicon.png">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="../css/font-awesome.min.css">
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/shards-dashboards.1.1.0.css">
-    <link rel="stylesheet" href="../css/extras.1.1.0.min.css">
-    <link rel="stylesheet" href="../css/icon-style.css">
-    <link rel="stylesheet" href="../css/custom.css">
-    <link rel="stylesheet" href="../css/animate.css">
+    <link rel="stylesheet" href="./css/font-awesome.min.css">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/shards-dashboards.1.1.0.css">
+    <link rel="stylesheet" href="./css/extras.1.1.0.min.css">
+    <link rel="stylesheet" href="./css/animate.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/custom.css">
+    <link rel="stylesheet" href="./css/socialbtn.css">
 </head>
 
 <body class="login-page">
@@ -35,7 +36,7 @@
             <div class="row justify-content-center h-100">
                 <div class="card-wrapper">
                     <div class="brand">
-                        <img src="../img/core-img/icon_medium.png">
+                        <img src="./img/core-img/icon_medium.png">
                     </div>
                     <div class="card">
 
@@ -46,6 +47,7 @@
                             </div>
                             </h4>
                             <form action="dashboard.html">
+                                <!--
                                 <div class="form-group">
                                     <label for="email">E-mail address</label>
                                     <input id="email" type="email" class="form-control" name="email" value="" required autofocus>
@@ -54,8 +56,12 @@
                                 <div class="form-group">
                                     <label for="password">Password</label>
                                     <input id="password" type="password" class="form-control" name="password" required data-eye>
+                                </div> -->
+                                <div class="form-group no-margin">
+                                    <button type="submit" class="btn btn-block btn-social btn-github" >
+                                        <span class="fa fa-github"></span> Sign in with GitHub
+                                    </button>
                                 </div>
-
                                 <div class="form-group">
                                     <label>
                                         <div class="custom-control custom-toggle custom-toggle-sm mb-1">
@@ -65,11 +71,7 @@
                                     </label>
                                 </div>
 
-                                <div class="form-group no-margin">
-                                    <button type="submit" class="btn btn-primary btn-block">
-                                        Login
-                                    </button>
-                                </div>
+
                                 <div class="margin-top20 text-center">
                                     Don't have an account? <a href="https://github.com/join">Create One</a>
                                 </div>
@@ -85,17 +87,17 @@
     </section>
 
     <!-- Javascript -->
-    <script src="../js/jquery.min.js"></script>
-    <script src="../js/popper.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/popper.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
     <script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sharrre/2.0.1/jquery.sharrre.min.js"></script>
     <script src="https://unpkg.com/typewriter-effect/dist/core.js"></script>
 
-    <script src="../js/extras.1.1.0.min.js"></script>
-    <script src="../js/shards-dashboards.1.1.0.min.js"></script>
-    <script src="../js/app/app-blog-overview.1.1.0.js"></script>
+    <script src="./js/extras.1.1.0.min.js"></script>
+    <script src="./js/shards-dashboards.1.1.0.min.js"></script>
+    <script src="./js/app/app-blog-overview.1.1.0.js"></script>
 
     <script>
         var msg = document.getElementById('msg');
@@ -117,6 +119,12 @@
             .typeString('world wide!')
             .pauseFor(1500)
             .start();
+
+
+
+        function goToAuthorization() {
+            window.location.href = "/oauth/github";
+        }
     </script>
 </body>
 </html>

@@ -39,7 +39,7 @@ public class SrvClient {
     /**
      * Method to generate JSON used to create docker container
      *
-     * @param dockerImage  Image to be reproduced with tag, example: srv_java:1.0
+     * @param dockerImage  Images to be reproduced with tag, example: srv_java:1.0
      * @param exposedPorts Container's internal port (For SRV images use: 8080)
      * @param hostPort     Outside port (port to connect)
      * @param ramMemory    Maximum amount of allocated RAM
@@ -48,7 +48,7 @@ public class SrvClient {
      */
     protected org.json.JSONObject generateCreateConfig(String dockerImage, Integer exposedPorts, Integer hostPort, Long ramMemory, Long diskQuota) {
         org.json.JSONObject body = new org.json.JSONObject();
-        body.put("Image", dockerImage);
+        body.put("Images", dockerImage);
         body.put("ExposedPorts", new org.json.JSONObject().put(exposedPorts + "/tcp", new org.json.JSONObject()));
         body.put("HostConfig", new org.json.JSONObject()
                 .put("PortBindings", new org.json.JSONObject()

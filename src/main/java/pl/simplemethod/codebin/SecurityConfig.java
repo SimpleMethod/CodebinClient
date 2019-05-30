@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // http://localhost/logowanie/github
         http.oauth2Login()
                 .authorizationEndpoint()
-                .baseUri("/logowanie")
+                .baseUri("/oauth")
                 .authorizationRequestRepository(authorizationRequestRepository()).and().permitAll();
     }
 

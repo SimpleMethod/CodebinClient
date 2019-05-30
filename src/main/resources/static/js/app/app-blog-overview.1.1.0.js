@@ -251,7 +251,7 @@
       // animation: false,
       tooltips: {
         custom: false,
-        mode: 'public.index',
+        mode: 'index',
         position: 'nearest'
       }
     };

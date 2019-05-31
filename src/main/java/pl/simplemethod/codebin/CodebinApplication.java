@@ -16,8 +16,7 @@ import pl.simplemethod.codebin.linkDeploy.LinkClient;
 public class CodebinApplication {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext ctx = SpringApplication.run(CodebinApplication.class, args);
-        ContextWrapper.initWrapper(ctx);
+        SpringApplication.run(CodebinApplication.class, args);
     }
 
     @Bean

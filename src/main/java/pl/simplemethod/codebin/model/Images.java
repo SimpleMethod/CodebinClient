@@ -10,7 +10,7 @@ public class Images {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_images")
+    @Column(name = "id")
     private Integer id;
 
     @NonNull
@@ -20,14 +20,6 @@ public class Images {
     @NonNull
     @Column(name = "type")
     private String type;
-
-    @NonNull
-    @Column(name = "docker_id")
-    private String docker_id;
-
-    @NonNull
-    @Column(name = "create_time")
-    private Long createTime;
 
     public Integer getId() {
         return id;
@@ -53,26 +45,19 @@ public class Images {
         this.type = type;
     }
 
-    public String getDocker_id() {
-        return docker_id;
+    @Override
+    public String toString() {
+        return "Images{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                '}';
     }
 
-    public void setDocker_id(String docker_id) {
-        this.docker_id = docker_id;
-    }
-
-    public Long getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Long createTime) {
-        this.createTime = createTime;
-    }
-
-    public Images(String name, String type, String docker_id, Long createTime) {
+    public Images(String name, String type) {
         this.name = name;
         this.type = type;
-        this.docker_id = docker_id;
-        this.createTime = createTime;
     }
+
+    public Images(){}
 }

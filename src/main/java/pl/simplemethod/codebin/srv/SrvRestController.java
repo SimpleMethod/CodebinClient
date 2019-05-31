@@ -7,9 +7,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.simplemethod.codebin.ContextWrapper;
-import pl.simplemethod.codebin.dao.ImagesDao;
+import pl.simplemethod.codebin.model.Containers;
 import pl.simplemethod.codebin.model.Images;
+import pl.simplemethod.codebin.repository.ContainersRepository;
+import pl.simplemethod.codebin.repository.ImagesRepository;
+
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("srv")
@@ -18,13 +23,23 @@ public class SrvRestController {
     @Autowired
     SrvClient srvClient;
 
+    @Autowired
+    private ImagesRepository imagesRepository;
+
+    @Autowired
+    private ContainersRepository containersRepository;
+
+
+
     @GetMapping("/images1")
     public @ResponseBody
-    ResponseEntity kek()
-    {
-        ImagesDao imagesDao = ContextWrapper.getContext().getBean(ImagesDao.class);
-        Images images = new Images("srv_html:1.0","java","1212",(long)11000);
-        imagesDao.save(images);
+    ResponseEntity kek() {
+
+        List<Containers> containers = new ArrayList<>();
+        Images images  = imagesRepository.getFirstByName("sdssd");
+        containers.add(new Containers("test","xddd",images,1010,4510,(long)1000,(long)1000,1, Instant.now().getEpochSecond()));
+        containers.forEach(containersRepository::save);
+
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<>("xd", headers, HttpStatus.valueOf(200));
     }
@@ -35,21 +50,25 @@ public class SrvRestController {
      *
      * @param dockerImage  Images to be reproduced with tag, example: srv_java:1.0
      * @param exposedPorts Container's internal port (For SRV images use: 8080)
-     * @param name
-     * @param hostPorts     Outside port (port to connect)
+     * @param name         Name of container
+     * @param hostPorts    Outside port (port to connect)
      * @param ramMemory    Maximum amount of allocated RAM
      * @param diskQuota    Maximum amount of allocated memory on the disk
      * @return Json object with data
      */
-    @PostMapping("container/create")
+    @GetMapping("container/create")
     public @ResponseBody
     ResponseEntity createContainer(@RequestParam("dockerimage") String dockerImage, @RequestParam("exposedports") Integer exposedPorts, @RequestParam("hostports") Integer hostPorts, @RequestParam("name") String name, @RequestParam("rammemory") Long ramMemory, @RequestParam("diskquota") Long diskQuota) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         org.json.JSONObject response = srvClient.createAndRunContainer(srvClient.generateCreateConfig(dockerImage, exposedPorts, hostPorts, ramMemory, diskQuota), name);
-        int status = 200;
+        int status;
         if (response.get("status").toString().equals("204")) {
             status = 200;
+            List<Containers> containers = new ArrayList<>();
+            Images images  = imagesRepository.getFirstByName(dockerImage);
+            containers.add(new Containers(name,response.get("id").toString(),images,exposedPorts,hostPorts,ramMemory,diskQuota,1, Instant.now().getEpochSecond()));
+            containers.forEach(containersRepository::save);
         } else {
             status = Integer.valueOf(response.get("status").toString());
         }
@@ -120,6 +139,7 @@ public class SrvRestController {
 
     /**
      * The method returns information about the container
+     *
      * @param containerId Container ID
      * @return Json object as response
      */

@@ -1,24 +1,22 @@
 package pl.simplemethod.codebin.repository;
 
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import pl.simplemethod.codebin.model.Images;
+import pl.simplemethod.codebin.model.Containers;
 
 import java.util.List;
 
 
 @Repository
 @Transactional
-public interface ImagesRepository extends JpaRepository<Images, Long> {
+public interface ContainersRepository extends JpaRepository<Containers, Long> {
 
-List<Images> getById(Integer id);
+    List<Containers> getById(Integer id);
 
-List<Images> getByName(String name);
+    List<Containers> getByHostPorts(Integer ports);
 
-Images getFirstByName(String name);
-
-List<Images> getByType(String type);
-
+    List<Containers> getByIdDocker(String docker_id);
 
 }

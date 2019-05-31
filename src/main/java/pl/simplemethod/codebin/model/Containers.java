@@ -9,9 +9,10 @@ import java.io.Serializable;
 @Table(name = "containers")
 public class Containers implements Serializable {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_container")
+    @Column(name = "id")
     private Integer id;
 
     @NonNull
@@ -19,7 +20,12 @@ public class Containers implements Serializable {
     private String name;
 
     @NonNull
-    @OneToOne
+    @Column(name = "id_docker")
+    private String idDocker;
+
+    @NonNull
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "images_id", referencedColumnName = "id")
     private Images image;
 
     @NonNull
@@ -39,38 +45,12 @@ public class Containers implements Serializable {
     private Long diskQuota;
 
     @NonNull
-    @Column(name = "create_time")
-    private Long createTime;
-
-    @NonNull
-    @Column(name = "premium_status")
-    private Boolean premiumStatus;
-
-    @NonNull
-    @Column
-    private String type;
-
-    @NonNull
     @Column(name = "status")
     private Integer status;
 
     @NonNull
-    @Column(name = "docker_id")
-    private String docker_id;
-
-    public Containers(String name, Images image, Integer exposedPorts, Integer hostPorts, Long ramMemory, Long diskQuota, Long createTime, Boolean premiumStatus, String type, Integer status, String docker_id) {
-        this.name = name;
-        this.image = image;
-        this.exposedPorts = exposedPorts;
-        this.hostPorts = hostPorts;
-        this.ramMemory = ramMemory;
-        this.diskQuota = diskQuota;
-        this.createTime = createTime;
-        this.premiumStatus = premiumStatus;
-        this.type = type;
-        this.status = status;
-        this.docker_id = docker_id;
-    }
+    @Column(name = "create_time")
+    private Long createTime;
 
     public Integer getId() {
         return id;
@@ -86,6 +66,14 @@ public class Containers implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getIdDocker() {
+        return idDocker;
+    }
+
+    public void setIdDocker(String idDocker) {
+        this.idDocker = idDocker;
     }
 
     public Images getImage() {
@@ -128,30 +116,6 @@ public class Containers implements Serializable {
         this.diskQuota = diskQuota;
     }
 
-    public Long getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Long createTime) {
-        this.createTime = createTime;
-    }
-
-    public Boolean getPremiumStatus() {
-        return premiumStatus;
-    }
-
-    public void setPremiumStatus(Boolean premiumStatus) {
-        this.premiumStatus = premiumStatus;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public Integer getStatus() {
         return status;
     }
@@ -160,11 +124,39 @@ public class Containers implements Serializable {
         this.status = status;
     }
 
-    public String getDocker_id() {
-        return docker_id;
+    public Long getCreateTime() {
+        return createTime;
     }
 
-    public void setDocker_id(String docker_id) {
-        this.docker_id = docker_id;
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
+    }
+
+    public Containers(String name, String idDocker, Images image, Integer exposedPorts, Integer hostPorts, Long ramMemory, Long diskQuota, Integer status, Long createTime) {
+        this.name = name;
+        this.idDocker = idDocker;
+        this.image = image;
+        this.exposedPorts = exposedPorts;
+        this.hostPorts = hostPorts;
+        this.ramMemory = ramMemory;
+        this.diskQuota = diskQuota;
+        this.status = status;
+        this.createTime = createTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Containers{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", docker_id='" + idDocker + '\'' +
+                ", image=" + image +
+                ", exposedPorts=" + exposedPorts +
+                ", hostPorts=" + hostPorts +
+                ", ramMemory=" + ramMemory +
+                ", diskQuota=" + diskQuota +
+                ", status=" + status +
+                ", createTime=" + createTime +
+                '}';
     }
 }

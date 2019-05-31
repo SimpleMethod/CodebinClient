@@ -48,7 +48,7 @@ public class SrvClient {
      */
     protected org.json.JSONObject generateCreateConfig(String dockerImage, Integer exposedPorts, Integer hostPort, Long ramMemory, Long diskQuota) {
         org.json.JSONObject body = new org.json.JSONObject();
-        body.put("Images", dockerImage);
+        body.put("Image", dockerImage);
         body.put("ExposedPorts", new org.json.JSONObject().put(exposedPorts + "/tcp", new org.json.JSONObject()));
         body.put("HostConfig", new org.json.JSONObject()
                 .put("PortBindings", new org.json.JSONObject()
@@ -61,9 +61,10 @@ public class SrvClient {
                 .put("MemorySwappiness", 60)
                 .put("KernelMemory", ramMemory)
                 .put("DiskQuota", diskQuota)
+                .put("RestartPolicy", new org.json.JSONObject().put("Name", "always"))
         );
 
-        body.put("RestartPolicy", new org.json.JSONObject().put("Name", "always"));
+        //body.put("RestartPolicy", new org.json.JSONObject().put("Name", "always"));
         System.err.println(body.toString());
         return body;
     }
@@ -98,7 +99,7 @@ public class SrvClient {
                 org.json.simple.JSONObject jsonObject = (org.json.simple.JSONObject) obj;
                 try {
                     String id = (String) jsonObject.get("Id");
-                    body.put("Id", id);
+                    body.put("id", id);
                     if (!id.isEmpty()) {
                         org.json.JSONObject start = startContainer(id);
                         body.put("status", start.get("status"));

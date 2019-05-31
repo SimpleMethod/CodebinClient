@@ -1,7 +1,5 @@
 package pl.simplemethod.codebin.model;
 
-import org.springframework.lang.NonNull;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -15,42 +13,48 @@ public class Containers implements Serializable {
     @Column(name = "id")
     private Integer id;
 
-    @NonNull
-    @Column
+    @Column(unique = true, nullable = false)
     private String name;
 
-    @NonNull
-    @Column(name = "id_docker")
+    @Column(name = "id_docker", unique = true, nullable = false)
     private String idDocker;
 
-    @NonNull
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "images_id", referencedColumnName = "id")
+    @JoinColumn(name = "id_images", referencedColumnName = "id")
     private Images image;
 
-    @NonNull
-    @Column(name = "exposed_ports")
+    @Column(name = "exposed_ports", nullable = false)
     private Integer exposedPorts;
 
-    @NonNull
-    @Column(name = "host_ports")
+    @Column(name = "host_ports", nullable = false)
     private Integer hostPorts;
 
-    @NonNull
-    @Column(name = "ram_memory")
+    @Column(name = "ram_memory", nullable = false)
     private Long ramMemory;
 
-    @NonNull
-    @Column(name = "disk_quota")
+    @Column(name = "disk_quota", nullable = false)
     private Long diskQuota;
 
-    @NonNull
-    @Column(name = "status")
-    private Integer status;
+    @Column(name = "status", nullable = false)
+    private Integer status = 0;
 
-    @NonNull
-    @Column(name = "create_time")
+    @Column(name = "create_time", nullable = false)
     private Long createTime;
+
+    public Containers(String name, String idDocker, Images image, Integer exposedPorts, Integer hostPorts, Long ramMemory, Long diskQuota, Integer status, Long createTime) {
+        this.name = name;
+        this.idDocker = idDocker;
+        this.image = image;
+        this.exposedPorts = exposedPorts;
+        this.hostPorts = hostPorts;
+        this.ramMemory = ramMemory;
+        this.diskQuota = diskQuota;
+        this.status = status;
+        this.createTime = createTime;
+    }
+
+    public Containers() {
+    }
 
     public Integer getId() {
         return id;
@@ -129,18 +133,6 @@ public class Containers implements Serializable {
     }
 
     public void setCreateTime(Long createTime) {
-        this.createTime = createTime;
-    }
-
-    public Containers(String name, String idDocker, Images image, Integer exposedPorts, Integer hostPorts, Long ramMemory, Long diskQuota, Integer status, Long createTime) {
-        this.name = name;
-        this.idDocker = idDocker;
-        this.image = image;
-        this.exposedPorts = exposedPorts;
-        this.hostPorts = hostPorts;
-        this.ramMemory = ramMemory;
-        this.diskQuota = diskQuota;
-        this.status = status;
         this.createTime = createTime;
     }
 

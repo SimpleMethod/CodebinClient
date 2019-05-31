@@ -12,6 +12,10 @@ import java.util.List;
 @Transactional
 public interface ImagesRepository extends JpaRepository<Images, Long> {
 
+Images getFirstById(Integer id);
+
+Images getFirstByType(String type);
+
 List<Images> getById(Integer id);
 
 List<Images> getByName(String name);

@@ -13,10 +13,13 @@ import java.util.List;
 @Transactional
 public interface ContainersRepository extends JpaRepository<Containers, Long> {
 
-    List<Containers> getById(Integer id);
+    Containers getFirstById(Integer id);
+
+    Containers getFirstByIdDocker(String dockerId);
 
     List<Containers> getByHostPorts(Integer ports);
 
-    List<Containers> getByIdDocker(String docker_id);
+    List<Containers> getByIdDocker(String dockerId);
+
 
 }

@@ -21,6 +21,14 @@ public class Images {
     @Column(name = "type")
     private String type;
 
+    public Images(String name, String type) {
+        this.name = name;
+        this.type = type;
+    }
+
+    public Images() {
+    }
+
     public Integer getId() {
         return id;
     }
@@ -53,11 +61,4 @@ public class Images {
                 ", type='" + type + '\'' +
                 '}';
     }
-
-    public Images(String name, String type) {
-        this.name = name;
-        this.type = type;
-    }
-
-    public Images(){}
 }

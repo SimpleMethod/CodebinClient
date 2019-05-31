@@ -88,7 +88,7 @@ public class GithubRestController {
     ResponseEntity getInfoAboutOwner(@CookieValue("token") String token) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        return new ResponseEntity<>(githubClient.getUserInfo(token), headers, HttpStatus.valueOf(200));
+        return new ResponseEntity<>(githubClient.getUserInfo(token).toString(), headers, HttpStatus.valueOf(200));
     }
     /**
      * Returns JSON with user information

@@ -42,7 +42,6 @@ public class PostLogin {
         try {
 
             token = githubClient.getAccessToken(code).get("access_token").toString();
-
             githubId = githubClient.getUserInfo(token).get("id").toString();
             Users users = usersRepository.getFirstByGithub(Integer.valueOf(githubId));
             if (users == null) {
@@ -56,16 +55,15 @@ public class PostLogin {
                 users.setToken(token);
                 usersRepository.save(users);
             }
-
+            Cookie cookie = new Cookie("token", token);
+            cookie.setMaxAge(999999999);
+            response.addCookie(cookie);
         } catch (org.json.JSONException e) {
             return new ResponseEntity<>(e, headers, HttpStatus.valueOf(404));
         }
 
-        // TODO: 24.05.2019  Przrobić na CookieManager
-        Cookie cookie = new Cookie("token", token);
-        cookie.setMaxAge(999999999);
-        response.addCookie(cookie);
-
         return new ResponseEntity<>("<script type=\"text/javascript\">window.location.href = \"/\"</script>", headers, HttpStatus.valueOf(200));
     }
+
+
 }

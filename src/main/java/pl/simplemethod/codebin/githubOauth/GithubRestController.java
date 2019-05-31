@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.simplemethod.codebin.model.Users;
+import pl.simplemethod.codebin.repository.UsersRepository;
 
 
 @RestController
@@ -15,6 +17,9 @@ public class GithubRestController {
 
     @Autowired
     GithubClient githubClient;
+
+    @Autowired
+    UsersRepository usersRepository;
 
     /**
      * Returns the necessary information about the repository
@@ -45,7 +50,7 @@ public class GithubRestController {
     ResponseEntity getReposInfo(@CookieValue("token") String token, @PathVariable(value="userName") String username, @PathVariable(value="repoName") String repos) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        return new ResponseEntity<>(githubClient.getReposInfo(token, username, repos), headers, HttpStatus.valueOf(200));
+        return new ResponseEntity<>(githubClient.getReposInfo(token, username, repos).toString(), headers, HttpStatus.valueOf(200));
     }
 
     /**
@@ -60,7 +65,7 @@ public class GithubRestController {
     ResponseEntity getReposContributorsStatistics(@CookieValue("token") String token, @PathVariable(value="userName") String username, @PathVariable(value="repoName") String repos) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        return new ResponseEntity<>(githubClient.getReposContributorsStatistics(token, username, repos), headers, HttpStatus.valueOf(200));
+        return new ResponseEntity<>(githubClient.getReposContributorsStatistics(token, username, repos).toString(), headers, HttpStatus.valueOf(200));
     }
 
     /**
@@ -102,6 +107,50 @@ public class GithubRestController {
     ResponseEntity getInfoAboutUser(@CookieValue("token") String token, @PathVariable(value="userName") String username) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        return new ResponseEntity<>(githubClient.getUserInfo(token,username), headers, HttpStatus.valueOf(200));
+        return new ResponseEntity<>(githubClient.getUserInfo(token,username).toString(), headers, HttpStatus.valueOf(200));
+    }
+
+
+
+    /**
+     * Method for verifying if a profile exists
+     * @param token  Token to github authorize
+     * @return Json object
+     */
+    @GetMapping("/checktoken")
+    public @ResponseBody
+    ResponseEntity checkToken(@RequestParam("token") String token) {
+        HttpHeaders headers = new HttpHeaders();
+        org.json.JSONObject body = new org.json.JSONObject();
+        try {
+            Users users = usersRepository.getFirstByToken(token);
+            if (users == null) {
+                body.put("token","errr");
+                return new ResponseEntity<>(body.toString(), headers, HttpStatus.valueOf(404));
+            }
+            else
+            {
+                org.json.JSONObject oauth= githubClient.getUserInfo(token);
+                try{
+                    oauth.get("login");
+                    if( oauth.get("login")!=null)
+                    {
+                        body.put("token",users);
+                        return new ResponseEntity<>(body.toString(), headers, HttpStatus.valueOf(200));
+                    }
+                }
+                catch (org.json.JSONException e)
+                {
+                    body.put("token","errr");
+                    return new ResponseEntity<>(body.toString(), headers, HttpStatus.valueOf(404));
+                }
+
+
+            }
+        } catch (org.json.JSONException e) {
+            return new ResponseEntity<>(e, headers, HttpStatus.valueOf(404));
+
+        }
+        return new ResponseEntity<>(body.toString(), headers, HttpStatus.valueOf(404));
     }
 }

@@ -2,6 +2,10 @@ html,body {
 	height: 100%;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 body.login-page {
 	background-color: #f7f9fb;
 	font-size: 14px;

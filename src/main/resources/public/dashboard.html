@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="mainApp">
 
 <head>
     <meta charset="UTF-8">
@@ -24,7 +24,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
-<body class="h-100">
+<body class="h-100" ng-controller="dashboardGithub" >
     <!-- Preloader -->
     <div id="preloader">
         <div class="loader"></div>
@@ -84,11 +84,12 @@
                     <nav class="navbar align-items-stretch navbar-light flex-md-nowrap p-0">
                         <div class="main-navbar__search w-100 d-none d-md-flex d-lg-flex border-bottom">
                         </div>
+
                         <ul class="navbar-nav flex-row">
                             <li class="nav-item dropdown border-bottom">
                                 <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <img class="user-avatar rounded-circle mr-2" src="./img/mock-img/avatar.png" alt="User Avatar">
-                                    <span class="d-none d-md-inline-block">Tobiasz Nartowski</span>
+                                    <img class="user-avatar rounded-circle mr-2" src="{{avatar}}" alt="User Avatar">
+                                    <span class="d-none d-md-inline-block">{{name}}</span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-small">
                                     <a class="dropdown-item" href="dashboard-profile.html">
@@ -239,6 +240,15 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
         <script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Sharrre/2.0.1/jquery.sharrre.min.js"></script>
+
+
+    <script src="./js/angular.min.js"></script>
+
+    <script src="./js/angular-cookies.min.js"></script>
+
+
+    <script src="./app.js"></script>
+
 
         <script src="./js/extras.1.1.0.min.js"></script>
         <script src="./js/shards-dashboards.1.1.0.min.js"></script>

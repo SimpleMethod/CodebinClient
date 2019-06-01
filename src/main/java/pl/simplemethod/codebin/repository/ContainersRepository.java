@@ -19,6 +19,8 @@ public interface ContainersRepository extends JpaRepository<Containers, Long> {
 
     Containers getFirstByShareUrl(String shareURL);
 
+    Containers getFirstByName(String  name);
+
     List<Containers> getByHostPorts(Integer ports);
 
     List<Containers> getByIdDocker(String dockerId);

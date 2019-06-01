@@ -6,7 +6,7 @@ angular.module("mainApp").requires.push('ngRoute');
 
 var moduleA = angular.module("dashboard", []);
 angular.module("dashboard").requires.push('ngCookies');
-moduleA.controller("twojstary", function($scope) {
+moduleA.controller("twojstary", function ($scope) {
     $scope.name = "Bob A";
 });
 
@@ -22,7 +22,7 @@ moduleA.config(function ($routeProvider) {
             controller: 'ProjectsController'
         })
 
-        .when('/containers', {
+        .when('/containers/:id', {
             templateUrl: 'dashboard/container.html',
             controller: 'ContainersController'
         })
@@ -39,50 +39,104 @@ moduleA.config(function ($routeProvider) {
 
 angular.module("CombineModule", ["mainApp", "dashboard"]);
 
+
+app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$http', function ($filter, $routeParams, $scope, $http, $cookies) {
+    //.lastVal = $cookies.get('token');
+    $http({
+        url: 'http://127.0.0.1/srv/user/container/info',
+        method: 'GET',
+        params: {dockergithubid: $routeParams.id}
+    }).then(
+        function (response) {
+            $scope.status = response.data.status;
+
+            if ($scope.status == 1) {
+                $scope.status = "Premium";
+                $scope.shareStatus = response.data.shareUrl;
+            } else {
+                $scope.status = "Free";
+                $scope.shareStatus = null;
+            }
+
+            $scope.creationTime = response.data.createTime;
+            $scope.containersId = response.data.idDocker;
+            $scope.hostPorts = response.data.hostPorts;
+
+            $http({
+                url: 'http://127.0.0.1/srv/container/' + $scope.containersId + '/logs',
+                method: 'GET'
+            }).then(
+                function (logGet) {
+                    $scope.logMachine = logGet.data.logs;
+                },
+                function (logGet) {
+                    console.error(logGet);
+                }
+            );
+
+            $http({
+                url: 'http://127.0.0.1/srv/container/' + $scope.containersId + '/top',
+                method: 'GET'
+            }).then(
+                function (response) {
+                    $scope.tops = response.data.Processes;
+
+                    console.log($scope.tops);
+                },
+                function (response) {
+                    console.log(response);
+                }
+            );
+        },
+        function (response) {
+            $scope.passCheck = false;
+        }
+    );
+
+
+}]);
+
+
 app.controller('HomeController', function ($scope, $http, $cookies) {
 
     $scope.lastVal = $cookies.get('token');
     $http({
         url: 'http://127.0.0.1/github/user',
-        method: 'GET',
-        params: {token:  $scope.lastVal}
+        method: 'GET'
+        //  params: {token:  $scope.lastVal}
     }).then(
-        function (response){
+        function (response) {
             $scope.passCheck = response;
             $scope.privateRepo = response.data.total_private_repos;
             $scope.publicRepo = response.data.public_repos;
             $scope.numbersColl = response.data.collaborators;
             $scope.followers = response.data.followers;
-            $scope.following= response.data.following;
+            $scope.following = response.data.following;
             console.log($scope.passCheck);
 
         },
-        function (response){
+        function (response) {
             $scope.passCheck = false;
         }
     );
 });
 
 app.controller('ProjectsController', function ($scope, $http, $cookies) {
-    $scope.upportedPlatforms=["Java", "HTML", "C", "C++", "JavaScript", "CSS"];
+    $scope.upportedPlatforms = ["Java", "HTML", "C", "C++", "JavaScript", "CSS"];
     $scope.lastVal = $cookies.get('token');
     $http({
         url: 'http://127.0.0.1/github/user/repos/public',
         method: 'GET'
-        //params: {token:  $scope.lastVal}
     }).then(
-        function (response){
+        function (response) {
             $scope.jsondata = response.data;
-            console.info("Return"+ $scope.jsondata);
-
+            $scope.repoid = response.data.id;
         },
-        function (response){
+        function (response) {
             $scope.passCheck = false;
-            console.error("Error: "+ $scope.passCheck);
         }
     );
 });
-
 
 
 app.controller('VersionController', function ($scope) {
@@ -98,14 +152,14 @@ app.controller('CheckLoginStatus', function ($scope, $http, $cookies) {
     $http({
         url: 'http://127.0.0.1/github/user/checktoken',
         method: 'GET',
-       params: {token:  $scope.lastVal}
+        params: {token: $scope.lastVal}
     }).then(
-        function (response){
+        function (response) {
             $scope.passCheck = true;
             console.log($scope.lastVal);
 
         },
-        function (response){
+        function (response) {
             $scope.passCheck = false;
         }
     );
@@ -117,16 +171,16 @@ app.controller('dashboardGithub', function ($scope, $http, $cookies) {
     $http({
         url: 'http://127.0.0.1/github/user',
         method: 'GET'
-      //  params: {token:  $scope.lastVal}
+        //  params: {token:  $scope.lastVal}
     }).then(
-        function (response){
+        function (response) {
             $scope.passCheck = response;
             $scope.avatar = response.data.avatar_url;
             $scope.name = response.data.name;
             console.log($scope.passCheck);
 
         },
-        function (response){
+        function (response) {
             $scope.passCheck = false;
         }
     );

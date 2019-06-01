@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.simplemethod.codebin.model.Containers;
 import pl.simplemethod.codebin.model.Users;
+import pl.simplemethod.codebin.repository.ContainersRepository;
 import pl.simplemethod.codebin.repository.UsersRepository;
 
 
@@ -23,6 +25,8 @@ public class GithubRestController {
     @Autowired
     UsersRepository usersRepository;
 
+    @Autowired
+    private ContainersRepository containersRepository;
     /**
      * Returns the necessary information about the repository
      *
@@ -125,6 +129,7 @@ public class GithubRestController {
     public @ResponseBody
     ResponseEntity checkToken(@RequestParam("token") String token) {
         HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         org.json.JSONObject body = new org.json.JSONObject();
         try {
             Users users = usersRepository.getFirstByToken(token);
@@ -157,6 +162,7 @@ public class GithubRestController {
     public @ResponseBody
     ResponseEntity getpublicrepos(@CookieValue("token") String token) {
         HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         JSONParser parser = new JSONParser();
         org.json.JSONObject body = new org.json.JSONObject();
         org.json.simple.JSONArray result = new org.json.simple.JSONArray();
@@ -183,6 +189,17 @@ public class GithubRestController {
                             helper.put("html_url", obj1.get("html_url"));
                             helper.put("description", obj1.get("description"));
                             helper.put("created_at", obj1.get("created_at"));
+
+                            Containers containers = containersRepository.getFirstByName(obj1.get("id").toString());
+                            if(containers!=null)
+                            {
+                                helper.put("container_create",  obj1.get("id"));
+                                
+                            }
+                            else
+                            {
+                                helper.put("container_create",  null);
+                            }
                             result.add(helper);
                         }
                     });

@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.WebUtils;
 import pl.simplemethod.codebin.linkDeploy.LinkClient;
 import pl.simplemethod.codebin.model.Containers;
 import pl.simplemethod.codebin.model.Images;
@@ -16,8 +15,6 @@ import pl.simplemethod.codebin.repository.ContainersRepository;
 import pl.simplemethod.codebin.repository.ImagesRepository;
 import pl.simplemethod.codebin.repository.UsersRepository;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,21 +38,61 @@ public class SrvRestController {
     @Autowired
     private UsersRepository usersRepository;
 
-/*
-    @GetMapping("/createtest")
+    /**
+     * List of containers of any user
+     *
+     * @param id User ID
+     * @return Object Json with data
+     */
+    @GetMapping("users/{ID}/container")
     public @ResponseBody
-    ResponseEntity kek() {
-
-        List<Containers> containers = new ArrayList<>();
-        Images images  = imagesRepository.getFirstByName("java");
-        containers.add(new Containers("test","test",images,1010,4510,(long)1000,(long)1000,1, Instant.now().getEpochSecond()));
-        containers.forEach(containersRepository::save);
-
+    ResponseEntity usersContainer(@PathVariable(value = "ID") String id) {
+        Users users = usersRepository.getFirstById(Integer.valueOf(id));
         HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<>("xd", headers, HttpStatus.valueOf(200));
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        List<Containers> containers = users.getContainers();
+        org.json.JSONObject result = new org.json.JSONObject();
+        result.put("containers", containers);
+        return new ResponseEntity<>(result.toString(), headers, HttpStatus.valueOf(200));
     }
 
-*/
+    /**
+     * List of containers for login user
+     *
+     * @param id Current logged user
+     * @return Object Json with data
+     */
+    @GetMapping("user/container")
+    public @ResponseBody
+    ResponseEntity userContainer(@CookieValue("id") String id) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        Users users = usersRepository.getFirstById(Integer.valueOf(id));
+        List<Containers> containers = users.getContainers();
+        org.json.JSONObject result = new org.json.JSONObject();
+        result.put("containers", containers);
+        return new ResponseEntity<>(result.toString(), headers, HttpStatus.valueOf(200));
+    }
+
+    /**
+     * Returns container information from the database
+     *
+     * @param dockerGithubId Name of container
+     * @return Object Json with data
+     */
+    @GetMapping("user/container/info")
+    public @ResponseBody
+    ResponseEntity userContainerCheck(@RequestParam("dockergithubid") String dockerGithubId) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        Containers containers = containersRepository.getFirstByName(dockerGithubId);
+        if (containers != null) {
+
+            return new ResponseEntity<>(containers, headers, HttpStatus.valueOf(200));
+        } else {
+            return new ResponseEntity<>("error", headers, HttpStatus.valueOf(400));
+        }
+    }
 
     /**
      * REST for container creation
@@ -68,7 +105,7 @@ public class SrvRestController {
      * @param diskQuota    Maximum amount of allocated memory on the disk
      * @return Json object with data
      */
-    @GetMapping("container/create")
+    @PostMapping("container/create")
     public @ResponseBody
     ResponseEntity createContainerForUser(@RequestParam("dockerimage") String dockerImage, @RequestParam("exposedports") Integer exposedPorts, @RequestParam("hostports") Integer hostPorts, @RequestParam("name") String name, @RequestParam("rammemory") Long ramMemory, @RequestParam("diskquota") Long diskQuota, @CookieValue("id") String id) {
         HttpHeaders headers = new HttpHeaders();
@@ -143,6 +180,21 @@ public class SrvRestController {
     }
 
     /**
+     * The method returns information about processes inside container
+     *
+     * @param containerId Container ID
+     * @return Json object as response
+     */
+    @GetMapping("container/{ID}/top")
+    public @ResponseBody
+    ResponseEntity topContainer(@PathVariable(value = "ID") String containerId) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        String response = srvClient.topContainer(containerId);
+        return new ResponseEntity<>(response, headers, HttpStatus.valueOf(200));
+    }
+
+    /**
      * The method returns container logs
      *
      * @param containerId Container ID
@@ -152,11 +204,14 @@ public class SrvRestController {
     public @ResponseBody
     ResponseEntity logsContainer(@PathVariable(value = "ID") String containerId) {
         HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         String response = srvClient.logsContainer(containerId);
         String replaceString = response.replace('\u0001', '\n');
         replaceString = replaceString.replace('�', ' ');
 
-        return new ResponseEntity<>(replaceString, headers, HttpStatus.valueOf(201));
+        org.json.JSONObject result = new org.json.JSONObject();
+        result.put("logs",replaceString);
+        return new ResponseEntity<>(result.toString(), headers, HttpStatus.valueOf(201));
     }
 
     /**

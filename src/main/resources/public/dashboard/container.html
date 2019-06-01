@@ -5,22 +5,37 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-9 col-md-12">
-        <!-- Add New Post Form -->
-        <div class="card card-small mb-3">
-            <div class="card-body">
-                <div class="row mb-2">
-                    <div class="col mb-4">
-                        <div class="bg-warning rounded text-white text-center p-3" style="box-shadow: inset 0 0 5px rgba(0,0,0,.2);">Restart</div>
-                    </div>
-                    <div class="col mb-4">
-                        <div class="bg-danger rounded text-white text-center p-3" style="box-shadow: inset 0 0 5px rgba(0,0,0,.2);">Delete</div>
-                    </div>
+    <div class="col">
+        <div class="card card-small mb-4">
+            <div class="card-header border-bottom">
+                <h6 class="m-0">Current processes</h6>
+                <div class="card-body p-0 pb-3 text-center">
+                    <table class="table mb-0">
+                        <thead class="bg-light">
+                        <tr>
+                            <th scope="col" class="border-0">UID</th>
+                            <th scope="col" class="border-0">PID</th>
+                            <th scope="col" class="border-0">STIME</th>
+                            <th scope="col" class="border-0">TIME</th>
+                            <th scope="col" class="border-0">CMD</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="x in tops | limitTo:30">
+                            <td>{{x[0]}}</td>
+                            <td>{{x[1]}}</td>
+                            <td>{{x[4]}}</td>
+                            <td>{{x[6]}}</td>
+                            <td style="text-align:left;">{{x[7]}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-        <!-- / Add New Post Form -->
     </div>
+
+
     <div class="col-lg-3 col-md-12">
         <!-- Post Overview -->
         <div class="card card-small mb-3">
@@ -32,29 +47,60 @@
                     <li class="list-group-item p-3">
                         <span class="d-flex mb-2"><i class="material-icons mr-1">flag</i><strong
                                 class="mr-1">Status:</strong> {{status}}</span>
-                        <span class="d-flex mb-2"><i class="material-icons mr-1">visibility</i><strong class="mr-1">Visibility:</strong> <strong
-                                class="text-success">{{shareStatus}}</strong></span>
-                        <span class="d-flex mb-2"><i class="material-icons mr-1">calendar_today</i><strong class="mr-1">Creation time:</strong> {{creationTime}} </span>
+                        <span ng-if="shareStatus !== null" class="d-flex mb-2"><i
+                                class="material-icons mr-1">visibility</i><strong
+                                class="mr-1">Visibility:</strong> <strong class="text-success">Available</strong>
+                        <a class="ml-auto" href="http://127.0.0.1/share/{{shareStatus}}">Share link</a></span>
+                        <span ng-if="shareStatus === null" class="d-flex mb-2"><i
+                                class="material-icons mr-1">visibility</i><strong
+                                class="mr-1">Visibility:</strong> <strong class="text-danger"><a href=""
+                                                                                                 data-toggle="modal"
+                                                                                                 data-target="#local">Local access</a> </strong></span>
+                        <span class="d-flex mb-2"><i class="material-icons mr-1">calendar_today</i><strong class="mr-1">Creation time:</strong> <mydate>{{creationTime * 1000 | date:'dd-MM-yyyy HH:mm:ss'}}</mydate> </span>
 
+                        <span class="d-flex mb-2">
+                        <button type="button" class="mb-2 btn btn-danger mr-2">Remove container</button><button
+                                type="button" class=" ml-auto mb-2 btn btn-warning mr-2">Restart container</button>
+                        </span>
                 </ul>
             </div>
         </div>
     </div>
 </div>
 <div class="row">
-    <div class="col">
-        <div class="card card-small mb-4">
-            <div class="card-header border-bottom">
-                <h6 class="m-0">Current processes</h6>
-            </div>
-        </div>
-    </div>
+
 </div>
 <div class="row">
     <div class="col">
         <div class="card card-small mb-4">
             <div class="card-header border-bottom">
                 <h6 class="m-0">Logs from the machine</h6>
+                <textarea class="form-control" name="logsMachine" rows="20">{{logMachine}}</textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="local">
+    <style>.modal-lg {
+        max-width: 65% !important;
+    }</style>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 style="float:right;" class="modal-title">Local access</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <object style="  float:right; width:1200px;height:1200px;"
+                        data="http://waw1.simplemethod.io:{{hostPorts}}" type="text/html">
+                    Docker
+                </object>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

@@ -247,6 +247,33 @@ public class SrvClient {
             return body;
         }
     }
+
+    /**
+     * The method returns top process inside container data
+     *
+     * @param id Container ID
+     * @return Json object with status
+     */
+    protected String topContainer(String id) {
+        org.json.JSONObject body = new org.json.JSONObject();
+        try {
+            HttpResponse<String> topContainer = Unirest.get(SERVER_URL + "/v1.0/containers/" + id + "/top")
+                    .header("accept", "application/json").header("Content-Type", "application/json").queryString("ps_args","").asString();
+            if (topContainer.getStatus() != 200) {
+                body.put("message", "Something went wrong ");
+                body.put("status", topContainer.getStatus());
+                return body.toString();
+            } else {
+                return topContainer.getBody();
+            }
+
+        } catch (NullPointerException | org.json.JSONException | UnirestException e) {
+            body.put("message", "Something went wrong " + e);
+            body.put("status", 510);
+            return body.toString();
+        }
+    }
+
     /**
      * The method returns container data
      *

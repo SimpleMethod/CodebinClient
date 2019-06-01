@@ -68,43 +68,24 @@ public class SrvRestController {
      * @param diskQuota    Maximum amount of allocated memory on the disk
      * @return Json object with data
      */
-    @PostMapping("container/create")
-    public @ResponseBody
-    ResponseEntity createContainer(@RequestParam("dockerimage") String dockerImage, @RequestParam("exposedports") Integer exposedPorts, @RequestParam("hostports") Integer hostPorts, @RequestParam("name") String name, @RequestParam("rammemory") Long ramMemory, @RequestParam("diskquota") Long diskQuota) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        org.json.JSONObject response = srvClient.createAndRunContainer(srvClient.generateCreateConfig(dockerImage, exposedPorts, hostPorts, ramMemory, diskQuota), name);
-        int status;
-        if (response.get("status").toString().equals("204")) {
-            status = 200;
-            List<Containers> containers = new ArrayList<>();
-            Images images = imagesRepository.getFirstByName(dockerImage);
-            containers.add(new Containers(name, response.get("id").toString(), images, exposedPorts, hostPorts, ramMemory, diskQuota, linkClient.encrypt(String.valueOf(hostPorts)), 1, Instant.now().getEpochSecond()));
-            containers.forEach(containersRepository::save);
-        } else {
-            status = Integer.valueOf(response.get("status").toString());
-        }
-        return new ResponseEntity<>(response.toString(), headers, HttpStatus.valueOf(status));
-    }
-
-    @GetMapping("container/new")
+    @GetMapping("container/create")
     public @ResponseBody
     ResponseEntity createContainerForUser(@RequestParam("dockerimage") String dockerImage, @RequestParam("exposedports") Integer exposedPorts, @RequestParam("hostports") Integer hostPorts, @RequestParam("name") String name, @RequestParam("rammemory") Long ramMemory, @RequestParam("diskquota") Long diskQuota, @CookieValue("id") String id) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        org.json.JSONObject response = srvClient.createAndRunContainer(srvClient.generateCreateConfig(dockerImage, exposedPorts, hostPorts, ramMemory, diskQuota), name);
+        Images images = imagesRepository.getFirstById(Integer.valueOf(dockerImage));
+
+        org.json.JSONObject response = srvClient.createAndRunContainer(srvClient.generateCreateConfig(images.getName(), exposedPorts, hostPorts, ramMemory, diskQuota), name);
         int status;
         if (response.get("status").toString().equals("204")) {
             status = 200;
             List<Containers> containers = new ArrayList<>();
-            Images images = imagesRepository.getFirstByName(dockerImage);
-            Containers newContainer = new Containers(name, response.get("id").toString(), images, exposedPorts, hostPorts, ramMemory, diskQuota, "XD", 1, Instant.now().getEpochSecond());
+
+            Containers newContainer = new Containers(name, response.get("id").toString(), images, exposedPorts, hostPorts, ramMemory, diskQuota, linkClient.encrypt(String.valueOf(hostPorts)), 1, Instant.now().getEpochSecond());
             containers.add(newContainer);
             containers.forEach(containersRepository::save);
-
             try {
-                // TODO: 01/06/2019 oczekuje integera, a dajemy mu longa, pojebane
-                Users users = usersRepository.getOne((long) Integer.parseInt(id));
+                Users users = usersRepository.getFirstById(Integer.parseInt(id));
                 users.getContainers().add(newContainer);
                 usersRepository.save(users);
             } catch (NumberFormatException e) {

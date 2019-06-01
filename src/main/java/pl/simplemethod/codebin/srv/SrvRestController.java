@@ -255,6 +255,10 @@ public class SrvRestController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         org.json.JSONObject response = srvClient.deleteContainer(containerId);
+
+        // TODO: 02.06.2019 Poprawić usuwanie
+
+
         return new ResponseEntity<>(response.toString(), headers, HttpStatus.valueOf(response.getInt("status")));
     }
 

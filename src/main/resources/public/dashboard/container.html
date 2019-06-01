@@ -53,14 +53,12 @@
                         <a class="ml-auto" href="http://127.0.0.1/share/{{shareStatus}}">Share link</a></span>
                         <span ng-if="shareStatus === null" class="d-flex mb-2"><i
                                 class="material-icons mr-1">visibility</i><strong
-                                class="mr-1">Visibility:</strong> <strong class="text-danger"><a href=""
-                                                                                                 data-toggle="modal"
-                                                                                                 data-target="#local">Local access</a> </strong></span>
+                                class="mr-1">Visibility:</strong> <strong class="text-danger"><a href="" data-toggle="modal" data-target="#local">Local access</a> </strong></span>
                         <span class="d-flex mb-2"><i class="material-icons mr-1">calendar_today</i><strong class="mr-1">Creation time:</strong> <mydate>{{creationTime * 1000 | date:'dd-MM-yyyy HH:mm:ss'}}</mydate> </span>
 
                         <span class="d-flex mb-2">
-                        <button type="button" class="mb-2 btn btn-danger mr-2">Remove container</button><button
-                                type="button" class=" ml-auto mb-2 btn btn-warning mr-2">Restart container</button>
+                        <button type="button" class="mb-2 btn btn-danger mr-2" ng-click="dockerRemove()">Remove container</button>
+                            <button type="button" class=" ml-auto mb-2 btn btn-warning mr-2" ng-click="dockerRestart()">Restart container</button>
                         </span>
                 </ul>
             </div>

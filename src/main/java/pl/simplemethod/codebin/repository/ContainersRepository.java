@@ -13,7 +13,15 @@ import java.util.List;
 @Transactional
 public interface ContainersRepository extends JpaRepository<Containers, Long> {
 
-    Containers getFirstById(Integer id);
+   Containers removeById(Long id);
+
+    Containers deleteByName(String name);
+
+    Containers removeByName(String  name);
+
+    Containers deleteContainersByName(String name);
+
+    Containers getFirstById(Long id);
 
     Containers getFirstByIdDocker(String dockerId);
 

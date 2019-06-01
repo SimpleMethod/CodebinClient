@@ -49,6 +49,7 @@ public class GithubClient {
                 body.put("html_url", jsonObject.get("html_url"));
                 body.put("description", jsonObject.get("description"));
                 body.put("language", jsonObject.get("language"));
+                body.put("id", jsonObject.get("id"));
                 try {
                     if (!url.isEmpty()) {
                         String error = (String) jsonObject.get("error");

@@ -62,6 +62,36 @@ app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$h
             $scope.containersId = response.data.idDocker;
             $scope.hostPorts = response.data.hostPorts;
 
+            $scope.dockerRestart = function(msg)
+            {
+                console.log("Takbyło:"+$scope.containersId);
+                $http({
+                    url: 'http://127.0.0.1/srv/container/'+$scope.containersId+'/restart',
+                    method: 'POST'
+                }).then(
+                    function (response) {
+                    console.log(response)
+                    },
+                    function (response) {
+                        console.error(response)
+                    }
+                );
+            };
+
+            $scope.dockerRemove = function()
+            {
+                $http({
+                    url: 'http://127.0.0.1/srv/container/'+$scope.containersId+'/delete',
+                    method: 'DELETE'
+                }).then(
+                    function (response) {
+                    },
+                    function (response) {
+                        $scope.passCheck = false;
+                    }
+                );
+            };
+
             $http({
                 url: 'http://127.0.0.1/srv/container/' + $scope.containersId + '/logs',
                 method: 'GET'
@@ -92,6 +122,7 @@ app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$h
             $scope.passCheck = false;
         }
     );
+
 
 
 }]);

@@ -1,0 +1,99 @@
+<!-- Page Header -->
+<div class="page-header row no-gutters py-4">
+    <div  ng-controller="twojstary" class="col-12 col-sm-4 text-center text-sm-left mb-0">
+        <span class="text-uppercase page-subtitle">DASHBOARD</span>
+        <h3 class="page-title">Account Overview</h3>
+    </div>
+</div>
+<!-- End Page Header -->
+<!-- GitHub stats -->
+<div class="row">
+    <div class="col-lg col-md-6 col-sm-6 mb-4">
+        <div class="stats-small stats-small--1 card card-small">
+            <div class="card-body p-0 d-flex">
+                <div class="d-flex flex-column m-auto">
+                    <div class="stats-small__data text-center">
+                        <span class="stats-small__label text-uppercase">Privates repository</span>
+                        <h6 class="stats-small__value count my-3">{{privateRepo}}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg col-md-6 col-sm-6 mb-4">
+        <div class="stats-small stats-small--1 card card-small">
+            <div class="card-body p-0 d-flex">
+                <div class="d-flex flex-column m-auto">
+                    <div class="stats-small__data text-center">
+                        <span class="stats-small__label text-uppercase">Public repository</span>
+                        <h6 class="stats-small__value count my-3">{{publicRepo}}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg col-md-4 col-sm-6 mb-4">
+        <div class="stats-small stats-small--1 card card-small">
+            <div class="card-body p-0 d-flex">
+                <div class="d-flex flex-column m-auto">
+                    <div class="stats-small__data text-center">
+                        <span class="stats-small__label text-uppercase">Numbers of collaborators</span>
+                        <h6 class="stats-small__value count my-3">{{numbersColl}}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg col-md-4 col-sm-6 mb-4">
+        <div class="stats-small stats-small--1 card card-small">
+            <div class="card-body p-0 d-flex">
+                <div class="d-flex flex-column m-auto">
+                    <div class="stats-small__data text-center">
+                        <span class="stats-small__label text-uppercase">Followers</span>
+                        <h6 class="stats-small__value count my-3">{{followers}}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg col-md-4 col-sm-12 mb-4">
+        <div class="stats-small stats-small--1 card card-small">
+            <div class="card-body p-0 d-flex">
+                <div class="d-flex flex-column m-auto">
+                    <div class="stats-small__data text-center">
+                        <span class="stats-small__label text-uppercase">Following</span>
+                        <h6 class="stats-small__value count my-3">{{following}}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End GitHub stats -->
+<div class="row">
+    <!-- Containers stats -->
+    <div class="col-lg-8 col-md-12 col-sm-12 mb-4">
+        <div class="card card-small">
+            <div class="card-header border-bottom">
+                <h6 class="m-0">Containers usage</h6>
+            </div>
+            <div class="card-body pt-0">
+                <canvas height="130" style="max-width: 100% !important;"
+                        class="blog-overview-users"></canvas>
+            </div>
+        </div>
+    </div>
+    <!-- End Containers stats -->
+    <!-- Technologies stats -->
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+        <div class="card card-small h-100">
+            <div class="card-header border-bottom">
+                <h6 class="m-0">Your technologies</h6>
+            </div>
+            <div class="card-body d-flex py-0">
+                <canvas height="220" class="blog-users-by-device m-auto"></canvas>
+            </div>
+        </div>
+    </div>
+    <!-- End Technologies stats -->
+</div>

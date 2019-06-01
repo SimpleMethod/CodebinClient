@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.simplemethod.codebin.linkDeploy.LinkClient;
 import pl.simplemethod.codebin.model.Containers;
 import pl.simplemethod.codebin.model.Images;
 import pl.simplemethod.codebin.repository.ContainersRepository;
@@ -21,7 +22,7 @@ import java.util.List;
 public class SrvRestController {
 
     @Autowired
-    SrvClient srvClient;
+    private SrvClient srvClient;
 
     @Autowired
     private ImagesRepository imagesRepository;
@@ -29,21 +30,24 @@ public class SrvRestController {
     @Autowired
     private ContainersRepository containersRepository;
 
+    @Autowired
+    private LinkClient linkClient;
 
-
-    @GetMapping("/images1")
+/*
+    @GetMapping("/createtest")
     public @ResponseBody
     ResponseEntity kek() {
 
         List<Containers> containers = new ArrayList<>();
-        Images images  = imagesRepository.getFirstByName("sdssd");
-        containers.add(new Containers("test","xddd",images,1010,4510,(long)1000,(long)1000,1, Instant.now().getEpochSecond()));
+        Images images  = imagesRepository.getFirstByName("java");
+        containers.add(new Containers("test","test",images,1010,4510,(long)1000,(long)1000,1, Instant.now().getEpochSecond()));
         containers.forEach(containersRepository::save);
 
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<>("xd", headers, HttpStatus.valueOf(200));
     }
 
+*/
 
     /**
      * REST for container creation
@@ -56,7 +60,7 @@ public class SrvRestController {
      * @param diskQuota    Maximum amount of allocated memory on the disk
      * @return Json object with data
      */
-    @GetMapping("container/create")
+    @PostMapping("container/create")
     public @ResponseBody
     ResponseEntity createContainer(@RequestParam("dockerimage") String dockerImage, @RequestParam("exposedports") Integer exposedPorts, @RequestParam("hostports") Integer hostPorts, @RequestParam("name") String name, @RequestParam("rammemory") Long ramMemory, @RequestParam("diskquota") Long diskQuota) {
         HttpHeaders headers = new HttpHeaders();
@@ -66,8 +70,8 @@ public class SrvRestController {
         if (response.get("status").toString().equals("204")) {
             status = 200;
             List<Containers> containers = new ArrayList<>();
-            Images images  = imagesRepository.getFirstByName(dockerImage);
-            containers.add(new Containers(name,response.get("id").toString(),images,exposedPorts,hostPorts,ramMemory,diskQuota,1, Instant.now().getEpochSecond()));
+            Images images = imagesRepository.getFirstByName(dockerImage);
+            containers.add(new Containers(name, response.get("id").toString(), images, exposedPorts, hostPorts, ramMemory, diskQuota, linkClient.encrypt(String.valueOf(hostPorts)), 1, Instant.now().getEpochSecond()));
             containers.forEach(containersRepository::save);
         } else {
             status = Integer.valueOf(response.get("status").toString());

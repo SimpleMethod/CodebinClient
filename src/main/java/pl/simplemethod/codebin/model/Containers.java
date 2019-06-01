@@ -40,8 +40,10 @@ public class Containers implements Serializable {
 
     @Column(name = "create_time", nullable = false)
     private Long createTime;
+    @Column(name = "share_url", unique = true, nullable = false)
+    private String shareUrl;
 
-    public Containers(String name, String idDocker, Images image, Integer exposedPorts, Integer hostPorts, Long ramMemory, Long diskQuota, Integer status, Long createTime) {
+    public Containers(String name, String idDocker, Images image, Integer exposedPorts, Integer hostPorts, Long ramMemory, Long diskQuota, String shareUrl, Integer status, Long createTime) {
         this.name = name;
         this.idDocker = idDocker;
         this.image = image;
@@ -49,12 +51,22 @@ public class Containers implements Serializable {
         this.hostPorts = hostPorts;
         this.ramMemory = ramMemory;
         this.diskQuota = diskQuota;
+        this.shareUrl = shareUrl;
         this.status = status;
         this.createTime = createTime;
     }
 
     public Containers() {
     }
+
+    public String getShareUrl() {
+        return shareUrl;
+    }
+
+    public void setShareUrl(String shareUrl) {
+        this.shareUrl = shareUrl;
+    }
+
 
     public Integer getId() {
         return id;
@@ -141,7 +153,7 @@ public class Containers implements Serializable {
         return "Containers{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", docker_id='" + idDocker + '\'' +
+                ", idDocker='" + idDocker + '\'' +
                 ", image=" + image +
                 ", exposedPorts=" + exposedPorts +
                 ", hostPorts=" + hostPorts +
@@ -149,6 +161,8 @@ public class Containers implements Serializable {
                 ", diskQuota=" + diskQuota +
                 ", status=" + status +
                 ", createTime=" + createTime +
+                ", shareUrl='" + shareUrl + '\'' +
                 '}';
     }
+
 }

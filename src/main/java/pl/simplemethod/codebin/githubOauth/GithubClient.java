@@ -109,7 +109,7 @@ public class GithubClient {
      * @param token Token for authorization
      * @return Json object with data
      */
-    protected String   getUserRepos(String token) {
+    protected String  getUserRepos(String token) {
         org.json.JSONObject body = new org.json.JSONObject();
         try {
             HttpResponse<JsonNode> userReposInfo = Unirest.get("https://api.github.com/user/repos").header("accept", "application/json").header("Authorization", "Bearer " + token).header("Content-Type", "application/json").asJson();

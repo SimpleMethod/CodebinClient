@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Title -->
-    <title>Codebin | Payment</title>
+    <title>Codebin | Profile</title>
 
     <!-- Favicon -->
     <link rel="icon" href="./img/core-img/favicon.png">
@@ -31,7 +31,7 @@
             <aside class="main-sidebar col-12 col-md-3 col-lg-2 px-0">
                 <div class="main-navbar">
                     <nav class="navbar align-items-stretch navbar-light bg-white flex-md-nowrap border-bottom p-0">
-                        <a class="navbar-brand w-100 mr-0" href="dashboard.html" style="line-height: 25px;">
+                        <a class="navbar-brand w-100 mr-0" href="../dashboard.html" style="line-height: 25px;">
                             <div class="d-table m-auto">
                                 <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" src="./img/core-img/icon_small.png" alt="C">
                                 <span class="d-none d-md-inline ml-1">Codebin Dashboard</span>
@@ -46,7 +46,7 @@
                 <div class="nav-wrapper">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link " href="dashboard.html">
+                            <a class="nav-link " href="../dashboard.html">
                                 <i class="material-icons">equalizer</i>
                                 <span>Dashboard</span>
                             </a>
@@ -58,7 +58,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="dashboard-containers.html">
+                            <a class="nav-link " href="../dashboard-containers.html">
                                 <i class="material-icons">all_inbox</i>
                                 <span>Containers</span>
                             </a>
@@ -85,10 +85,10 @@
                                     <span class="d-none d-md-inline-block">Tobiasz Nartowski</span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-small">
-                                    <a class="dropdown-item" href="dashboard-profile.html">
+                                    <a class="dropdown-item" href="#">
                                         <i class="material-icons">&#xE7FD;</i> Profile</a>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item text-danger" href="index.html">
+                                        <a class="dropdown-item text-danger" href="../index.html">
                                             <i class="material-icons text-danger">&#xE879;</i> Logout</a>
                                         </div>
                                     </li>
@@ -100,14 +100,33 @@
                                 </nav>
                             </nav>
                         </div>
+                        <!-- / .main-navbar -->
+                        <div class="main-content-container container-fluid px-4">
+                            <!-- Page Header -->
+                            <div class="page-header row no-gutters py-4">
+                                <div class="col-12 col-sm-8 text-center text-sm-left mb-4">
+                                    <span class="text-uppercase page-subtitle">Profile</span>
+                                    <h3 class="page-title">Upgrade to Premium account</h3>
+                                </div>
+                            </div>
 
-                        <div class="error">
-                            <div class="error__content">
-                                <h2><i class="far fa-times-circle"></i></h2>
-                                <h3>Payment refused or canceled!</h3>
-                                <p>Something went wrong, try again later.</p>
-                                <a href="dashboard.html">
-                                    <button type="button" class="btn btn-accent btn-pill"><i class="fas fa-long-arrow-alt-left p-1"></i> Go back</button>
+                        <div class="row">
+                            <div class="col-lg-5 md-6 mb-5 align-center">
+                                <img src="./img/bg-img/5.png" class="img-fluid" alt="Responsive image">
+                            </div>
+                            <div class="col-lg-6 md-6">
+                                <h3 class="page-title">Premium Plan</h3>
+                                <p>which contains features like:</p>
+                                <div>
+                                    <p><i class="icon_check"></i> Unlimited number of repositories</p>
+                                    <p><i class="icon_check"></i> Unlimited execution time</p>
+                                    <p><i class="icon_check"></i> Full resolution</p>
+                                    <p><i class="icon_check"></i> Sharing projects</p>
+                                </div>
+                                <span>Do not wait and buy your access right now!</span>
+                                <h4 class="mb-4">Only for <span style="text-decoration: line-through;">$19.99</span> <b>$9.95</b>/month*</h4>
+                                <a href="dashboard-payment-accept.html">
+                                    <button type="button" class="mb-5 btn btn-primary mr-2 btn-block"><i class="fab fa-paypal p-1"></i> Buy with PayPal</button>
                                 </a>
                             </div>
                         </div>
@@ -116,17 +135,17 @@
             </div>
         </div>
 
-        <!-- Javascript -->
-        <script src="./js/jquery.min.js"></script>
-        <script src="./js/popper.min.js"></script>
-        <script src="./js/bootstrap.min.js"></script>
-        <script src="./js/default-assets/active.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-        <script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Sharrre/2.0.1/jquery.sharrre.min.js"></script>
+    <!-- Javascript -->
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/popper.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/default-assets/active.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sharrre/2.0.1/jquery.sharrre.min.js"></script>
 
-        <script src="./js/extras.1.1.0.min.js"></script>
-        <script src="./js/shards-dashboards.1.1.0.min.js"></script>
-        <script src="./js/app/app-blog-overview.1.1.0.js"></script>
-    </body>
-    </html>
+    <script src="./js/extras.1.1.0.min.js"></script>
+    <script src="./js/shards-dashboards.1.1.0.min.js"></script>
+    <script src="./js/app/app-blog-overview.1.1.0.js"></script>
+</body>
+</html>

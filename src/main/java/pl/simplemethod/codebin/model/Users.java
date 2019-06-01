@@ -11,9 +11,6 @@ import java.util.List;
 @Table(name = "users")
 public class Users implements Serializable {
 
-
-    @OneToMany()
-    List<Containers> containers = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -27,6 +24,9 @@ public class Users implements Serializable {
     @NonNull
     @Column(name = "role")
     private String role;
+
+    @OneToMany
+    private List<Containers> containers = new ArrayList<>();
 
     public Users() {
     }

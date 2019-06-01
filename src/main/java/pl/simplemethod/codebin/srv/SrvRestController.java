@@ -7,12 +7,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.WebUtils;
 import pl.simplemethod.codebin.linkDeploy.LinkClient;
 import pl.simplemethod.codebin.model.Containers;
 import pl.simplemethod.codebin.model.Images;
+import pl.simplemethod.codebin.model.Users;
 import pl.simplemethod.codebin.repository.ContainersRepository;
 import pl.simplemethod.codebin.repository.ImagesRepository;
+import pl.simplemethod.codebin.repository.UsersRepository;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +37,9 @@ public class SrvRestController {
 
     @Autowired
     private LinkClient linkClient;
+
+    @Autowired
+    private UsersRepository usersRepository;
 
 /*
     @GetMapping("/createtest")
@@ -73,6 +81,35 @@ public class SrvRestController {
             Images images = imagesRepository.getFirstByName(dockerImage);
             containers.add(new Containers(name, response.get("id").toString(), images, exposedPorts, hostPorts, ramMemory, diskQuota, linkClient.encrypt(String.valueOf(hostPorts)), 1, Instant.now().getEpochSecond()));
             containers.forEach(containersRepository::save);
+        } else {
+            status = Integer.valueOf(response.get("status").toString());
+        }
+        return new ResponseEntity<>(response.toString(), headers, HttpStatus.valueOf(status));
+    }
+
+    @GetMapping("container/new")
+    public @ResponseBody
+    ResponseEntity createContainerForUser(@RequestParam("dockerimage") String dockerImage, @RequestParam("exposedports") Integer exposedPorts, @RequestParam("hostports") Integer hostPorts, @RequestParam("name") String name, @RequestParam("rammemory") Long ramMemory, @RequestParam("diskquota") Long diskQuota, @CookieValue("id") String id) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        org.json.JSONObject response = srvClient.createAndRunContainer(srvClient.generateCreateConfig(dockerImage, exposedPorts, hostPorts, ramMemory, diskQuota), name);
+        int status;
+        if (response.get("status").toString().equals("204")) {
+            status = 200;
+            List<Containers> containers = new ArrayList<>();
+            Images images = imagesRepository.getFirstByName(dockerImage);
+            Containers newContainer = new Containers(name, response.get("id").toString(), images, exposedPorts, hostPorts, ramMemory, diskQuota, "XD", 1, Instant.now().getEpochSecond());
+            containers.add(newContainer);
+            containers.forEach(containersRepository::save);
+
+            try {
+                // TODO: 01/06/2019 oczekuje integera, a dajemy mu longa, pojebane
+                Users users = usersRepository.getOne((long) Integer.parseInt(id));
+                users.getContainers().add(newContainer);
+                usersRepository.save(users);
+            } catch (NumberFormatException e) {
+                return new ResponseEntity<>(e.toString(), headers, HttpStatus.NOT_FOUND);
+            }
         } else {
             status = Integer.valueOf(response.get("status").toString());
         }

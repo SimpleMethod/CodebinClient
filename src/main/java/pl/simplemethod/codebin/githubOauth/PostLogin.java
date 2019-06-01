@@ -45,9 +45,8 @@ public class PostLogin {
             githubId = githubClient.getUserInfo(token).get("id").toString();
             Users users = usersRepository.getFirstByGithub(Integer.valueOf(githubId));
             if (users == null) {
-                usersList.add(
-                        new Users(token, Integer.valueOf(githubId), "user", null, null)
-                );
+                users = new Users(token, Integer.valueOf(githubId), "user", null, null);
+                usersList.add(users);
                 usersList.forEach(usersRepository::save);
             }
             else
@@ -57,6 +56,11 @@ public class PostLogin {
             }
             Cookie cookie = new Cookie("token", token);
             cookie.setMaxAge(999999999);
+
+            Cookie idCookie = new Cookie("id", Integer.toString(users.getId()));
+            idCookie.setMaxAge(999999999);
+
+            response.addCookie(idCookie);
             response.addCookie(cookie);
         } catch (org.json.JSONException e) {
             return new ResponseEntity<>(e, headers, HttpStatus.valueOf(404));
@@ -64,6 +68,4 @@ public class PostLogin {
 
         return new ResponseEntity<>("<script type=\"text/javascript\">window.location.href = \"/\"</script>", headers, HttpStatus.valueOf(200));
     }
-
-
 }

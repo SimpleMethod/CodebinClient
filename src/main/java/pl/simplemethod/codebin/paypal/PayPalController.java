@@ -3,15 +3,19 @@ package pl.simplemethod.codebin.paypal;
 import com.paypal.api.payments.Agreement;
 import com.paypal.api.payments.Plan;
 import com.paypal.base.rest.PayPalRESTException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 
 @RestController
+@RequestMapping("paypal")
 public class PayPalController {
 
     private PayPalBillingPlan payPalBillingPlan;
@@ -25,20 +29,27 @@ public class PayPalController {
 
     /**
      * Define and create billing plan and billing agreement.
-     * Redirects response to successful or unsuccessful URL
+     * Redirects response to returned URL
      */
     @GetMapping("/subscribe")
-    public void subscribe() {
+    public @ResponseBody ResponseEntity subscribe() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
         try {
             Plan plan = payPalBillingPlan.create();
             Agreement agreement = payPalBillingAgreement.define(plan.getId());
-            String redirect = payPalBillingAgreement.create(agreement);
-            // TODO: 02/06/2019 REDIRECT to redirect url
+
+            JSONObject body = new JSONObject();
+            body.put("url", payPalBillingAgreement.create(agreement));
+            return new ResponseEntity<>(body.toString(), headers, HttpStatus.valueOf(200));
         } catch (PayPalRESTException e) {
             System.err.println(e.getDetails());
         } catch (MalformedURLException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+
+        return new ResponseEntity<>("", headers, HttpStatus.BAD_REQUEST);
     }
 
     /**

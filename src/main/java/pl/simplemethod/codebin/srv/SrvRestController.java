@@ -267,6 +267,12 @@ public class SrvRestController {
     ResponseEntity deleteContainer(@PathVariable(value = "ID") String containerId) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+
+        Users users = usersRepository.findByContainersidDocker(containerId);
+        Containers containerToDelete = containersRepository.getFirstByIdDocker(containerId);
+        users.getContainers().remove(containerToDelete);
+        usersRepository.save(users);
+
         org.json.JSONObject response = srvClient.deleteContainer(containerId);
         containersRepository.removeByIdDocker(containerId);
         return new ResponseEntity<>(response.toString(), headers, HttpStatus.valueOf(response.getInt("status")));

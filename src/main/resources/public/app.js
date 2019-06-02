@@ -44,6 +44,7 @@ angular.module("CombineModule", ["mainApp", "dashboard"]);
 
 app.controller('ContainersCreateController', ['$filter', '$routeParams', '$scope', '$http', function ($filter, $routeParams, $scope, $http) {
     $scope.supportedPlatforms = ["Java", "C", "C++", "Python", "HTML", "JavaScript", "CSS"];
+    $scope.referId=$routeParams.id;
     $scope.progressBar=0;
     $http({
         url: 'http://127.0.0.1/github/user/repos/' + $routeParams.id,
@@ -114,8 +115,9 @@ app.controller('ContainersCreateController', ['$filter', '$routeParams', '$scope
                             console.log("Nazwa dokeru:" + $scope.id);
                             console.log("Ilość pamięci ram: " + $scope.rammemory + " i dysku: " + $scope.diskquota);
                             $scope.progressBar=90;
+
                             $http({
-                                url: 'http://127.0.0.1/srv/container/create3',
+                                url: 'http://127.0.0.1/srv/container/create',
                                 method: 'POST',
                                 params: {
                                     dockerimage: $scope.dockerImages,
@@ -131,7 +133,7 @@ app.controller('ContainersCreateController', ['$filter', '$routeParams', '$scope
                                 function (create) {
                                     console.log(create.data);
                                     $scope.progressBar=100;
-
+                                    $scope.finish=1;
                                 },
                                 function (create) {
                                     $scope.errors= "Problem with creating a container";
@@ -204,7 +206,7 @@ app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$h
                     method: 'DELETE'
                 }).then(
                     function (response) {
-                        $window.location.href="/";
+                        window.location = "/";
                     },
                     function (response) {
                         $scope.errors= "Problem with deleteing a container";
@@ -236,6 +238,7 @@ app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$h
         },
         function (response) {
             $scope.errors= "Fatal error";
+            window.location = "/";
         }
     );
 }]);

@@ -24,7 +24,7 @@
 <div class="col-lg-12">
     <div class="card card-small card-post mb-4">
         <div class="card-body">
-           <h3>Basic information</h3>
+            <h3>Basic information</h3>
             <div class="row">
                 <hr>
                 <div class="col">
@@ -43,16 +43,22 @@
             <hr>
             <h5><b>Installation process:</b></h5>
 
+            <div style="text-align:center;" ng-if="finish">
+                <a href="/dashboard.html#!/containers/{{referId}}"><button type="button" class="mb-2 btn btn-primary mr-2">Go to the container </button> </a>
+            </div>
+
             <div ng-if="errors">
                 <h5 style="text-align:center; color: #ff2600"><b>{{errors}}</b></h5>
             </div>
-            <span id="percentage">({{progressBar}}%)</span>
-            <div class="progress progress-sm mb-3">
-                <div id="" class="progress-bar" role="progressbar" ng-style="{width : ( progressBar + '%' ) }" aria-valuenow="{{progressBar}}" aria-valuemin="0" aria-valuemax="100"></div>
+            <div ng-if="!finish">
+                <span id="percentage">({{progressBar}}%)</span>
+                <div class="progress progress-sm mb-3">
+                    <div id="" class="progress-bar" role="progressbar" ng-style="{width : ( progressBar + '%' ) }"
+                         aria-valuenow="{{progressBar}}" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
             </div>
-            <div style="text-align:center;" ng-if="progressBar==100">
-                <button type="button"  onclick="location.href='/dashboard.html#!/containers/{{id}}'" class="mb-2 btn btn-primary mr-2">Go to the container</button>
-            </div>
+
+
         </div>
     </div>
 </div>

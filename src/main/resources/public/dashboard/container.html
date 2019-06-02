@@ -4,6 +4,21 @@
         <h3 class="page-title">{{containersId}}</h3>
     </div>
 </div>
+
+
+<div ng-if="errors" class="row">
+    <div class="col">
+        <div class="card card-small mb-4">
+            <div class="card-header border-bottom">
+                <h6 class="m-0">Errors</h6>
+                <div class="card-body p-0 pb-3 text-center">
+                    <h5 style="text-align:center; color: #ff2600"><b>{{errors}}</b></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col">
         <div class="card card-small mb-4">
@@ -53,14 +68,26 @@
                         <a class="ml-auto" href="http://127.0.0.1/share/{{shareStatus}}">Share link</a></span>
                         <span ng-if="shareStatus === null" class="d-flex mb-2"><i
                                 class="material-icons mr-1">visibility</i><strong
-                                class="mr-1">Visibility:</strong> <strong class="text-danger"><a href="" data-toggle="modal" data-target="#local">Local access</a> </strong></span>
-                        <span class="d-flex mb-2"><i class="material-icons mr-1">calendar_today</i><strong class="mr-1">Creation time:</strong> <mydate>{{creationTime * 1000 | date:'dd-MM-yyyy HH:mm:ss'}}</mydate> </span>
+                                class="mr-1">Visibility:</strong> <strong class="text-danger"><a href=""
+                                                                                                 data-toggle="modal"
+                                                                                                 data-target="#local">Local access</a> </strong></span>
+                        <span class="d-flex mb-2"><i class="material-icons mr-1">calendar_today</i><strong
+                                class="mr-1">Creation time:</strong> <mydate>{{creationTime * 1000 | date:'dd-MM-yyyy HH:mm:ss'}}</mydate> </span>
 
                         <span class="d-flex mb-2">
-                        <button type="button" class="mb-2 btn btn-danger mr-2" ng-click="dockerRemove()">Remove container</button>
+                        <button type="button" class="mb-2 btn btn-danger mr-2" data-toggle="modal" data-target="#remove">Remove container</button>
                             <button type="button" class=" ml-auto mb-2 btn btn-warning mr-2" ng-click="dockerRestart()">Restart container</button>
                         </span>
                 </ul>
+            </div>
+        </div>
+
+        <div ng-if="shareStatus === null" class="card card-small mb-3">
+            <div class="card-header border-bottom">
+                <h6 class="m-0">Advertising</h6>
+            </div>
+            <div class="card-body p-0">
+                <div style="text-align: center"><img src="https://i.imgur.com/8jVsNBp.png"> </div>
             </div>
         </div>
     </div>
@@ -88,7 +115,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 style="float:right;" class="modal-title">Local access</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -96,6 +124,25 @@
                         data="http://waw1.simplemethod.io:{{hostPorts}}" type="text/html">
                     Docker
                 </object>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="remove">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Warning!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center"> <h5>Are you sure about delete the container?</h5>
+               <button type="button" class="mb-2 btn btn-danger mr-2" ng-click="dockerRemove()">Remove container</button></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

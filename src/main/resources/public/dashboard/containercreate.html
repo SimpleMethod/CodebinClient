@@ -4,12 +4,54 @@
         <h3 class="page-title">Creation of a new container</h3>
     </div>
 </div>
-<div class="row">
-    <div class="col">
-        <div class="card card-small mb-4">
-            <div class="card-header border-bottom">
-                <h6 class="m-0">Basic information</h6>
-                <span class="d-flex mb-2"><i class="material-icons mr-1">flag</i><strong class="mr-1">Status:</strong> Draft</span>
+
+<div class="col-lg-12">
+    <div class="card card-small card-post mb-4">
+        <div class="card-body">
+            <h5 class="card-title">{{name}}</h5>
+            <p class="card-text text-muted">{{description}}</p>
+        </div>
+        <div class="card-footer border-top d-flex">
+            <div class="card-post__author d-flex">
+                <div class="d-flex flex-column justify-content-center">
+                    <span class="card-post__author-name">{{language}}</span>
+                    <small class="text-muted">{{created_at}}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-12">
+    <div class="card card-small card-post mb-4">
+        <div class="card-body">
+           <h3>Basic information</h3>
+            <div class="row">
+                <hr>
+                <div class="col">
+                    <span class="d-flex mb-2"><strong class="mr-1">User plan:</strong> {{premiumtext}}</span>
+                    <span class="d-flex mb-2"><strong
+                            class="mr-1">Exposed port:</strong> {{exposedports}}</span>
+                    <span class="d-flex mb-2"><strong
+                            class="mr-1">Host port:</strong> {{hostports}}</span>
+                    <span class="d-flex mb-2"><strong
+                            class="mr-1">Ram memory:</strong> {{rammemory/1000000000}} GB</span>
+                    <span class="d-flex mb-2"><strong
+                            class="mr-1">Disc space:</strong> {{diskquota/1000000000}} GB</span>
+
+                </div>
+            </div>
+            <hr>
+            <h5><b>Installation process:</b></h5>
+
+            <div ng-if="errors">
+                <h5 style="text-align:center; color: #ff2600"><b>{{errors}}</b></h5>
+            </div>
+            <span id="percentage">({{progressBar}}%)</span>
+            <div class="progress progress-sm mb-3">
+                <div id="" class="progress-bar" role="progressbar" ng-style="{width : ( progressBar + '%' ) }" aria-valuenow="{{progressBar}}" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <div style="text-align:center;" ng-if="progressBar==100">
+                <button type="button"  onclick="location.href='/dashboard.html#!/containers/{{id}}'" class="mb-2 btn btn-primary mr-2">Go to the container</button>
             </div>
         </div>
     </div>

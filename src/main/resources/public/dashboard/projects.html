@@ -5,6 +5,35 @@
     </div>
 </div>
 
+<div ng-if="errors" class="row">
+    <div class="col">
+        <div class="card card-small mb-4">
+            <div class="card-header border-bottom">
+                <h6 class="m-0">Errors</h6>
+                <div class="card-body p-0 pb-3 text-center">
+                    <h5 style="text-align:center; color: #ff2600"><b>{{errors}}</b></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-if="progressBar!==100 && !errors" class="row">
+    <div class="col">
+        <div class="card card-small mb-4">
+            <div class="card-header border-bottom">
+                <div style=" width: 0%;margin: 0 auto;">
+                    <div class="loading-overlay" style="text-align: center">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+                <div class="card-body p-0 pb-3 text-center">
+                    <h5 style="text-align:center;"><b>We're exploring your repository. Please stand by</b></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
 
     <div ng-repeat="x in jsondata" class="col-lg-12">
@@ -21,14 +50,17 @@
                     </div>
                 </div>
                 <div class="my-auto ml-auto">
-
-                    <a  ng-if="x.container_create !== null"  class="btn btn-normal btn-primary " href="/dashboard.html#!/containers/{{x.container_create}}">
+                    <a ng-if="x.container_create !== null" class="btn btn-normal btn-primary "
+                       href="/dashboard.html#!/containers/{{x.container_create}}">
                         <i class="fas fa-cogs mr-1"></i> Open </a>
-                    <a  ng-if="supportedPlatforms.indexOf(x.language) !== -1 && x.container_create === null"  class="btn btn-normal btn-primary " href="/dashboard.html#!/create/{{x.id}}">
+                    <a ng-if="supportedPlatforms.indexOf(x.language) !== -1 && x.container_create === null"
+                       class="btn btn-normal btn-primary " href="/dashboard.html#!/create/{{x.id}}">
                         <i class="fas fa-cogs mr-1"></i> Run </a>
-                    <a  ng-if="supportedPlatforms.indexOf(x.language) === -1"  class="btn btn-normal btn-primary disabled" href="#">
+                    <a ng-if="supportedPlatforms.indexOf(x.language) === -1" class="btn btn-normal btn-primary disabled"
+                       href="#">
                         <i class="fas fa-cogs mr-1"></i> Unsupported</a>
                 </div>
+
             </div>
         </div>
     </div>

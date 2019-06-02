@@ -107,7 +107,7 @@ public class SrvRestController {
      */
     @PostMapping("container/create")
     public @ResponseBody
-    ResponseEntity createContainerForUser(@RequestParam("dockerimage") String dockerImage, @RequestParam("exposedports") Integer exposedPorts, @RequestParam("hostports") Integer hostPorts, @RequestParam("name") String name, @RequestParam("rammemory") Long ramMemory, @RequestParam("diskquota") Long diskQuota, @CookieValue("id") String id) {
+    ResponseEntity createContainerForUser(@RequestParam("dockerimage") String dockerImage, @RequestParam("exposedports") Integer exposedPorts, @RequestParam("hostports") Integer hostPorts, @RequestParam("name") String name, @RequestParam("rammemory") Long ramMemory, @RequestParam("diskquota") Long diskQuota, @CookieValue("id") String id, @RequestParam("premiumstatus") Integer premiumStatus, @RequestParam("giturl") String gitUrl) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         Images images = imagesRepository.getFirstById(Integer.valueOf(dockerImage));
@@ -118,7 +118,7 @@ public class SrvRestController {
             status = 200;
             List<Containers> containers = new ArrayList<>();
 
-            Containers newContainer = new Containers(name, response.get("id").toString(), images, exposedPorts, hostPorts, ramMemory, diskQuota, linkClient.encrypt(String.valueOf(hostPorts)), 1, Instant.now().getEpochSecond());
+            Containers newContainer = new Containers(name, response.get("id").toString(), images, exposedPorts, hostPorts, ramMemory, diskQuota, linkClient.encrypt(String.valueOf(hostPorts)), premiumStatus, Instant.now().getEpochSecond());
             containers.add(newContainer);
             containers.forEach(containersRepository::save);
             try {
@@ -128,6 +128,19 @@ public class SrvRestController {
             } catch (NumberFormatException e) {
                 return new ResponseEntity<>(e.toString(), headers, HttpStatus.NOT_FOUND);
             }
+
+            try
+            {
+                Thread.sleep(1000);
+                Containers containers1 = containersRepository.getFirstByName(name);
+                response.put("exec", srvClient.execContainer(containers1.getIdDocker(), images.getExec(), gitUrl));
+            }
+            catch (InterruptedException e)
+            {
+
+            }
+
+
         } else {
             status = Integer.valueOf(response.get("status").toString());
         }
@@ -210,7 +223,7 @@ public class SrvRestController {
         replaceString = replaceString.replace('�', ' ');
 
         org.json.JSONObject result = new org.json.JSONObject();
-        result.put("logs",replaceString);
+        result.put("logs", replaceString);
         return new ResponseEntity<>(result.toString(), headers, HttpStatus.valueOf(201));
     }
 
@@ -255,10 +268,7 @@ public class SrvRestController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         org.json.JSONObject response = srvClient.deleteContainer(containerId);
-
-        // TODO: 02.06.2019 Poprawić usuwanie
-
-
+        containersRepository.removeByIdDocker(containerId);
         return new ResponseEntity<>(response.toString(), headers, HttpStatus.valueOf(response.getInt("status")));
     }
 
@@ -276,6 +286,7 @@ public class SrvRestController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         org.json.JSONObject response = srvClient.execContainer(containerId, path, arguments);
+
         return new ResponseEntity<>(response.toString(), headers, HttpStatus.valueOf(response.getInt("status")));
     }
 

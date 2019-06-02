@@ -15,5 +15,5 @@ Users getFirstById(Integer id);
 
 Users getFirstByToken(String token);
 
-
+Users getFirstBySubscription(String  subscription);
 }

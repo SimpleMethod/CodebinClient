@@ -27,6 +27,7 @@ public class GithubRestController {
 
     @Autowired
     private ContainersRepository containersRepository;
+
     /**
      * Returns the necessary information about the repository
      *
@@ -101,6 +102,30 @@ public class GithubRestController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<>(githubClient.getUserInfo(token).toString(), headers, HttpStatus.valueOf(200));
+    }
+
+
+    /**
+     * Getting information from the database about a user
+     *
+     * @return Json with data
+     */
+    @GetMapping(value = "/local")
+    public @ResponseBody
+    ResponseEntity checkUserPremium(@CookieValue("id") String id) {
+        org.json.JSONObject body = new org.json.JSONObject();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        Users users = usersRepository.getFirstById(Integer.valueOf(id));
+        body.put("user_id", users.getId());
+        body.put("github_id", users.getGithub());
+        if (users.getSubscription() == null) {
+            body.put("subscription_status", "");
+        } else {
+            body.put("subscription_status", users.getSubscription());
+        }
+
+        return new ResponseEntity<>(body.toString(), headers, HttpStatus.valueOf(200));
     }
 
     /**
@@ -191,19 +216,75 @@ public class GithubRestController {
                             helper.put("created_at", obj1.get("created_at"));
 
                             Containers containers = containersRepository.getFirstByName(obj1.get("id").toString());
-                            if(containers!=null)
-                            {
-                                helper.put("container_create",  obj1.get("id"));
-                                
-                            }
-                            else
-                            {
-                                helper.put("container_create",  null);
+                            if (containers != null) {
+                                helper.put("container_create", obj1.get("id"));
+
+                            } else {
+                                helper.put("container_create", null);
                             }
                             result.add(helper);
                         }
                     });
                     return new ResponseEntity<>(result.toString(), headers, HttpStatus.valueOf(200));
+                } catch (NullPointerException | ParseException | org.json.JSONException e) {
+                    body.put("token", "errr");
+                    return new ResponseEntity<>(body.toString(), headers, HttpStatus.valueOf(404));
+                }
+            }
+        } catch (org.json.JSONException e) {
+            return new ResponseEntity<>(e, headers, HttpStatus.valueOf(404));
+
+        }
+    }
+
+
+    /**
+     * Returns information about one repository of a logged user
+     *
+     * @param token  Token to github authorize
+     * @param repoId The identifier of the repository
+     * @return Json object
+     */
+    @GetMapping("/user/repos/{repoId}")
+    public @ResponseBody
+    ResponseEntity getPublicRepo(@CookieValue("token") String token, @PathVariable(value = "repoId") String repoId) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        JSONParser parser = new JSONParser();
+        org.json.JSONObject body = new org.json.JSONObject();
+        org.json.simple.JSONArray result = new org.json.simple.JSONArray();
+        org.json.simple.JSONObject helper = new org.json.simple.JSONObject();
+        Object obj = null;
+        try {
+            Users users = usersRepository.getFirstByToken(token);
+            if (users == null) {
+                body.put("token", "errr");
+                return new ResponseEntity<>(body.toString(), headers, HttpStatus.valueOf(404));
+            } else {
+                try {
+                    obj = parser.parse(githubClient.getUserRepos(token));
+                    org.json.simple.JSONArray jsonArray = (org.json.simple.JSONArray) obj;
+                    jsonArray.forEach(item -> {
+                        org.json.simple.JSONObject obj1 = (org.json.simple.JSONObject) item;
+                        if (obj1.get("private").toString().equals("false") && obj1.get("id").toString().equals(repoId)) {
+                            helper.put("language", obj1.get("language"));
+                            helper.put("id", obj1.get("id"));
+                            helper.put("license", obj1.get("license"));
+                            helper.put("name", obj1.get("name"));
+                            helper.put("git_url", obj1.get("git_url"));
+                            helper.put("html_url", obj1.get("html_url"));
+                            helper.put("description", obj1.get("description"));
+                            helper.put("created_at", obj1.get("created_at"));
+                            Containers containers = containersRepository.getFirstByName(obj1.get("id").toString());
+                            if (containers != null) {
+                                helper.put("container_create", obj1.get("id"));
+                            } else {
+                                helper.put("container_create", null);
+                            }
+
+                        }
+                    });
+                    return new ResponseEntity<>(helper.toString(), headers, HttpStatus.valueOf(200));
                 } catch (NullPointerException | ParseException | org.json.JSONException e) {
                     body.put("token", "errr");
                     return new ResponseEntity<>(body.toString(), headers, HttpStatus.valueOf(404));

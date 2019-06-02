@@ -25,7 +25,7 @@ public class Users implements Serializable {
     @Column(name = "role")
     private String role;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private List<Containers> containers = new ArrayList<>();
 
     public Users() {

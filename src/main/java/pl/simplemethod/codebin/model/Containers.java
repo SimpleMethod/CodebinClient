@@ -19,7 +19,7 @@ public class Containers implements Serializable {
     @Column(name = "id_docker", unique = true, nullable = false)
     private String idDocker;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(name = "id_images", referencedColumnName = "id")
     private Images image;
 

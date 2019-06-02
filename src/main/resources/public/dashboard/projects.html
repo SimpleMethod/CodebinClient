@@ -24,9 +24,9 @@
 
                     <a  ng-if="x.container_create !== null"  class="btn btn-normal btn-primary " href="/dashboard.html#!/containers/{{x.container_create}}">
                         <i class="fas fa-cogs mr-1"></i> Open </a>
-                    <a  ng-if="upportedPlatforms.indexOf(x.language) !== -1 && x.container_create === null"  class="btn btn-normal btn-primary " href="#">
+                    <a  ng-if="supportedPlatforms.indexOf(x.language) !== -1 && x.container_create === null"  class="btn btn-normal btn-primary " href="/dashboard.html#!/create/{{x.id}}">
                         <i class="fas fa-cogs mr-1"></i> Run </a>
-                    <a  ng-if="upportedPlatforms.indexOf(x.language) === -1"  class="btn btn-normal btn-primary disabled" href="#">
+                    <a  ng-if="supportedPlatforms.indexOf(x.language) === -1"  class="btn btn-normal btn-primary disabled" href="#">
                         <i class="fas fa-cogs mr-1"></i> Unsupported</a>
                 </div>
             </div>

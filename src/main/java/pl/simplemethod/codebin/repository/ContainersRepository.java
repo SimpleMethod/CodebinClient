@@ -13,13 +13,9 @@ import java.util.List;
 @Transactional
 public interface ContainersRepository extends JpaRepository<Containers, Long> {
 
-   Containers removeById(Long id);
+    List<Containers> removeByIdDocker(String name);
 
-    Containers deleteByName(String name);
-
-    Containers removeByName(String  name);
-
-    Containers deleteContainersByName(String name);
+    List<Containers> removeAllByIdDocker(String name);
 
     Containers getFirstById(Long id);
 

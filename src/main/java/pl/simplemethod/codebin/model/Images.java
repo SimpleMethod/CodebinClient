@@ -21,9 +21,22 @@ public class Images {
     @Column(name = "type")
     private String type;
 
-    public Images(String name, String type) {
+    @NonNull
+    @Column(name = "exec")
+    private String exec;
+
+    public Images(String name, String type, String exec) {
         this.name = name;
         this.type = type;
+        this.exec = exec;
+    }
+
+    public String getExec() {
+        return exec;
+    }
+
+    public void setExec(String exec) {
+        this.exec = exec;
     }
 
     public Images() {

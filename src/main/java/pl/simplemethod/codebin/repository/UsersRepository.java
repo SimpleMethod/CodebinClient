@@ -17,5 +17,5 @@ public interface UsersRepository  extends JpaRepository<Users, Long> {
 
     Users getFirstBySubscription(String  subscription);
 
-    Users findByContainersIIdDocker(String id);
+    Users findByContainersidDocker(String id);
 }

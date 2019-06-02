@@ -9,11 +9,13 @@ import pl.simplemethod.codebin.model.Users;
 @Repository
 @Transactional
 public interface UsersRepository  extends JpaRepository<Users, Long> {
-Users getFirstByGithub(Integer github);
+    Users getFirstByGithub(Integer github);
 
-Users getFirstById(Integer id);
+    Users getFirstById(Integer id);
 
-Users getFirstByToken(String token);
+    Users getFirstByToken(String token);
 
-Users getFirstBySubscription(String  subscription);
+    Users getFirstBySubscription(String  subscription);
+
+    Users findByContainersIIdDocker(String id);
 }

@@ -28,6 +28,4 @@ public interface ContainersRepository extends JpaRepository<Containers, Long> {
     List<Containers> getByHostPorts(Integer ports);
 
     List<Containers> getByIdDocker(String dockerId);
-
-
 }

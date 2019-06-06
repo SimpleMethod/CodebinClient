@@ -47,7 +47,7 @@ app.controller('ContainersCreateController', ['$filter', '$routeParams', '$scope
     $scope.referId=$routeParams.id;
     $scope.progressBar=0;
     $http({
-        url: 'http://127.0.0.1/github/user/repos/' + $routeParams.id,
+        url: 'http://127.0.0.1:8080/github/user/repos/' + $routeParams.id,
         method: 'GET'
     }).then(
         function (response) {
@@ -63,7 +63,7 @@ app.controller('ContainersCreateController', ['$filter', '$routeParams', '$scope
                 if ($scope.supportedPlatforms.indexOf(response.data.language) !== -1) {
                     $scope.progressBar=40;
                     $http({
-                        url: 'http://127.0.0.1/github/local',
+                        url: 'http://127.0.0.1:8080/github/local',
                         method: 'GET'
                     }).then(
                         function (local) {
@@ -117,7 +117,7 @@ app.controller('ContainersCreateController', ['$filter', '$routeParams', '$scope
                             $scope.progressBar=90;
 
                             $http({
-                                url: 'http://127.0.0.1/srv/container/create',
+                                url: 'http://127.0.0.1:8080/srv/container/create',
                                 method: 'POST',
                                 params: {
                                     dockerimage: $scope.dockerImages,
@@ -171,7 +171,7 @@ app.controller('ContainersCreateController', ['$filter', '$routeParams', '$scope
 
 app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$http', function ($filter, $routeParams, $scope, $http, $window) {
     $http({
-        url: 'http://127.0.0.1/srv/user/container/info',
+        url: 'http://127.0.0.1:8080/srv/user/container/info',
         method: 'GET',
         params: {dockergithubid: $routeParams.id}
     }).then(
@@ -190,7 +190,7 @@ app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$h
             }
             $scope.dockerRestart = function () {
                 $http({
-                    url: 'http://127.0.0.1/srv/container/' + $scope.containersId + '/restart',
+                    url: 'http://127.0.0.1:8080/srv/container/' + $scope.containersId + '/restart',
                     method: 'POST'
                 }).then(
                     function (response) {
@@ -202,7 +202,7 @@ app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$h
             };
             $scope.dockerRemove = function () {
                 $http({
-                    url: 'http://127.0.0.1/srv/container/' + $scope.containersId + '/delete',
+                    url: 'http://127.0.0.1:8080/srv/container/' + $scope.containersId + '/delete',
                     method: 'DELETE'
                 }).then(
                     function (response) {
@@ -214,7 +214,7 @@ app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$h
                 );
             };
             $http({
-                url: 'http://127.0.0.1/srv/container/' + $scope.containersId + '/logs',
+                url: 'http://127.0.0.1:8080/srv/container/' + $scope.containersId + '/logs',
                 method: 'GET'
             }).then(
                 function (logGet) {
@@ -225,7 +225,7 @@ app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$h
                 }
             );
             $http({
-                url: 'http://127.0.0.1/srv/container/' + $scope.containersId + '/top',
+                url: 'http://127.0.0.1:8080/srv/container/' + $scope.containersId + '/top',
                 method: 'GET'
             }).then(
                 function (response) {
@@ -247,7 +247,7 @@ app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$h
 app.controller('HomeController', function ($scope, $http, $cookies) {
     $scope.lastVal = $cookies.get('token');
     $http({
-        url: 'http://127.0.0.1/github/user',
+        url: 'http://127.0.0.1:8080/github/user',
         method: 'GET'
         //  params: {token:  $scope.lastVal}
     }).then(
@@ -269,7 +269,7 @@ app.controller('ProjectsController', function ($scope, $http) {
     $scope.supportedPlatforms = ["Java", "HTML", "C", "C++", "JavaScript", "CSS"];
 
     $http({
-        url: 'http://127.0.0.1/github/user/repos/public',
+        url: 'http://127.0.0.1:8080/github/user/repos/public',
         method: 'GET'
     }).then(
         function (response) {
@@ -295,7 +295,7 @@ app.controller('VersionController', function ($scope) {
 app.controller('CheckLoginStatus', function ($scope, $http, $cookies) {
     $scope.lastVal = $cookies.get('token');
     $http({
-        url: 'http://127.0.0.1/github/user/checktoken',
+        url: 'http://127.0.0.1:8080/github/user/checktoken',
         method: 'GET',
         params: {token: $scope.lastVal}
     }).then(
@@ -309,10 +309,10 @@ app.controller('CheckLoginStatus', function ($scope, $http, $cookies) {
 });
 
 
-app.controller('dashboardGithub', function ($scope, $http, $cookies) {
+app.controller('dashboardGithub', function ($scope, $http, $cookies, $window) {
     $scope.lastVal = $cookies.get('token');
     $http({
-        url: 'http://127.0.0.1/github/user',
+        url: 'http://127.0.0.1:8080/github/user',
         method: 'GET'
         //  params: {token:  $scope.lastVal}
     }).then(
@@ -325,6 +325,13 @@ app.controller('dashboardGithub', function ($scope, $http, $cookies) {
             $scope.passCheck = false;
         }
     );
+
+    $scope.logout = function() {
+        $cookies.remove('token');
+        $cookies.remove('id');
+
+        $window.location.href = '/';
+    }
 });
 
 $('ul.nav > li > a.nav-link').click(function (e) {

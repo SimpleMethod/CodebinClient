@@ -18,6 +18,7 @@ import pl.simplemethod.codebin.repository.UsersRepository;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @RestController
 @RequestMapping("srv")
@@ -37,6 +38,48 @@ public class SrvRestController {
 
     @Autowired
     private UsersRepository usersRepository;
+
+    /**
+     * Method is used to get data on the container from the database.
+     * @param hostPort Server port
+     * @return Object JSON with data
+     */
+    @GetMapping("users/container/info/{hostPort}")
+    public @ResponseBody
+    ResponseEntity checkports(@PathVariable(value = "hostPort") String hostPort) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        org.json.JSONObject body = new org.json.JSONObject();
+
+       /* Containers containers = containersRepository.getByHostPorts(Integer.valueOf(hostPort));
+        try{
+           if(containers.getId()!=null)
+           {
+               body.put("name", containers.getName());
+               body.put("docker_id", containers.getIdDocker());
+               body.put("exposed_ports", containers.getExposedPorts());
+               body.put("host_ports", containers.getHostPorts());
+               body.put("disk_quota", containers.getDiskQuota());
+               body.put("ram_memory",containers.getRamMemory());
+               body.put("share_url",containers.getShareUrl());
+               body.put("create_time", containers.getCreateTime());
+               return new ResponseEntity<>(body.toString(),httpHeaders,HttpStatus.valueOf(200));
+           }
+           else
+           {
+               body.put("error","Not found");
+               return new ResponseEntity<>(body.toString(),httpHeaders,HttpStatus.valueOf(404));
+           }
+        }
+        catch (NullPointerException e)
+        {
+            body.put("error",e);
+            return new ResponseEntity<>(body.toString(),httpHeaders,HttpStatus.valueOf(404));
+        }
+        */
+        return new ResponseEntity<>(checkPort(Integer.valueOf(hostPort)),httpHeaders,HttpStatus.valueOf(200));
+
+    }
 
     /**
      * List of containers of any user
@@ -94,6 +137,35 @@ public class SrvRestController {
         }
     }
 
+    private Integer checkPort(Integer hostPorts)
+    {
+        Containers containers = containersRepository.getByHostPorts(hostPorts);
+        Random rand = new Random();
+        try
+        {
+            if(containers.getHostPorts()!=null)
+            {
+                if(containers.getHostPorts().equals(hostPorts))
+                {
+                    return checkPort(hostPorts + rand.nextInt((9999 - 1) + 1) + 1);
+                }
+                else
+                {
+                    return hostPorts;
+                }
+
+            }
+            else
+            {
+                return hostPorts;
+            }
+        }
+        catch (NullPointerException e)
+        {
+            return hostPorts;
+        }
+    }
+
     /**
      * REST for container creation
      *
@@ -111,6 +183,7 @@ public class SrvRestController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         Images images = imagesRepository.getFirstById(Integer.valueOf(dockerImage));
+        hostPorts=checkPort(hostPorts);
 
         org.json.JSONObject response = srvClient.createAndRunContainer(srvClient.generateCreateConfig(images.getName(), exposedPorts, hostPorts, ramMemory, diskQuota), name);
         int status;
@@ -129,14 +202,11 @@ public class SrvRestController {
                 return new ResponseEntity<>(e.toString(), headers, HttpStatus.NOT_FOUND);
             }
 
-            try
-            {
-                Thread.sleep(1000);
+            try {
+                Thread.sleep(4000);
                 Containers containers1 = containersRepository.getFirstByName(name);
                 response.put("exec", srvClient.execContainer(containers1.getIdDocker(), images.getExec(), gitUrl));
-            }
-            catch (InterruptedException e)
-            {
+            } catch (InterruptedException e) {
 
             }
 

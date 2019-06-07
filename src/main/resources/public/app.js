@@ -44,8 +44,10 @@ angular.module("CombineModule", ["mainApp", "dashboard"]);
 
 app.controller('ContainersCreateController', ['$filter', '$routeParams', '$scope', '$http', function ($filter, $routeParams, $scope, $http) {
     $scope.supportedPlatforms = ["Java", "C", "C++", "Python", "HTML", "JavaScript", "CSS"];
-    $scope.referId=$routeParams.id;
-    $scope.progressBar=0;
+    $scope.referId = $routeParams.id;
+    $scope.progressBar = 0;
+
+
     $http({
         url: 'http://127.0.0.1/github/user/repos/' + $routeParams.id,
         method: 'GET'
@@ -61,18 +63,19 @@ app.controller('ContainersCreateController', ['$filter', '$routeParams', '$scope
             $scope.diskquota = null;
             if (!response.data.container_create) {
                 if ($scope.supportedPlatforms.indexOf(response.data.language) !== -1) {
-                    $scope.progressBar=40;
+                    $scope.progressBar = 40;
                     $http({
                         url: 'http://127.0.0.1/github/local',
                         method: 'GET'
                     }).then(
                         function (local) {
-                            $scope.progressBar=70;
+                            $scope.progressBar = 70;
                             $scope.userId = local.data.user_id;
                             $scope.subscriptionStatus = local.data.subscription_status;
                             $scope.github_id = local.data.github_id;
                             $scope.premium = null;
                             $scope.dockerImages = null;
+
                             if ($scope.subscriptionStatus === "") {
                                 $scope.premium = 0;
                                 console.log("Free user");
@@ -86,7 +89,7 @@ app.controller('ContainersCreateController', ['$filter', '$routeParams', '$scope
                                     $scope.dockerImages = 4;
                                 }
                                 $scope.rammemory = $scope.diskquota = 1000000000;
-                                $scope.premiumtext="Free";
+                                $scope.premiumtext = "Free";
                             } else {
                                 console.log("Pro user");
                                 if ($scope.supportedPlatforms.indexOf(response.data.language) === 0) {
@@ -99,23 +102,21 @@ app.controller('ContainersCreateController', ['$filter', '$routeParams', '$scope
                                     $scope.dockerImages = 2;
                                 }
                                 $scope.premium = 1;
-                                $scope.premiumtext="Premium";
+                                $scope.premiumtext = "Premium";
                                 $scope.rammemory = $scope.diskquota = 2000000000;
                             }
 
                             var str = "" + $scope.id;
                             var res = str.substring(0, 3);
                             $scope.exposedports = 8080;
-                            $scope.hostports = "8" + res;
+                            $scope.hostports = (1 + res);
                             $scope.dockerName = $scope.id;
+                            $scope.progressBar = 90;
                             console.log("Status konta:" + $scope.premium);
                             console.log("Obraz:" + $scope.dockerImages);
                             console.log("Port wewnętrzny:" + $scope.exposedports);
-                            console.log("Port zewnętrzny:" + $scope.hostports);
                             console.log("Nazwa dokeru:" + $scope.id);
                             console.log("Ilość pamięci ram: " + $scope.rammemory + " i dysku: " + $scope.diskquota);
-                            $scope.progressBar=90;
-
                             $http({
                                 url: 'http://127.0.0.1/srv/container/create',
                                 method: 'POST',
@@ -132,37 +133,37 @@ app.controller('ContainersCreateController', ['$filter', '$routeParams', '$scope
                             }).then(
                                 function (create) {
                                     console.log(create.data);
-                                    $scope.progressBar=100;
-                                    $scope.finish=1;
+                                    $scope.progressBar = 100;
+                                    $scope.finish = 1;
                                 },
                                 function (create) {
-                                    $scope.errors= "Problem with creating a container";
-                                    $scope.erorType=0;
+                                    $scope.errors = "Problem with creating a container";
+                                    $scope.erorType = 0;
                                     console.error(create.data);
                                 }
                             );
 
                         },
-                        function (response) {
-                            $scope.errors= "Problem with loading user data";
-                            $scope.erorType=1;
+                        function () {
+                            $scope.errors = "Problem with loading user data";
+                            $scope.erorType = 1;
                         }
                     );
                 } else {
-                    $scope.errors= "No support for the specified repository";
-                    $scope.erorType=2;
+                    $scope.errors = "No support for the specified repository";
+                    $scope.erorType = 2;
 
                 }
             } else {
-                $scope.errors= "The repository does exist";
-                $scope.erorType=3;
+                $scope.errors = "The repository does exist";
+                $scope.erorType = 3;
                 console.error("The repository does exist");
             }
 
         },
-        function (response) {
-            $scope.errors= "Fatal Error";
-            $scope.erorType=4;
+        function () {
+            $scope.errors = "Fatal Error";
+            $scope.erorType = 4;
             window.location = "/";
         }
     );
@@ -180,7 +181,7 @@ app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$h
             $scope.creationTime = response.data.createTime;
             $scope.containersId = response.data.idDocker;
             $scope.hostPorts = response.data.hostPorts;
-            if ($scope.status == 1) {
+            if ($scope.status === 1) {
                 $scope.status = "Premium";
                 $scope.shareStatus = response.data.shareUrl;
             } else {
@@ -195,8 +196,8 @@ app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$h
                 }).then(
                     function (response) {
                     },
-                    function (response) {
-                        $scope.errors= "Problem with restarting a container";
+                    function () {
+                        $scope.errors = "Problem with restarting a container";
                     }
                 );
             };
@@ -205,11 +206,11 @@ app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$h
                     url: 'http://127.0.0.1/srv/container/' + $scope.containersId + '/delete',
                     method: 'DELETE'
                 }).then(
-                    function (response) {
+                    function () {
                         window.location = "/";
                     },
-                    function (response) {
-                        $scope.errors= "Problem with deleteing a container";
+                    function () {
+                        $scope.errors = "Problem with deleteing a container";
                     }
                 );
             };
@@ -220,8 +221,8 @@ app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$h
                 function (logGet) {
                     $scope.logMachine = logGet.data.logs;
                 },
-                function (logGet) {
-                    $scope.errors= "Problem with downloading logs from containers";
+                function () {
+                    $scope.errors = "Problem with downloading logs from containers";
                 }
             );
             $http({
@@ -231,13 +232,13 @@ app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$h
                 function (response) {
                     $scope.tops = response.data.Processes;
                 },
-                function (response) {
-                    $scope.errors= "Problem with getting processes from a container";
+                function () {
+                    $scope.errors = "Problem with getting processes from a container";
                 }
             );
         },
-        function (response) {
-            $scope.errors= "Fatal error";
+        function () {
+            $scope.errors = "Fatal error";
             window.location = "/";
         }
     );
@@ -249,7 +250,6 @@ app.controller('HomeController', function ($scope, $http, $cookies) {
     $http({
         url: 'http://127.0.0.1/github/user',
         method: 'GET'
-        //  params: {token:  $scope.lastVal}
     }).then(
         function (response) {
             $scope.passCheck = response;
@@ -259,7 +259,7 @@ app.controller('HomeController', function ($scope, $http, $cookies) {
             $scope.followers = response.data.followers;
             $scope.following = response.data.following;
         },
-        function (response) {
+        function () {
             $scope.passCheck = false;
         }
     );
@@ -275,10 +275,10 @@ app.controller('ProjectsController', function ($scope, $http) {
         function (response) {
             $scope.jsondata = response.data;
             $scope.repoid = response.data.id;
-            $scope.progressBar=100;
+            $scope.progressBar = 100;
         },
-        function (response) {
-            $scope.errors="Fatal error";
+        function () {
+            $scope.errors = "Fatal error";
         }
     );
 });
@@ -299,32 +299,37 @@ app.controller('CheckLoginStatus', function ($scope, $http, $cookies) {
         method: 'GET',
         params: {token: $scope.lastVal}
     }).then(
-        function (response) {
+        function () {
             $scope.passCheck = true;
         },
-        function (response) {
+        function () {
             $scope.passCheck = false;
         }
     );
 });
 
 
-app.controller('dashboardGithub', function ($scope, $http, $cookies) {
+app.controller('dashboardGithub', function ($scope, $http, $cookies,  $window) {
     $scope.lastVal = $cookies.get('token');
     $http({
         url: 'http://127.0.0.1/github/user',
         method: 'GET'
-        //  params: {token:  $scope.lastVal}
     }).then(
         function (response) {
             $scope.passCheck = response;
             $scope.avatar = response.data.avatar_url;
             $scope.name = response.data.name;
         },
-        function (response) {
+        function () {
             $scope.passCheck = false;
         }
     );
+
+    $scope.logout = function () {
+        $cookies.remove('token');
+        $cookies.remove('id');
+        window.location = "/";
+    }
 });
 
 $('ul.nav > li > a.nav-link').click(function (e) {

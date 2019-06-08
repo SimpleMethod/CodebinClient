@@ -21,8 +21,8 @@ public class PayPalBillingPlan {
         this.apiContext = apiContext;
     }
 
-    private static final String CANCEL_URL = "http://127.0.0.1/dashboard/dashboard-payment-error.html";
-    private static final String PROCESS_URL = "http://127.0.0.1/dashboard/dashboard-payment-accept.html";
+    private static final String CANCEL_URL = "http://127.0.0.1/dashboard.html#!/payment-error";
+    private static final String PROCESS_URL = "http://127.0.0.1/paypal/payment-success";
 
     /**
      * Creates a plan to billing plan

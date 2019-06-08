@@ -1,6 +1,7 @@
 package pl.simplemethod.codebin.githubOauth;
 
 
+import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -294,5 +295,15 @@ public class GithubRestController {
             return new ResponseEntity<>(e, headers, HttpStatus.valueOf(404));
 
         }
+    }
+
+    @GetMapping(path = "/user/subscription", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseEntity getSubscription(@CookieValue("id") Integer id) {
+        if (id == null) {
+            return new ResponseEntity<>("", null, HttpStatus.NOT_FOUND);
+        }
+        JSONObject json = new JSONObject();
+        json.put("subscriber", usersRepository.getSubscription(id) != null);
+        return new ResponseEntity<>(json.toString(), null, HttpStatus.valueOf(200));
     }
 }

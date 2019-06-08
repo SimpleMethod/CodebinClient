@@ -2,6 +2,7 @@ package pl.simplemethod.codebin.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,8 +17,11 @@ public interface UsersRepository  extends JpaRepository<Users, Long> {
 
     Users getFirstByToken(String token);
 
-    Users getFirstBySubscription(String  subscription);
+    Users getFirstBySubscription(String subscription);
 
     @Query(value = "SELECT u FROM Users u INNER JOIN u.containers c WHERE c.idDocker = :id")
-    Users findByContainersidDocker(String id);
+    Users findByContainersidDocker(@Param("id") String id);
+
+    @Query(value = "SELECT u.subscription FROM Users u WHERE u.id = :id")
+    String getSubscription(@Param("id") Integer id);
 }

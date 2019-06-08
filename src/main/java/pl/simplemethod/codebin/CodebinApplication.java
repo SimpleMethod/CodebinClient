@@ -3,13 +3,10 @@ package pl.simplemethod.codebin;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import pl.simplemethod.codebin.githubOauth.GithubClient;
-import pl.simplemethod.codebin.srv.SrvClient;
 import pl.simplemethod.codebin.linkDeploy.LinkClient;
-
-import java.security.Security;
+import pl.simplemethod.codebin.srv.SrvClient;
 
 @SpringBootApplication
 @EntityScan("pl.simplemethod.codebin")

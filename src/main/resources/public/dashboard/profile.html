@@ -1,28 +1,42 @@
-<!-- Page Header -->
-<div class="page-header row no-gutters py-4">
-    <div class="col-12 col-sm-8 text-center text-sm-left mb-4">
-        <span class="text-uppercase page-subtitle">Profile</span>
-        <h3 class="page-title">Upgrade to Premium account</h3>
+<div ng-if="subscriber != true">
+    <!-- Page Header -->
+    <div class="page-header row no-gutters py-4">
+        <div class="col-12 col-sm-8 text-center text-sm-left mb-4">
+            <span class="text-uppercase page-subtitle">Profile</span>
+            <h3 class="page-title">Upgrade to Premium account</h3>
+        </div>
     </div>
-</div>
 
-<div class="row">
-<div class="col-lg-5 md-6 mb-5 align-center">
-    <img src="./img/bg-img/5.png" class="img-fluid" alt="Responsive image">
-</div>
-<div class="col-lg-6 md-6">
-    <h3 class="page-title">Premium Plan</h3>
-    <p>which contains features like:</p>
-    <div>
-        <p><i class="icon_check"></i> Unlimited number of repositories</p>
-        <p><i class="icon_check"></i> Unlimited execution time</p>
-        <p><i class="icon_check"></i> Full resolution</p>
-        <p><i class="icon_check"></i> Sharing projects</p>
+    <div class="row">
+    <div class="col-lg-5 md-6 mb-5 align-center">
+        <img src="./img/bg-img/5.png" class="img-fluid" alt="Responsive image">
     </div>
-    <span>Do not wait and buy your access right now!</span>
-    <h4 class="mb-4">Only for <span style="text-decoration: line-through;">$19.99</span> <b>$9.95</b>/month*</h4>
-    <a href="/paypal/subscribe">
-        <button type="button" class="mb-5 btn btn-primary mr-2 btn-block"><i class="fab fa-paypal p-1"></i> Buy with PayPal</button>
-    </a>
+    <div class="col-lg-6 md-6">
+        <h3 class="page-title">Premium Plan</h3>
+        <p>which contains features like:</p>
+        <div>
+            <p><i class="icon_check"></i> Unlimited number of repositories</p>
+            <p><i class="icon_check"></i> Unlimited execution time</p>
+            <p><i class="icon_check"></i> Full resolution</p>
+            <p><i class="icon_check"></i> Sharing projects</p>
+        </div>
+        <span>Do not wait and buy your access right now!</span>
+        <h4 class="mb-4">Only for <span style="text-decoration: line-through;">$19.99</span> <b>$9.95</b>/month*</h4>
+        <a href="/paypal/subscribe">
+            <button type="button" class="mb-5 btn btn-primary mr-2 btn-block"><i class="fab fa-paypal p-1"></i> Buy with PayPal</button>
+        </a>
+        </div>
+    </div>
+</div>
+<div ng-if="subscriber == true">
+    <div class="error">
+        <div class="error__content">
+            <h2 style="color: #55e023"><i class="far fa-check-circle"></i></h2>
+            <h3>Premium Plan is active</h3>
+            <p>Your Premium Plan is active!</p>
+            <a href="#/!">
+                <button type="button" class="btn btn-accent btn-pill"><i class="fas fa-long-arrow-alt-left p-1"></i> Go back to homepage!</button>
+            </a>
+        </div>
     </div>
 </div>

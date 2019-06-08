@@ -35,7 +35,8 @@ moduleA.config(function ($routeProvider) {
         })
 
         .when('/profile', {
-            templateUrl: 'dashboard/profile.html'
+            templateUrl: 'dashboard/profile.html',
+            controller: 'ProfileController'
         })
 
         .when('/payment-accept', {
@@ -219,7 +220,7 @@ app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$h
                     method: 'DELETE'
                 }).then(
                     function () {
-                        window.location = "/";
+                        window.location = "/dashboard.html";
                     },
                     function () {
                         $scope.errors = "Problem with deleteing a container";
@@ -360,6 +361,18 @@ app.controller('dashboardGithub', function ($scope, $http, $cookies) {
         window.location = "/";
     };
 });
+
+app.controller('ProfileController', function ($scope, $http) {
+    $http.get('http://127.0.0.1/github/user/subscription').then(
+        function (response) {
+            $scope.subscriber = response.data.subscriber;
+        }, function () {
+            console.error('Cookie not set');
+        }
+    )
+
+});
+
 
 $('ul.nav > li > a.nav-link').click(function (e) {
     $('ul.nav > li  > a.nav-link').removeClass('active');

@@ -19,15 +19,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.cors().disable();
 
-        /*   http.authorizeRequests()
-                .antMatchers("/", "/**", "/postlogin", "/v1.0/**", "/404", "/logowanie/github")
-                .permitAll()
-                .anyRequest().fullyAuthenticated()
-                .and()
-                .oauth2Login();
-                /*
-      */
-        // http://localhost/logowanie/github
         http.oauth2Login()
                 .authorizationEndpoint()
                 .baseUri("/oauth")

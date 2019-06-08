@@ -13,7 +13,9 @@ import pl.simplemethod.codebin.srv.SrvClient;
 public class CodebinApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CodebinApplication.class, args);
+        SpringApplication application = new SpringApplication(CodebinApplication.class);
+        application.setAdditionalProfiles("ssl");
+        application.run(args);
     }
 
     @Bean

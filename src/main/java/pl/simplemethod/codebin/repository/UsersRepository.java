@@ -1,6 +1,7 @@
 package pl.simplemethod.codebin.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -24,4 +25,8 @@ public interface UsersRepository  extends JpaRepository<Users, Long> {
 
     @Query(value = "SELECT u.subscription FROM Users u WHERE u.id = :id")
     String getSubscription(@Param("id") Integer id);
+
+    @Modifying(clearAutomatically = true)
+    @Query(value = "UPDATE users SET subscription = NULL WHERE subscription = :planId", nativeQuery = true)
+    void updatePlan(@Param("planId") String planId);
 }

@@ -9,10 +9,10 @@ import pl.simplemethod.codebin.githubOauth.GithubClient;
 import pl.simplemethod.codebin.srv.SrvClient;
 import pl.simplemethod.codebin.linkDeploy.LinkClient;
 
+import java.security.Security;
+
 @SpringBootApplication
 @EntityScan("pl.simplemethod.codebin")
-
-
 public class CodebinApplication {
 
     public static void main(String[] args) {
@@ -22,7 +22,7 @@ public class CodebinApplication {
     @Bean
     public LinkClient linkClient()
     {
-        return new LinkClient("qYR+CHfZmuEc3aHFX&ACAtudr3xUFX!k");
+        return new LinkClient("qYR+CHfZmuEc3aHF");
     }
 
     @Bean

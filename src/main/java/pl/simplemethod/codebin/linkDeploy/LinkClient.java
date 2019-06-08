@@ -16,9 +16,9 @@ import java.util.Base64;
 public class LinkClient implements LinkClientInterface {
    private String SALT;
    private Key KEY;
+
     public LinkClient(String SALT) {
         this.SALT = SALT;
-        System.err.println(encrypt("8083"));
     }
 
     /**

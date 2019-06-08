@@ -214,6 +214,24 @@ app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$h
                     }
                 );
             };
+
+
+            $scope.execCommands = function (path, args) {
+                $http({
+                    url: 'http://127.0.0.1/srv/container/' + $scope.containersId + '/exec',
+                    method: 'POST',
+                    params: {
+                        path: path,
+                        argument: args
+                    }
+                }).then(
+                    function () {
+                    },
+                    function () {
+                    }
+                );
+            };
+
             $http({
                 url: 'http://127.0.0.1/srv/container/' + $scope.containersId + '/logs',
                 method: 'GET'
@@ -309,7 +327,7 @@ app.controller('CheckLoginStatus', function ($scope, $http, $cookies) {
 });
 
 
-app.controller('dashboardGithub', function ($scope, $http, $cookies,  $window) {
+app.controller('dashboardGithub', function ($scope, $http, $cookies) {
     $scope.lastVal = $cookies.get('token');
     $http({
         url: 'http://127.0.0.1/github/user',
@@ -319,6 +337,8 @@ app.controller('dashboardGithub', function ($scope, $http, $cookies,  $window) {
             $scope.passCheck = response;
             $scope.avatar = response.data.avatar_url;
             $scope.name = response.data.name;
+            $scope.urlHtml = response.data.html_url;
+
         },
         function () {
             $scope.passCheck = false;

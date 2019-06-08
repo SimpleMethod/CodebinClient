@@ -40,18 +40,52 @@ public class SrvRestController {
     private UsersRepository usersRepository;
 
     /**
+     * Check if server port is taken and if so, change it to another port
+     * @param hostPorts Original server port
+     * @return Server port
+     */
+    private Integer checkPort(Integer hostPorts)
+    {
+        Containers containers = containersRepository.getByHostPorts(hostPorts);
+        Random rand = new Random();
+        try
+        {
+            if(containers.getHostPorts()!=null)
+            {
+                if(containers.getHostPorts().equals(hostPorts))
+                {
+                    return checkPort(hostPorts + rand.nextInt((9999 - 1) + 1) + 1);
+                }
+                else
+                {
+                    return hostPorts;
+                }
+            }
+            else
+            {
+                return hostPorts;
+            }
+        }
+        catch (NullPointerException e)
+        {
+            return hostPorts;
+        }
+    }
+
+
+    /**
      * Method is used to get data on the container from the database.
      * @param hostPort Server port
      * @return Object JSON with data
      */
     @GetMapping("users/container/info/{hostPort}")
     public @ResponseBody
-    ResponseEntity checkports(@PathVariable(value = "hostPort") String hostPort) {
+    ResponseEntity checkPorts(@PathVariable(value = "hostPort") String hostPort) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         org.json.JSONObject body = new org.json.JSONObject();
 
-       /* Containers containers = containersRepository.getByHostPorts(Integer.valueOf(hostPort));
+        Containers containers = containersRepository.getByHostPorts(Integer.valueOf(hostPort));
         try{
            if(containers.getId()!=null)
            {
@@ -76,9 +110,6 @@ public class SrvRestController {
             body.put("error",e);
             return new ResponseEntity<>(body.toString(),httpHeaders,HttpStatus.valueOf(404));
         }
-        */
-        return new ResponseEntity<>(checkPort(Integer.valueOf(hostPort)),httpHeaders,HttpStatus.valueOf(200));
-
     }
 
     /**
@@ -137,34 +168,7 @@ public class SrvRestController {
         }
     }
 
-    private Integer checkPort(Integer hostPorts)
-    {
-        Containers containers = containersRepository.getByHostPorts(hostPorts);
-        Random rand = new Random();
-        try
-        {
-            if(containers.getHostPorts()!=null)
-            {
-                if(containers.getHostPorts().equals(hostPorts))
-                {
-                    return checkPort(hostPorts + rand.nextInt((9999 - 1) + 1) + 1);
-                }
-                else
-                {
-                    return hostPorts;
-                }
 
-            }
-            else
-            {
-                return hostPorts;
-            }
-        }
-        catch (NullPointerException e)
-        {
-            return hostPorts;
-        }
-    }
 
     /**
      * REST for container creation

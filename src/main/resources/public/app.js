@@ -350,7 +350,7 @@ app.controller('dashboardGithub', function ($scope, $http, $cookies) {
             $scope.name = response.data.name;
         },
         function () {
-            $scope.passCheck = false;
+            window.location = "/";
         }
     );
 
@@ -358,7 +358,7 @@ app.controller('dashboardGithub', function ($scope, $http, $cookies) {
         $cookies.remove('token');
         $cookies.remove('id');
         window.location = "/";
-    }
+    };
 });
 
 $('ul.nav > li > a.nav-link').click(function (e) {

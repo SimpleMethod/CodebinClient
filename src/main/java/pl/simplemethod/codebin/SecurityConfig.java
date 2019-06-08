@@ -18,7 +18,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/**").permitAll();
         http.csrf().disable();
         http.cors().disable();
-     /*   http.authorizeRequests()
+
+        /*   http.authorizeRequests()
                 .antMatchers("/", "/**", "/postlogin", "/v1.0/**", "/404", "/logowanie/github")
                 .permitAll()
                 .anyRequest().fullyAuthenticated()

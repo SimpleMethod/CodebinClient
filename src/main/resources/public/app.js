@@ -34,6 +34,18 @@ moduleA.config(function ($routeProvider) {
             controller: 'AboutController'
         })
 
+        .when('/profile', {
+            templateUrl: 'dashboard/profile.html'
+        })
+
+        .when('/payment-accept', {
+            templateUrl: 'dashboard/payment-accept.html'
+        })
+
+        .when('/payment-error', {
+            templateUrl: 'dashboard/payment-error.html'
+        })
+
         .otherwise({
             redirectTo: '/'
         });
@@ -301,7 +313,6 @@ app.controller('ProjectsController', function ($scope, $http) {
     );
 });
 
-
 app.controller('VersionController', function ($scope) {
     $scope.years = "2019";
     $scope.mm = "Michał Młodawski";
@@ -337,8 +348,6 @@ app.controller('dashboardGithub', function ($scope, $http, $cookies) {
             $scope.passCheck = response;
             $scope.avatar = response.data.avatar_url;
             $scope.name = response.data.name;
-            $scope.urlHtml = response.data.html_url;
-
         },
         function () {
             $scope.passCheck = false;

@@ -29,9 +29,8 @@ public class PayPalController {
     private PayPalBillingPlan payPalBillingPlan;
     private PayPalBillingAgreement payPalBillingAgreement;
 
-    private static final String WEBHOOK_ID = "5D129190NJ603512E";
+    private static final String WEBHOOK_ID = "96044437SH785042F";
 
-    private static String planId;
     private static final String PAYMENT_ACCEPT_URL = "https://127.0.0.1/dashboard.html#!/payment-accept";
 
     @Autowired
@@ -52,8 +51,6 @@ public class PayPalController {
         try {
             Plan plan = payPalBillingPlan.create();
             Agreement agreement = payPalBillingAgreement.define(plan.getId());
-            planId = plan.getId();
-
             response.sendRedirect(payPalBillingAgreement.create(agreement));
         } catch (PayPalRESTException e) {
             System.err.println(e.getDetails());
@@ -71,10 +68,10 @@ public class PayPalController {
     @GetMapping("/payment-success")
     public void success(HttpServletResponse response, @RequestParam String token, @CookieValue("id") Integer id) {
         try {
-            payPalBillingAgreement.execute(token);
+            Agreement agreement = payPalBillingAgreement.execute(token);
 
             Users users = usersRepository.getFirstById(id);
-            users.setSubscription(planId);
+            users.setSubscription(agreement.getId());
             usersRepository.save(users);
         } catch (PayPalRESTException e) {
             System.err.println(e.getDetails());
@@ -94,8 +91,8 @@ public class PayPalController {
         JSONObject jsonObject = new JSONObject(payload);
         if (jsonObject.getString("event_type").equals("BILLING.SUBSCRIPTION.CANCELLED")) {
             JSONObject resource = (JSONObject) jsonObject.get("resource");
-            usersRepository.updatePlan(resource.getString("plan_id"));
-            System.err.println(resource.getString("plan_id") + " - subscription cancelled");
+            usersRepository.updatePlan(resource.getString("id"));
+            System.err.println(resource.getString("id") + " - subscription cancelled");
         } else {
             return new ResponseEntity<>("", null, HttpStatus.BAD_REQUEST);
         }

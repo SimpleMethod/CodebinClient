@@ -94,10 +94,10 @@ public class PayPalBillingAgreement {
      * @param token Token which is passed in request parameter after successfull redirection
      * @throws PayPalRESTException When agreement cannot be exeucted
      */
-    public void execute(@NonNull String token) throws PayPalRESTException {
+    public Agreement execute(@NonNull String token) throws PayPalRESTException {
         Agreement agreement = new Agreement();
         agreement.setToken(token);
 
-        Agreement.execute(apiContext, agreement.getToken());
+        return Agreement.execute(apiContext, agreement.getToken());
     }
 }

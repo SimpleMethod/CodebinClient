@@ -4197,7 +4197,8 @@ a.text-accent:hover, a.text-accent:focus {
 
 .main-content > .main-navbar,
 .main-content .header-navbar {
-  box-shadow: 0 0.125rem 0.625rem rgba(90, 97, 105, 0.12); }
+  /*box-shadow: 0 0.125rem 0.625rem rgba(90, 97, 105, 0.12); */
+}
 
 .main-sidebar {
   top: 0;

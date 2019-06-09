@@ -35,7 +35,7 @@
                         <span ng-if="shareStatus !== null" class="d-flex mb-2"><i
                                 class="material-icons mr-1">visibility</i><strong
                                 class="mr-1">Visibility:</strong> <strong class="text-success">Available</strong>
-                        <a class="ml-auto" href="http://127.0.0.1/share/{{shareStatus}}"><i class="fas fa-external-link-alt"></i> Open container</a></span>
+                        <a class="ml-auto" href="https://127.0.0.1/share/{{shareStatus}}"><i class="fas fa-external-link-alt"></i> Open container</a></span>
                         <span ng-if="shareStatus === null" class="d-flex mb-2"><i
                                 class="material-icons mr-1">visibility</i><strong
                                 class="mr-1">Visibility:</strong> <strong class="text-danger"><a href=""
@@ -127,7 +127,7 @@
             </div>
             <div class="modal-body">
                 <object style="float:right; width:100%;height:100vh;"
-                        data="http://waw1.simplemethod.io:{{hostPorts}}" type="text/html">
+                        data="https://srv.simplemethod.io:{{hostPorts}}" type="text/html">
                     Docker
                 </object>
             </div>

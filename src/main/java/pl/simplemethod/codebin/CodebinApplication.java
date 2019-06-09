@@ -26,17 +26,11 @@ public class CodebinApplication {
 
     @Bean
     public SrvClient srvClient() {
-        return new SrvClient("http://srv.simplemethod.io:4815");
+        return new SrvClient("https://simplemethod.io:8433");
     }
 
     @Bean
     public GithubClient githubClient() {
         return new GithubClient("2f5c2010372081b036ff", "29e08d58c97f1448d3bd16f2ac10e5541be53937");
     }
-
-    @Bean
-    public String string() {
-        return "";
-    }
-
 }

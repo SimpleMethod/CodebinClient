@@ -121,7 +121,7 @@ app.controller('ContainersCreateController', ['$filter', '$routeParams', '$scope
 
                             var str = "" + $scope.id;
                             var res = str.substring(0, 3);
-                            $scope.exposedports = 8080;
+                            $scope.exposedports = 8443;
                             $scope.hostports = (1 + res);
                             $scope.dockerName = $scope.id;
                             $scope.progressBar = 90;
@@ -289,6 +289,7 @@ app.controller('HomeController', function ($scope, $http, $cookies) {
             $scope.numbersColl = response.data.collaborators;
             $scope.followers = response.data.followers;
             $scope.following = response.data.following;
+            $scope.loaded = true;
         },
         function () {
             $scope.passCheck = false;
@@ -366,11 +367,12 @@ app.controller('ProfileController', function ($scope, $http) {
     $http.get('https://127.0.0.1/github/user/subscription').then(
         function (response) {
             $scope.subscriber = response.data.subscriber;
+            $scope.loaded = true;
         }, function () {
             console.error('Cookie not set');
+            $scope.loaded = true;
         }
     )
-
 });
 
 

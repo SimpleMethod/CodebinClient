@@ -32,7 +32,7 @@ public class PayPalController {
     private static final String WEBHOOK_ID = "5D129190NJ603512E";
 
     private static String planId;
-    private static final String PAYMENT_ACCEPT_URL = "https://127.0.0.1/dashboard.html#!/payment-accept";
+    private static final String PAYMENT_ACCEPT_URL = "https://145.239.31.229/dashboard.html#!/payment-accept";
 
     @Autowired
     public PayPalController(APIContext apiContext, PayPalBillingPlan payPalBillingPlan,

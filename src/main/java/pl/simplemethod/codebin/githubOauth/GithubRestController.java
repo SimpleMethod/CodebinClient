@@ -1,6 +1,10 @@
 package pl.simplemethod.codebin.githubOauth;
 
 
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -14,6 +18,9 @@ import pl.simplemethod.codebin.model.Containers;
 import pl.simplemethod.codebin.model.Users;
 import pl.simplemethod.codebin.repository.ContainersRepository;
 import pl.simplemethod.codebin.repository.UsersRepository;
+
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 @RestController
@@ -184,9 +191,57 @@ public class GithubRestController {
         return new ResponseEntity<>(body.toString(), headers, HttpStatus.valueOf(404));
     }
 
+    @GetMapping("/user/language")
+    public @ResponseBody
+    ResponseEntity getLanguageFromRepos(@CookieValue("token") String token) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        List language = new ArrayList();
+        org.json.simple.JSONArray result = new org.json.simple.JSONArray();
+
+                try {
+                    JSONParser parser = new JSONParser();
+                    Object obj;
+                    obj = parser.parse(githubClient.getUserRepos(token));
+                    org.json.simple.JSONArray jsonArray = (org.json.simple.JSONArray) obj;
+                    Integer xd;
+                    jsonArray.forEach(item -> {
+
+                        org.json.simple.JSONObject obj1 = (org.json.simple.JSONObject) item;
+                        try{
+                            language.add(obj1.get("language").toString());
+                        }
+                        catch (NullPointerException e)
+                        {
+                            language.add("Unknown");
+                        }
+                    });
+
+                    Set<String> unique = new HashSet<String>(language);
+                    for (String key : unique) {
+                        org.json.JSONObject body = new org.json.JSONObject();
+                        body.put("language", key);
+                        body.put("count",Collections.frequency(language, key));
+                        result.add(body);
+                    }
+
+                    return new ResponseEntity<>(result.toString(), headers, HttpStatus.valueOf(200));
+                    }
+
+                catch (NullPointerException | ParseException | org.json.JSONException e) {
+                    org.json.JSONObject body = new org.json.JSONObject();
+                    body.put("error", e);
+                    return new ResponseEntity<>(body.toString(), headers, HttpStatus.valueOf(404));
+                }
+
+
+    }
+
+
+
     @GetMapping("/user/repos/public")
     public @ResponseBody
-    ResponseEntity getpublicrepos(@CookieValue("token") String token) {
+    ResponseEntity getPublicRepos(@CookieValue("token") String token) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         JSONParser parser = new JSONParser();

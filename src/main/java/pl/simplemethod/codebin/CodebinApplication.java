@@ -33,4 +33,10 @@ public class CodebinApplication {
     public GithubClient githubClient() {
         return new GithubClient("2f5c2010372081b036ff", "29e08d58c97f1448d3bd16f2ac10e5541be53937");
     }
+
+    @Bean
+    public String string()
+    {
+        return "";
+    }
 }

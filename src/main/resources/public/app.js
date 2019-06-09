@@ -292,7 +292,27 @@ app.controller('HomeController', function ($scope, $http, $cookies) {
             $scope.loaded = true;
         },
         function () {
-            $scope.passCheck = false;
+        }
+    );
+
+
+    $http({
+        url: 'https://127.0.0.1/github/user/language',
+        method: 'GET'
+    }).then(
+        function (response) {
+            $scope.trainer = response.data;
+
+            $scope.labels=[];
+            $scope.dataLanguage=[];
+
+            for(var i=0;i<$scope.trainer.length;i++){
+                $scope.labels.push($scope.trainer[i].language);
+                $scope.dataLanguage.push($scope.trainer[i].count);
+            }
+            updateTechnologies($scope.dataLanguage,$scope.labels);
+        },
+        function () {
         }
     );
 });

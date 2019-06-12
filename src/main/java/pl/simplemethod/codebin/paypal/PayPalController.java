@@ -31,7 +31,7 @@ public class PayPalController {
 
     private static final String WEBHOOK_ID = "96044437SH785042F";
 
-    private static final String PAYMENT_ACCEPT_URL = "https://127.0.0.1/dashboard.html#!/payment-accept";
+    private static final String PAYMENT_ACCEPT_URL = "https://simplemethod.io/dashboard.html#!/payment-accept";
 
     @Autowired
     public PayPalController(APIContext apiContext, PayPalBillingPlan payPalBillingPlan,

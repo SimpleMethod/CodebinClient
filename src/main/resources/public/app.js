@@ -62,7 +62,7 @@ app.controller('ContainersCreateController', ['$filter', '$routeParams', '$scope
 
 
     $http({
-        url: 'https://127.0.0.1/github/user/repos/' + $routeParams.id,
+        url: 'https://simplemethod.io/github/user/repos/' + $routeParams.id,
         method: 'GET'
     }).then(
         function (response) {
@@ -78,7 +78,7 @@ app.controller('ContainersCreateController', ['$filter', '$routeParams', '$scope
                 if ($scope.supportedPlatforms.indexOf(response.data.language) !== -1) {
                     $scope.progressBar = 40;
                     $http({
-                        url: 'https://127.0.0.1/github/local',
+                        url: 'https://simplemethod.io/github/local',
                         method: 'GET'
                     }).then(
                         function (local) {
@@ -131,7 +131,7 @@ app.controller('ContainersCreateController', ['$filter', '$routeParams', '$scope
                             console.log("Nazwa dokeru:" + $scope.id);
                             console.log("Ilość pamięci ram: " + $scope.rammemory + " i dysku: " + $scope.diskquota);
                             $http({
-                                url: 'https://127.0.0.1/srv/container/create',
+                                url: 'https://simplemethod.io/srv/container/create',
                                 method: 'POST',
                                 params: {
                                     dockerimage: $scope.dockerImages,
@@ -185,7 +185,7 @@ app.controller('ContainersCreateController', ['$filter', '$routeParams', '$scope
 
 app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$http', function ($filter, $routeParams, $scope, $http, $window) {
     $http({
-        url: 'https://127.0.0.1/srv/user/container/info',
+        url: 'https://simplemethod.io/srv/user/container/info',
         method: 'GET',
         params: {dockergithubid: $routeParams.id}
     }).then(
@@ -204,7 +204,7 @@ app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$h
             }
             $scope.dockerRestart = function () {
                 $http({
-                    url: 'https://127.0.0.1/srv/container/' + $scope.containersId + '/restart',
+                    url: 'https://simplemethod.io/srv/container/' + $scope.containersId + '/restart',
                     method: 'POST'
                 }).then(
                     function (response) {
@@ -216,7 +216,7 @@ app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$h
             };
             $scope.dockerRemove = function () {
                 $http({
-                    url: 'https://127.0.0.1/srv/container/' + $scope.containersId + '/delete',
+                    url: 'https://simplemethod.io/srv/container/' + $scope.containersId + '/delete',
                     method: 'DELETE'
                 }).then(
                     function () {
@@ -231,7 +231,7 @@ app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$h
 
             $scope.execCommands = function (path, args) {
                 $http({
-                    url: 'https://127.0.0.1/srv/container/' + $scope.containersId + '/exec',
+                    url: 'https://simplemethod.io/srv/container/' + $scope.containersId + '/exec',
                     method: 'POST',
                     params: {
                         path: path,
@@ -246,7 +246,7 @@ app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$h
             };
 
             $http({
-                url: 'https://127.0.0.1/srv/container/' + $scope.containersId + '/logs',
+                url: 'https://simplemethod.io/srv/container/' + $scope.containersId + '/logs',
                 method: 'GET'
             }).then(
                 function (logGet) {
@@ -257,7 +257,7 @@ app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$h
                 }
             );
             $http({
-                url: 'https://127.0.0.1/srv/container/' + $scope.containersId + '/top',
+                url: 'https://simplemethod.io/srv/container/' + $scope.containersId + '/top',
                 method: 'GET'
             }).then(
                 function (response) {
@@ -279,7 +279,7 @@ app.controller('ContainersController', ['$filter', '$routeParams', '$scope', '$h
 app.controller('HomeController', function ($scope, $http, $cookies) {
     $scope.lastVal = $cookies.get('token');
     $http({
-        url: 'https://127.0.0.1/github/user',
+        url: 'https://simplemethod.io/github/user',
         method: 'GET'
     }).then(
         function (response) {
@@ -297,7 +297,7 @@ app.controller('HomeController', function ($scope, $http, $cookies) {
 
 
     $http({
-        url: 'https://127.0.0.1/github/user/language',
+        url: 'https://simplemethod.io/github/user/language',
         method: 'GET'
     }).then(
         function (response) {
@@ -321,7 +321,7 @@ app.controller('ProjectsController', function ($scope, $http) {
     $scope.supportedPlatforms = ["Java", "HTML", "C", "C++", "JavaScript", "CSS"];
 
     $http({
-        url: 'https://127.0.0.1/github/user/repos/public',
+        url: 'https://simplemethod.io/github/user/repos/public',
         method: 'GET'
     }).then(
         function (response) {
@@ -346,7 +346,7 @@ app.controller('VersionController', function ($scope) {
 app.controller('CheckLoginStatus', function ($scope, $http, $cookies) {
     $scope.lastVal = $cookies.get('token');
     $http({
-        url: 'https://127.0.0.1/github/user/checktoken',
+        url: 'https://simplemethod.io/github/user/checktoken',
         method: 'GET',
         params: {token: $scope.lastVal}
     }).then(
@@ -363,7 +363,7 @@ app.controller('CheckLoginStatus', function ($scope, $http, $cookies) {
 app.controller('dashboardGithub', function ($scope, $http, $cookies) {
     $scope.lastVal = $cookies.get('token');
     $http({
-        url: 'https://127.0.0.1/github/user',
+        url: 'https://simplemethod.io/github/user',
         method: 'GET'
     }).then(
         function (response) {
@@ -384,7 +384,7 @@ app.controller('dashboardGithub', function ($scope, $http, $cookies) {
 });
 
 app.controller('ProfileController', function ($scope, $http) {
-    $http.get('https://127.0.0.1/github/user/subscription').then(
+    $http.get('https://simplemethod.io/github/user/subscription').then(
         function (response) {
             $scope.subscriber = response.data.subscriber;
             $scope.loaded = true;

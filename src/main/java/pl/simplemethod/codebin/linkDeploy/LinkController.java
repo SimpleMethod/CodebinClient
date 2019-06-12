@@ -16,7 +16,7 @@ public class LinkController {
     public String getDecryptText(@PathVariable(value = "ID") String decryptText, Model model) {
         String port = linkClient.decrypt(decryptText);
         if (port != null) {
-            model.addAttribute("port", "http://waw1.simplemethod.io:" + linkClient.decrypt(decryptText));
+            model.addAttribute("port", "http://srv.simplemethod.io:" + linkClient.decrypt(decryptText));
         } else {
             model.addAttribute("error", "Invalid link");
         }
